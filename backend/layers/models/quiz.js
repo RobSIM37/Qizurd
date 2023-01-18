@@ -6,11 +6,10 @@ export class Quiz extends Unique {
     #questions = [];
     #students = [];
 
-    constructor (name){
-        super();
-        if (name) {
-            this.name = name;
-        }
+    constructor (parameters){
+        const {name, existingId} = parameters
+        super(existingId);
+        this.name = name;
     }
 
     addQuestion(newQuestion){

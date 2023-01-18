@@ -5,14 +5,11 @@ export class Student extends Unique {
     lastName;
     #results = [];
     
-    constructor (firstName, lastName) {
-        super();
-        if (firstName) {
-            this.firstName = firstName;
-        }
-        if (lastName) {
-            this.lastName = lastName;
-        }
+    constructor (parameters){
+        const {firstName, lastName, existingId} = parameters
+        super(existingId);
+        this.firstName = firstName;
+        this.lastName = lastName;
     }
     logQuestionResult (quizId, questionId, correct) {
         this.#results.push({quizId, questionId, correct});

@@ -1,4 +1,7 @@
 import { combineReducers } from "redux";
+import {
+  CARD_CLICKED
+} from "./action-types"
 
 // need to eventually add list of action types here.
 // example: INPUT_CHANGE. see sprint 10 sprint challenge
@@ -22,11 +25,11 @@ let sampleQuestion = {
   }
 
 let initialQuizzes = [
-    {quizTitle:"100 facts about Monkeys!",id:1,desription:"",questions:[sampleQuestion]},
-    {quizTitle:"How to know your monkey is plotting something.",id:2,desription:"",questions:[sampleQuestion]},
-    {quizTitle:"How to prevent monkey theft.",id:3,desription:"",questions:[sampleQuestion]},
-    {quizTitle:"signs your monkey has taken your identity",id:4,desription:"",questions:[sampleQuestion]},
-    {quizTitle:"banana",id:5,desription:"",questions:[sampleQuestion]},
+    {quizTitle:"100 facts about Monkeys!",id:1,description:"This is a description",questions:[sampleQuestion],pressed:false},
+    {quizTitle:"How to know your monkey is plotting something.",id:2,description:"this is an even longer description",questions:[sampleQuestion],pressed:false},
+    {quizTitle:"How to prevent monkey theft.",id:3,description:"we're gonna see how long we can make these without ruining how the card looks",questions:[sampleQuestion],pressed:false},
+    {quizTitle:"signs your monkey has taken your identity",id:4,description:"t e s t i n g  t h e  l e n g t h  I  c a n  g o  w i t h  t h e s e",questions:[sampleQuestion],pressed:false},
+    {quizTitle:"banana",id:5,description:"bananananannanananananannanaanananananananananananaa",questions:[sampleQuestion],pressed:false},
 ]
 
 const students = (state = initialStudents, action) => {
@@ -34,7 +37,13 @@ const students = (state = initialStudents, action) => {
 }
 
 const quizzes = (state = initialQuizzes, action) => {
-    return state
+  switch(action.type){
+    case CARD_CLICKED:
+      console.log(action.payload)
+      return state
+    default:
+      return state
+  }
 }
 
 export default combineReducers({students,quizzes})

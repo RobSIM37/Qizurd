@@ -9,6 +9,11 @@ export class User extends Unique {
         super(existingId);
         this.userName = userName;
     }
+    import(data){
+        this.userName = data.userName;
+        this.#quizzes = data.quizzes;
+        this.#students = data.students;
+    }
     addQuiz(quiz){
         this.#quizzes.push(quiz);
     }

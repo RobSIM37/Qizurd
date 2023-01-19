@@ -20,7 +20,7 @@ margin: space-between;
 
 const IconWrapper = styled.div`
 margin:1rem;
-
+cursor: pointer;
 `
 const Header = () => {
 return (

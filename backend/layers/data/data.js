@@ -1,5 +1,6 @@
 // temp code to stand in for a database
 const bcrypt = require("bcrypt");
+const issuedIdMap = new Map();
 let passwordData = [];
 let usersData = [];
 
@@ -18,7 +19,10 @@ module.export = {
         if (matchingUserNameData == null) return false;
         bcrypt.compare(password, matchingUserNameData.hash, (err, result) => {
             if (err) return false;
-            return result;
+            if (result) {
+                return getUserData(userName);
+            }
+            return false;
         });
     },
 
@@ -33,5 +37,13 @@ module.export = {
 
     getUserData: (userName) => {
         return usersData.filter(data=>data.userName == userName)[0]
+    },
+
+    isKnownId: (id, addIfNot) => {
+        const alreadyIssued = issuedIdMap.get(id) == true;
+        if (addIfNot && !alreadyIssued) {
+            issuedIdMap.set(id, true)
+        } 
+        return alreadyIssued;
     }
 }

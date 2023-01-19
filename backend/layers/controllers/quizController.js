@@ -4,15 +4,19 @@ const data = require("../data/data");
 module.exports = {
     addQuiz: (req, res) => {
         const reqData = JSON.parse(req.body);
-        try {
-            const addedQuiz = quizServices.addQuiz(reqData.userId, reqData.quizName);
-            if (addedQuiz) {
-                res.status(200).send(JSON.stringify(addedQuiz.export()));
-            } else {
-                res.status(400).send("unable to add quiz with information provided");
+        if (data.isKnownId(reqData.userId)) {
+            try {
+                const addedQuiz = quizServices.addQuiz(reqData.userId, reqData.quizName);
+                if (addedQuiz) {
+                    res.status(200).send(JSON.stringify(addedQuiz.export()));
+                } else {
+                    res.status(400).send("unable to add quiz with information provided");
+                }
+            } catch {
+                res.status(500).send("an unknown server error has prevented this transaction");
             }
-        } catch {
-            res.status(500).send("an unknown server error has prevented this transaction");
+        } else {
+            res.status(400).send("unable to add quiz with information provided");
         }
     },
 

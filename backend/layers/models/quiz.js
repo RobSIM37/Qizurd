@@ -1,23 +1,45 @@
+import { deleteQuestion } from "../controllers/quizController";
+
 const Unique = require("./unique");
 
 export class Quiz extends Unique {
-    name;
 
+    name;
     #questions = [];
     #students = [];
 
     constructor (parameters){
-        const {name, existingId} = parameters
-        super(existingId);
+        const {name, id} = parameters
+        super(id);
         this.name = name;
     }
-
-    addQuestion(newQuestion){
-        if (!this.#questions.map(question => question.id).includes(newQuestion.id)){
-            this.#questions.push(newQuestion);
+    import(data){
+        this.name = data.name;
+        this.#questions = data.questions;
+        this.#students = data.students;
+    }
+    export(){
+        return {
+            name: this.name,
+            id: this.#uuid,
+            questions: this.#questions.map(question=>question.export()),
+            students: this.#students.map(student=>student.export())
         }
     }
-
+    getQuestion(questionId){
+        return this.#questions.filter(question=>question.id == questionId)[0];
+    }
+    updateQuestion(questionId, updatedQuestion){
+        const questionIndex = this.#questions.map(question=>question.id).indexOf(questionId);
+        if (questionIndex == -1) {
+            this.#questions.push(newQuestion);
+        } else {
+            this.#questions[questionIndex] = updatedQuestion;
+        }
+    }
+    deleteQuestion(questionId){
+        this.#questions = this.#questions.filter(question=>question.id != questionId);
+    }
     enrollStudent(newStudent){
         if (!this.#students.map(student=>student.id).includes(newStudent.id)){
             this.#students.push(newStudent);

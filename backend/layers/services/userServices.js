@@ -1,7 +1,5 @@
 let users = [];
 
-const bcrypt = require("bcrypt");
-
 module.exports = {
     addUser: (user) => {
         user.push(user);

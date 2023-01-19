@@ -1,5 +1,5 @@
 const uuidv4 = require("uuid/v4");
-
+const data = require("../data/data");
 export class Unique {
     #uuid;
 
@@ -7,7 +7,9 @@ export class Unique {
         if (existingId) {
             this.#uuid = existingId
         } else {
-            this.#uuid = uuidv4();
+            do {
+                this.#uuid = uuidv4();
+            } while (data.isKnownId(this.#uuid,true))
         }
     }
 

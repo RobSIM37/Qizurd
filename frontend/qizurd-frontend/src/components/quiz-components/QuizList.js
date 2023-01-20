@@ -1,14 +1,7 @@
 import React from "react"
-import styled from "styled-components"
 import { connect } from "react-redux"
 import { cardClicked } from "../../state/action-builder"
-import QuizCard from "./QuizCard"
-
-const QuizContainer = styled.div`
-display: flex;
-flex-direction: column;
-align-items: center;
-`
+import {QuizCard,QuizContainer} from "./quizStyles"
 
 const QuizList = (props) => {
 

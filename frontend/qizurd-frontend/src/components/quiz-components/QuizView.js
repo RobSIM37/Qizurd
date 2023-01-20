@@ -1,10 +1,7 @@
 import React from "react"
-import styled from "styled-components"
 import { connect } from "react-redux"
 import { useParams} from "react-router"
 import QuizDetails from "./QuizDetails"
-
-
 
 const QuizView = (props) => {
     

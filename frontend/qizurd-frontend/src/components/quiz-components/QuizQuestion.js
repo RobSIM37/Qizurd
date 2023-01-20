@@ -1,19 +1,5 @@
 import React from "react"
-import styled from "styled-components"
-
-const AnswerContainer = styled.div`
-display:flex;
-flex-wrap:wrap;
-`
-
-const AnswerWrapper = styled.div`
-width:40%;
-margin:5%;
-`
-
-const TitleStyle = styled.h1`
-font-size: 1rem;
-`
+import { AnswerContainer,AnswerWrapper,TitleStyle } from "./quizStyles"
 
 const QuizQuestion = (props) => {
     return(

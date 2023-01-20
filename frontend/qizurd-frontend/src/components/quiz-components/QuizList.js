@@ -19,7 +19,7 @@ const QuizList = (props) => {
     return(
         <QuizContainer>
             {props.quizzes.map( el => {
-                return <QuizCard id={el.id} key={el.id} pressed={el.pressed} onClick={quizCardClickHandler}>
+                return <QuizCard id={el.id} key={el.id} onClick={quizCardClickHandler}>
                     {el.quizTitle}
                 </QuizCard>
             })}

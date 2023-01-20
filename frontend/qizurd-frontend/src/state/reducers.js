@@ -29,18 +29,11 @@ let sampleQuestion = {
   }
 
 let initialQuizzes = [
-    {quizTitle:"100 facts about Monkeys!",id:1,description:"This is a description",
-    questions:[sampleQuestion,sampleQuestion,sampleQuestion],students:[
-      {name: "Arther Dent",id:6,quizzes:[]},
-      {name: "Tony Stark",id:4,quizzes:[]},
-      {name: "Walter Disney",id:3,quizzes:[]},
-      {name: "Jonathon Coulton",id:5,quizzes:[]},
-      {name: "John Smith",id:8,quizzes:[]}
-    ]},
-    {quizTitle:"How to know your monkey is plotting something.",id:2,description:"this is an even longer description",questions:[sampleQuestion],pressed:false},
-    {quizTitle:"How to prevent monkey theft.",id:3,description:"we're gonna see how long we can make these without ruining how the card looks",questions:[sampleQuestion],pressed:false},
-    {quizTitle:"signs your monkey has taken your identity",id:4,description:"t e s t i n g  t h e  l e n g t h  I  c a n  g o  w i t h  t h e s e",questions:[sampleQuestion],pressed:false},
-    {quizTitle:"banana",id:5,description:"bananananannanananananannanaanananananananananananaa",questions:[sampleQuestion],pressed:false},
+    {quizTitle:"100 facts about Monkeys!",id:1,description:"This is a description",questions:[sampleQuestion,sampleQuestion,sampleQuestion],students:initialStudents},
+    {quizTitle:"How to know your monkey is plotting something.",id:2,description:"this is an even longer description",questions:[sampleQuestion],students:initialStudents},
+    {quizTitle:"How to prevent monkey theft.",id:3,description:"we're gonna see how long we can make these without ruining how the card looks",questions:[sampleQuestion],students:initialStudents},
+    {quizTitle:"signs your monkey has taken your identity",id:4,description:"t e s t i n g  t h e  l e n g t h  I  c a n  g o  w i t h  t h e s e",questions:[sampleQuestion],students:initialStudents},
+    {quizTitle:"banana",id:5,description:"bananananannanananananannanaanananananananananananaa",questions:[sampleQuestion],students:initialStudents},
 ]
 
 const students = (state = initialStudents, action) => {

@@ -1,6 +1,7 @@
 import React from "react"
 import styled from "styled-components"
 import QuizQuestion from "./QuizQuestion"
+import StudentList from "../student-components/StudentList"
 
 const QuizDetailsStyles = styled.div`
 display:flex;
@@ -48,6 +49,7 @@ const QuizDetails = (props) => {
                 <p>Questions:</p>
                 {props.quiz.questions.map(question => {return <QuizQuestion question={question}/>})}
             </QuizDetailsStyles>
+            <StudentList quiz={props.quiz}/>
         </QuizContainer>
         )
     

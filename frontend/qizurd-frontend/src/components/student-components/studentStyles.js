@@ -1,7 +1,6 @@
-import React from "react"
 import styled from "styled-components"
 
-const StudentCard = styled.div`
+export const StudentCard = styled.div`
 display:flex;
 flex-direction:column;
 justify-content: space-around;
@@ -17,4 +16,8 @@ box-shadow: 5px 5px 1px black;
 cursor:pointer;
 `
 
-export default StudentCard
+export const StudentContainer = styled.div`
+display: flex;
+flex-direction: column;
+align-items: center;
+`

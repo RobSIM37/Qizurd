@@ -18,14 +18,15 @@ let initialStudents = [
   ]
 
 let sampleQuestion = {
-    question1: "sample 1",
-    question2: "sample 2",
-    question3: "sample 3",
-    question4: "sample 4",
+    question: "sample question",
+    answer1: "sample 1",
+    answer2: "sample 2",
+    answer3: "sample 3",
+    answer4: "sample 4",
   }
 
 let initialQuizzes = [
-    {quizTitle:"100 facts about Monkeys!",id:1,description:"This is a description",questions:[sampleQuestion],pressed:false},
+    {quizTitle:"100 facts about Monkeys!",id:1,description:"This is a description",questions:[sampleQuestion,sampleQuestion,sampleQuestion],pressed:false},
     {quizTitle:"How to know your monkey is plotting something.",id:2,description:"this is an even longer description",questions:[sampleQuestion],pressed:false},
     {quizTitle:"How to prevent monkey theft.",id:3,description:"we're gonna see how long we can make these without ruining how the card looks",questions:[sampleQuestion],pressed:false},
     {quizTitle:"signs your monkey has taken your identity",id:4,description:"t e s t i n g  t h e  l e n g t h  I  c a n  g o  w i t h  t h e s e",questions:[sampleQuestion],pressed:false},

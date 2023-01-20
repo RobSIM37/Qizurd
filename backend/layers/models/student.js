@@ -6,10 +6,23 @@ export class Student extends Unique {
     #results = [];
     
     constructor (parameters){
-        const {firstName, lastName, existingId} = parameters
-        super(existingId);
+        const {firstName, lastName, id} = parameters
+        super(id);
         this.firstName = firstName;
         this.lastName = lastName;
+    }
+    import(data) {
+        this.firstName = data.firstName;
+        this.lastName = data.lastName;
+        this.#results = data.results;
+    }
+    export() {
+        return {
+            firstName: this.firstName,
+            lastName: this.lastName,
+            id: this.#uuid,
+            results: this.#results
+        }
     }
     logQuestionResult (quizId, questionId, correct) {
         this.#results.push({quizId, questionId, correct});

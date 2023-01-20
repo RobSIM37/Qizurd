@@ -6,10 +6,18 @@ export class Question extends Unique {
     answer;
     wrongAnswer;
     constructor (parameters){
-        const {questionText,answer,wrongAnswer,existingId} = parameters;
-        super(existingId);
+        const {questionText,answer,wrongAnswer,id} = parameters;
+        super(id);
         this.questionText = questionText;
         this.answer = answer;
         this.wrongAnswer = wrongAnswer;
+    }
+    export(){
+        return {
+            text: this.questionText,
+            id: this.#uuid,
+            answer: this.answer,
+            wrongAnswer: this.wrongAnswer
+        }
     }
 }

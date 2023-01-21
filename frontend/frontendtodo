@@ -1,0 +1,11 @@
+Add Routing to the Hamburger menu
+Route the profile icon (Don't make a page for this, no idea what to do with it.)
+route "Qizurd" to home
+Add forms to those routes
+do a minor amout of state manipulation, relearn the reducer process
+clean up card styling bugs (descriptions pooling off the sides, horizontal scroll bar)
+brush up on async action/reducer workflow
+start making backend calls with axios when needed.
+create logic for filtering
+create logic for displaying quiz progress
+clicking on student while in the "QuizDetails" will pull up the next question they need to answer correctly.

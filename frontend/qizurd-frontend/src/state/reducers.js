@@ -36,6 +36,12 @@ let initialQuizzes = [
     {quizTitle:"banana",id:5,description:"bananananannanananananannanaanananananananananananaa",questions:[sampleQuestion],students:initialStudents},
 ]
 
+const initialMenuOpen = false
+
+const menu = (state = initialMenuOpen, action) => {
+  return state
+}
+
 const students = (state = initialStudents, action) => {
     return state
 }
@@ -50,4 +56,4 @@ const quizzes = (state = initialQuizzes, action) => {
   }
 }
 
-export default combineReducers({students,quizzes})
+export default combineReducers({students,quizzes,menu})

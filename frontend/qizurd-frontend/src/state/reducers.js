@@ -9,6 +9,18 @@ import {
 
 //dummy data, data structure is not set in stone, and there is plenty to rework
 
+let hamburgerMenu = {
+  menuSelections:
+  ["Create Quiz",
+  "Edit Quiz",
+  "Delete Quiz",
+  "Create Student",
+  "Edit Student",
+  "Delete Student",
+  "Close"],
+  menuOpen:false
+}
+
 let initialStudents = [
     {name: "Alex Jones",id:1,quizzes:[]},
     {name: "Freddy Mercury",id:2,quizzes:[]},
@@ -36,10 +48,12 @@ let initialQuizzes = [
     {quizTitle:"banana",id:5,description:"bananananannanananananannanaanananananananananananaa",questions:[sampleQuestion],students:initialStudents},
 ]
 
-const initialMenuOpen = false
+const menu = (state = hamburgerMenu, action) => {
+  switch(action.type){
+    default: 
+      return state    
+  }
 
-const menu = (state = initialMenuOpen, action) => {
-  return state
 }
 
 const students = (state = initialStudents, action) => {
@@ -56,4 +70,4 @@ const quizzes = (state = initialQuizzes, action) => {
   }
 }
 
-export default combineReducers({students,quizzes,menu})
+export default combineReducers({menu,students,quizzes})

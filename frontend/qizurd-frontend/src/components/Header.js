@@ -22,11 +22,16 @@ const IconWrapper = styled.div`
 margin:1rem;
 cursor: pointer;
 `
+
+const Logo = styled.p`
+cursor:pointer;
+`
+
 const Header = () => {
 return (
     <HeaderStyles>
         <IconWrapper><GiHamburgerMenu /></IconWrapper>
-        <p>Qizurd</p>
+        <Logo>Qizurd</Logo>
         <IconWrapper><CgProfile /></IconWrapper>
     </HeaderStyles>
 )

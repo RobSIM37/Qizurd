@@ -1,1 +1,2 @@
 export const CARD_CLICKED = "CARD_CLICKED"
+export const TOGGLE_MENU = "TOGGLE_MENU"

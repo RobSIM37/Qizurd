@@ -1,6 +1,7 @@
 import { combineReducers } from "redux";
 import {
-  CARD_CLICKED
+  CARD_CLICKED,
+  TOGGLE_MENU
 } from "./action-types"
 
 // need to eventually add list of action types here.
@@ -50,7 +51,12 @@ let initialQuizzes = [
 
 const menu = (state = hamburgerMenu, action) => {
   switch(action.type){
-    default: 
+    case TOGGLE_MENU:
+      return {
+        ...state,
+        menuOpen: action.payload
+      }
+    default:
       return state    
   }
 

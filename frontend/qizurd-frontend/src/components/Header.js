@@ -1,7 +1,10 @@
 import { GiHamburgerMenu } from "react-icons/gi"
 import { CgProfile } from "react-icons/cg"
+import { useNavigate } from "react-router-dom"
+import { connect } from "react-redux"
 import React from "react"
 import styled from "styled-components"
+import { menuToggle } from "../state/action-builder"
 
 const HeaderStyles = styled.header`
 display:flex;
@@ -27,14 +30,33 @@ const Logo = styled.p`
 cursor:pointer;
 `
 
-const Header = () => {
+const Header = (props) => {
+
+    const navigate = useNavigate()
+
+    const logoClickHandler = (e) => {
+        navigate("/quizzes")
+        props.menuToggle(false)
+    }
+
+    const menuClickHandler = (e) => {
+        props.menuToggle(!props.menuOpen)
+    }
+
+    const accountClickHandler = (e) => {
+        navigate("/account")
+        props.menuToggle(false)
+    }
 return (
     <HeaderStyles>
-        <IconWrapper><GiHamburgerMenu /></IconWrapper>
-        <Logo>Qizurd</Logo>
-        <IconWrapper><CgProfile /></IconWrapper>
+        <IconWrapper><GiHamburgerMenu onClick={menuClickHandler}/></IconWrapper>
+        <Logo onClick={logoClickHandler}>Qizurd</Logo>
+        <IconWrapper><CgProfile onClick={accountClickHandler}/></IconWrapper>
     </HeaderStyles>
 )
 }
 
-export default Header
+const mapStateToProps = state => ({
+    menuOpen: state.menu.menuOpen
+})
+export default connect(mapStateToProps,{menuToggle})(Header)

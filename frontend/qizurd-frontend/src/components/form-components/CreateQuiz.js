@@ -1,7 +1,8 @@
 import React, {useState} from "react"
 import FormQuestionList from "./FormQuestionList"
 import { connect } from "react-redux"
-import { FormContainer,FormStyles,LabelStyles,InputBoxStyle,FormStudentCard} from "./formStyles"
+import FormStudentCard from "./FormStudentCard"
+import { FormContainer,FormStyles,LabelStyles,InputBoxStyle} from "./formStyles"
 
 const CreateQuiz = (props) => {
 

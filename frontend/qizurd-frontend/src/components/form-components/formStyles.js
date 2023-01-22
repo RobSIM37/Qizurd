@@ -25,18 +25,38 @@ export const LabelStyles = styled.label`
 font-size: 1.5rem;
 `
 
-export const FormStudentCard = styled.div`
+export const FormStudentCardStyles = styled.div`
 display:flex;
-justify-content: center;
+flex-direction: row-reverse;
 align-items:center;
 background-color: green;
 width: 80%;
-height: 1rem;
-padding: 1rem;
+height: 2.5rem;
 margin: .5rem;
 border-radius: 10px;
 box-shadow: 5px 5px 1px black;
 cursor:pointer;
+`
+
+export const StudentCardText = styled.div`
+display: flex;
+width: 100%;
+height: 100%;
+justify-content: center;
+align-items: center;
+margin-left: 2.5rem;
+`
+
+export const CloseIconWrapper = styled.div`
+display: flex;
+justify-content: center;
+align-items:center;
+background-color: red;
+border-radius: 50%;
+margin-top: 1rem ;
+margin-right: 1rem ;
+margin-bottom: 1rem ;
+font-size: 1.5rem;
 `
 
 export const InputBoxStyle = styled.input`

@@ -44,7 +44,7 @@ width: 100%;
 height: 100%;
 justify-content: center;
 align-items: center;
-margin-left: 2.5rem;
+margin-left: 2rem;
 `
 
 export const CloseIconWrapper = styled.div`
@@ -54,7 +54,7 @@ align-items:center;
 background-color: red;
 border-radius: 50%;
 margin-top: 1rem ;
-margin-right: 1rem ;
+margin-right: .5rem ;
 margin-bottom: 1rem ;
 font-size: 1.5rem;
 `

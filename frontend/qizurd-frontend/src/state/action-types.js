@@ -1,2 +1,4 @@
 export const CARD_CLICKED = "CARD_CLICKED"
 export const TOGGLE_MENU = "TOGGLE_MENU"
+export const REMOVE_STUDENT = "REMOVE_STUDENT"
+export const ADD_STUDENT = "ADD_STUDENT"

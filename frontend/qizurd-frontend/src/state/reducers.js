@@ -1,7 +1,9 @@
 import { combineReducers } from "redux";
 import {
   CARD_CLICKED,
-  TOGGLE_MENU
+  REMOVE_STUDENT,
+  TOGGLE_MENU,
+  ADD_STUDENT
 } from "./action-types"
 
 // need to eventually add list of action types here.
@@ -63,7 +65,19 @@ const menu = (state = hamburgerMenu, action) => {
 }
 
 const students = (state = initialStudents, action) => {
-    return state
+  switch(action.type){
+    case REMOVE_STUDENT:
+      console.log(state)
+      const newArr = state.filter(el => el.id !== parseInt(action.payload))
+       return newArr
+    case ADD_STUDENT:
+        console.log(action.payload)
+        const objFromData = initialStudents.filter(el => el.id === parseInt(action.payload))[0]
+        console.log(objFromData)
+        return [...state, objFromData]
+    default:
+      return state
+  }
 }
 
 const quizzes = (state = initialQuizzes, action) => {

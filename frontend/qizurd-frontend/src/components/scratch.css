@@ -6,4 +6,6 @@
     word-wrap: break-word;
     border-top-right-radius: 10px;
     border-bottom-right-radius: 10px;
+    pointer-events: none;
+    font-size: 1rem;
 }

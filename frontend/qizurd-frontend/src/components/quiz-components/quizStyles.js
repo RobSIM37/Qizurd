@@ -3,7 +3,6 @@ import styled from "styled-components"
 export const QuizContainer = styled.div`
 display: flex;
 width: 100vw;
-overflow-x: hidden;
 flex-direction: column;
 align-items: center;
 `

@@ -31,8 +31,9 @@ const HamburgerMenu = (props) => {
         }else{
         const baseRoute = id.split(" ")[1]
         const route = id.replaceAll(" ","-")
-        navigate(`${baseRoute}/${route}`)
+        navigate(`${baseRoute.toLowerCase()}/${route.toLowerCase()}`)
         }
+        props.menuToggle(false)
     } 
 
     return (

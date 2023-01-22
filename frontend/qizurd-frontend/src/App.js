@@ -5,6 +5,7 @@ import {connect} from "react-redux"
 import QuizList from "./components/quiz-components/QuizList"
 import QuizView from "./components/quiz-components/QuizView"
 import HamburgerMenu from "./components/HamburgerMenu"
+import CreateQuiz from "./components/form-components/CreateQuiz"
 
 function App(props) {
   return (
@@ -14,6 +15,7 @@ function App(props) {
         <Routes>
           <Route path="/quizzes" element={<QuizList/>}/>
           <Route path="/quizzes/:id" element={<QuizView/>}/>
+          <Route path="quiz/create-quiz" element={<CreateQuiz/>}/>
         </Routes>
       </div>
   );

@@ -3,4 +3,5 @@
     justify-content:space-around;
     cursor: pointer;
     flex-wrap: wrap;
+    word-wrap: break-word;
 }

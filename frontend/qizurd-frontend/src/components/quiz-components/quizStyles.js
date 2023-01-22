@@ -2,6 +2,8 @@ import styled from "styled-components"
 
 export const QuizContainer = styled.div`
 display: flex;
+width: 100vw;
+overflow-x: hidden;
 flex-direction: column;
 align-items: center;
 `
@@ -28,6 +30,7 @@ flex-direction:column;
 justify-content: space-around;
 align-items:center;
 text-align:center;
+overflow: hidden;
 background-color: orange;
 width: 80vw;
 padding: 1rem;

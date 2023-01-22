@@ -2,10 +2,8 @@ import styled from "styled-components"
 
 export const StudentCard = styled.div`
 display:flex;
-flex-direction:column;
-justify-content: space-around;
+justify-content: center;
 align-items:center;
-text-align:center;
 background-color: green;
 width: 80vw;
 height: 1rem;

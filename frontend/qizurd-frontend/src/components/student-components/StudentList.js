@@ -25,6 +25,7 @@ const StudentList = (props) => {
 
     return(
         <StudentContainer>
+            {props.clickHandlerid === "deleteStudent" && <div>Delete a Student</div>}
             {props.quiz && props.quiz.students.map(el => {return <StudentCard>{el.name}</StudentCard>})}
             {props.clickHandlerid === "deleteStudent" && props.userStudents.map(el => {return <StudentCard id={el.id} onClick={clickHandlerControl}>{el.name}</StudentCard>})}
         </StudentContainer>

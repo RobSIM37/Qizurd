@@ -18,7 +18,19 @@ padding: 1rem;
 margin: 1rem;
 border-radius: 10px;
 box-shadow: 5px 5px 1px black;
-cursor:pointer;
+`
+
+export const StudentFormStyles = styled.form`
+display:flex;
+flex-direction:column;
+justify-content: space-around;
+align-items:center;
+background-color: green;
+width: 80vw;
+padding: 1rem;
+margin: 1rem;
+border-radius: 10px;
+box-shadow: 5px 5px 1px black;
 `
 
 export const LabelStyles = styled.label`

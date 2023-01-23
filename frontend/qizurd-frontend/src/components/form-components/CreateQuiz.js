@@ -24,9 +24,9 @@ const CreateQuiz = (props) => {
     <FormContainer>
         <FormStyles>
             <LabelStyles htmlFor={"quizTitle"}>Quiz Title</LabelStyles>
-            <InputBoxStyle id={"quizTitle"}></InputBoxStyle>
+            <InputBoxStyle id={"quizTitle"}/>
             <LabelStyles htmlFor={"quizDescription"}>Quiz Description</LabelStyles>
-            <InputBoxStyle id={"quizDescription"}></InputBoxStyle>
+            <InputBoxStyle id={"quizDescription"}/>
             {questionCounter !== 0 && <FormQuestionList questionCounter={questionCounter}></FormQuestionList>}
             <button type="button" onClick={addQuestionClickHandler}>Add a question</button>
             {addedStudents.map(el => {return <FormStudentCard addedStudents={addedStudents} setAddedStudents={setAddedStudents} id={el.id} key={el.id}>{el.value}</FormStudentCard>})}

@@ -3,7 +3,9 @@ import {
   CARD_CLICKED,
   REMOVE_STUDENT,
   TOGGLE_MENU,
-  ADD_STUDENT
+  ADD_STUDENT,
+  DELETE_QUIZ,
+  DELETE_STUDENT
 } from "./action-types"
 
 // need to eventually add list of action types here.
@@ -44,10 +46,10 @@ let sampleQuestion = {
   }
 
 let initialQuizzes = [
-    {quizTitle:"100 facts about Monkeys!",id:1,description:"This is a description",questions:[sampleQuestion,sampleQuestion,sampleQuestion],students:initialStudents},
-    {quizTitle:"How to know your monkey is plotting something.",id:2,description:"this is an even longer description",questions:[sampleQuestion],students:initialStudents},
-    {quizTitle:"How to prevent monkey theft.",id:3,description:"we're gonna see how long we can make these without ruining how the card looks",questions:[sampleQuestion],students:initialStudents},
-    {quizTitle:"signs your monkey has taken your identity",id:4,description:"the quick brown fox jumped the quick brown fox jumped the quick brown fox jumped the quick brown fox jumped the quick brown fox jumped",questions:[sampleQuestion],students:initialStudents},
+    {quizTitle:"100 facts about Monkeys!",id:1,description:"This is a description",questions:[sampleQuestion,sampleQuestion,sampleQuestion],students:[...initialStudents]},
+    {quizTitle:"How to know your monkey is plotting something.",id:2,description:"this is an even longer description",questions:[sampleQuestion],students:[...initialStudents]},
+    {quizTitle:"How to prevent monkey theft.",id:3,description:"we're gonna see how long we can make these without ruining how the card looks",questions:[sampleQuestion],students:[...initialStudents]},
+    {quizTitle:"signs your monkey has taken your identity",id:4,description:"the quick brown fox jumped the quick brown fox jumped the quick brown fox jumped the quick brown fox jumped the quick brown fox jumped",questions:[sampleQuestion],students:[...initialStudents]},
     {quizTitle:"banana",id:5,description:"bananananannanananananannanaanananananananananananaa",questions:[sampleQuestion],students:[{name: "Alex Jones",id:1,quizzes:[]}]},
 ]
 
@@ -75,6 +77,8 @@ const students = (state = initialStudents, action) => {
         const objFromData = initialStudents.filter(el => el.id === parseInt(action.payload))[0]
         console.log(objFromData)
         return [...state, objFromData]
+    case DELETE_STUDENT:
+        return state.filter(el => el.id !== parseInt(action.payload))
     default:
       return state
   }
@@ -85,6 +89,8 @@ const quizzes = (state = initialQuizzes, action) => {
     case CARD_CLICKED:
       console.log(action.payload)
       return state
+    case DELETE_QUIZ:
+      return state.filter(el => el.id !== parseInt(action.payload))
     default:
       return state
   }

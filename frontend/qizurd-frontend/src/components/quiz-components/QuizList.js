@@ -1,21 +1,36 @@
 import React from "react"
+import { useNavigate } from "react-router"
 import { connect } from "react-redux"
-import { useNavigate } from "react-router-dom"
-import { cardClicked } from "../../state/action-builder"
 import {QuizCard,QuizContainer} from "./quizStyles"
+import { deleteQuiz } from "../../state/action-builder"
 
 const QuizList = (props) => {
-    
-    const navigate = useNavigate();
 
-    const quizCardClickHandler = (e) => {
-        navigate(`/quizzes/${e.target.id}`)
+    const navigate = useNavigate()
+
+    const clickHandlerControl = (e) => {
+        switch(props.clickHandlerid){
+            case "showDetails":
+                navigate(`/quizzes/${e.target.id}`)
+                break
+            case "editQuiz":
+                navigate(`/quiz/edit-quiz/${e.target.id}`)
+                break
+            case "deleteQuiz":
+                props.deleteQuiz(e.target.id)
+                navigate("/quizzes")
+                break
+            default:
+        }
     }
 
     return(
         <QuizContainer>
+            {props.clickHandlerid === "showDetails" && <div>Quizzes</div>}
+            {props.clickHandlerid === "editQuiz" && <div>Edit Quiz</div>}
+            {props.clickHandlerid === "deleteQuiz" && <div>Delete a Quiz</div>}
             {props.quizzes.map( el => {
-                return <QuizCard id={el.id} key={el.id} onClick={quizCardClickHandler}>
+                return <QuizCard id={el.id} key={el.id} onClick={clickHandlerControl}>
                     {el.quizTitle}
                 </QuizCard>
             })}
@@ -28,4 +43,4 @@ const mapStateToProps = state => ({
 })
 
 //insert actions into empty object
-export default connect(mapStateToProps,{cardClicked})(QuizList)
+export default connect(mapStateToProps,{deleteQuiz})(QuizList)

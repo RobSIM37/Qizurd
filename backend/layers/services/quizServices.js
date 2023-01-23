@@ -1,4 +1,4 @@
-const userServices = require("../services/userServices");
+const userServices = require("./userServices");
 const Quiz = require("../models/quiz");
 const Question = require("../models/question");
 
@@ -26,7 +26,7 @@ module.exports = {
         const user = userServices.getUser(userId);
         const quiz = user.getQuiz(quizId);
         const newQuestion = new Question(questionData);
-        quiz.updateQuestion(newQuestion);
+        quiz.addOrUpdateQuestion(newQuestion);
         return newQuestion
     },
     getQuestion: (userId, quizId, questionId) => {
@@ -38,6 +38,13 @@ module.exports = {
         const user = userServices.getUser(userId);
         const quiz = user.getQuiz(quizId);
         quiz.deleteQuestion(questionId);
+        return true;
+    },
+    enrollStudent: (userId, quizId, studentId) => {
+        const user = userServices.getUser(userId);
+        const quiz = user.getQuiz(quizId);
+        const student = user.getStudent(studentId);
+        quiz.enrollStudent(student);
         return true;
     }
 }

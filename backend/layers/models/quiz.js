@@ -29,12 +29,12 @@ export class Quiz extends Unique {
     getQuestion(questionId){
         return this.#questions.filter(question=>question.id == questionId)[0];
     }
-    updateQuestion(questionId, updatedQuestion){
-        const questionIndex = this.#questions.map(question=>question.id).indexOf(questionId);
+    addOrUpdateQuestion(newQuestion){
+        const questionIndex = this.#questions.map(question=>question.id).indexOf(newQuestion.id);
         if (questionIndex == -1) {
             this.#questions.push(newQuestion);
         } else {
-            this.#questions[questionIndex] = updatedQuestion;
+            this.#questions[questionIndex] = newQuestion;
         }
     }
     deleteQuestion(questionId){
@@ -44,5 +44,8 @@ export class Quiz extends Unique {
         if (!this.#students.map(student=>student.id).includes(newStudent.id)){
             this.#students.push(newStudent);
         }
+    }
+    getAllStudents(){
+        return [...this.#students];
     }
 }

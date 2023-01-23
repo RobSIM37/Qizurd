@@ -1,5 +1,3 @@
-import { deleteQuiz } from "../controllers/quizController";
-
 const Unique = require("./unique");
 
 export class User extends Unique {
@@ -36,7 +34,21 @@ export class User extends Unique {
     deleteQuiz(quizId){
         this.#quizzes = this.#quizzes.filter(quiz=>quiz.id != quizId);
     }
-    addStudent(student){
-        this.#students.push(student);
+    addOrUpdateStudent(newStudent){
+        const studentIndex = this.#students.map(student => student.id).indexOf(newStudent.id);
+        if (studentIndex == -1){
+            this.#students.push(newStudent);
+        } else {
+            this.#students[studentIndex] = newStudent;
+        }
+    }
+    deleteStudent(studentId){
+        this.#students = this.#students.filter(student => student.id != studentId);
+    }
+    getStudent(studentId){
+        return this.#students.filter(student=>student.id == studentId)[0];
+    }
+    getAllStudents(){
+        return [...this.#students];
     }
 }

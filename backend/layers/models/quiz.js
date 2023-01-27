@@ -5,6 +5,7 @@ const Unique = require("./unique");
 export class Quiz extends Unique {
 
     name;
+    description;
     #questions = [];
     #students = [];
 
@@ -29,6 +30,9 @@ export class Quiz extends Unique {
     getQuestion(questionId){
         return this.#questions.filter(question=>question.id == questionId)[0];
     }
+    getAllQuestions(){
+        return [...this.#questions];
+    }
     addOrUpdateQuestion(newQuestion){
         const questionIndex = this.#questions.map(question=>question.id).indexOf(newQuestion.id);
         if (questionIndex == -1) {
@@ -39,9 +43,9 @@ export class Quiz extends Unique {
     }
     deleteQuestion(questionId){
         this.#questions = this.#questions.filter(question=>question.id != questionId);
-    }
-    enrollStudent(newStudent){
-        if (!this.#students.map(student=>student.id).includes(newStudent.id)){
+    }enrollStudent(newStudent){
+   
+         if (!this.#students.map(student=>student.id).includes(newStudent.id)){
             this.#students.push(newStudent);
         }
     }

@@ -18,7 +18,7 @@ const Registerpage = (props) => {
 
     const formSubmitHandler = (e) => {
         e.preventDefault()
-        props.userLogin({userName,password})
+        props.userRegister({userName,password})
     }
 
     return <div>
@@ -38,4 +38,4 @@ const mapStateToProps = state => ({
 
 })
 
-export default connect(mapStateToProps,userRegister)(Registerpage)
+export default connect(mapStateToProps,{userRegister})(Registerpage)

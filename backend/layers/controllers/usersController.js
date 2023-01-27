@@ -8,7 +8,7 @@ module.exports = {
         if (data.registerUser(userInfo.userName, userInfo.password)) {
             const newUser = new User({userName: userInfo.userName});
             userServices.addUser(newUser);
-            res.status(200).send("user registered");
+            res.status(200).send(JSON.stringify(newUser.export()));
         } else {
             res.status(400).send("unable to register user");
         }
@@ -22,9 +22,9 @@ module.exports = {
             const returningUser = new User({userName: userInfo.userName, existingId: returningUserData.id})
             returningUser.import(returningUserData);
             userServices.addUser(returningUser);
-            res.status(200).send("user login successful");
+            res.status(200).send(JSON.stringify(returningUser.export()));
         } else {
-            res.status(401).send("unable to login user");
+            res.status(400).send("unable to login user");
         }
     }
 }

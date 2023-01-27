@@ -1,4 +1,6 @@
 import {
+    USER_REGISTER,
+    USER_LOGIN,
     CARD_CLICKED,
     TOGGLE_MENU,
     REMOVE_STUDENT,
@@ -6,6 +8,19 @@ import {
     DELETE_QUIZ,
     DELETE_STUDENT
 } from "./action-types"
+import axios from "axios"
+
+
+
+export const userLogin = (loginData) => {
+    return {type: USER_LOGIN, }
+}
+
+export const userRegister = () => dispatch => (registerData => {
+    axios.post("localhost:8020/register",registerData).then(res => {
+        dispatch({type: USER_REGISTER, payload: res.data})
+    })
+})
 
 export const cardClicked = (id) => {
     return {type: CARD_CLICKED,payload: id}

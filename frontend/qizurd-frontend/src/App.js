@@ -9,6 +9,8 @@ import EditQuiz from "./components/form-components/EditQuiz"
 import CreateStudent from "./components/form-components/CreateStudent"
 import StudentList from "./components/student-components/StudentList"
 import HamburgerMenu from "./components/HamburgerMenu"
+import Loginpage from "./components/login-components/Loginpage"
+import Registerpage from "./components/login-components/Registerpage"
 
 
 function App(props) {
@@ -18,6 +20,8 @@ function App(props) {
         <Header></Header>
         {props.menuOpen && <HamburgerMenu/>}
         <Routes>
+          <Route path="/" element={<Loginpage/>}/>
+          <Route path="/register" element={<Registerpage/>}/>
           <Route path="/quizzes" element={<QuizList clickHandlerid={"showDetails"}/>}/>
           <Route path="/quizzes/:id" element={<QuizView/>}/>
           <Route path="quiz/create-quiz" element={<CreateQuiz/>}/>

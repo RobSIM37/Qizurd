@@ -4,14 +4,14 @@ const issuedIdMap = new Map();
 let passwordData = [];
 let usersData = [];
 
-module.export = {
+module.exports = {
     registerUser: (userName, password) => {
         if (passwordData.map(data=>data.userName).includes(userName)) return false;
         bcrypt.hash(password, 10, (err, hash) => {
-            if (err) return false;
+            if (err !== undefined) return false;
             passwordData.push({userName, hash});
-            return true;
         })
+        return true;
     },
 
     checkPassword: (userName, password) => {

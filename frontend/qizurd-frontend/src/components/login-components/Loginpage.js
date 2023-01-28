@@ -1,8 +1,12 @@
 import React,{useState} from "react"
 import { connect } from "react-redux"
-import { userLogin } from "../../state/action-builder"
+import { useNavigate } from "react-router"
+import { activeUser } from "../../state/action-builder"
+import axios from "axios"
 
 const Loginpage = (props) => {
+
+    const navigate = useNavigate()
 
     let [userName,setUserName] = useState("")
     let [password, setPassword] = useState("")
@@ -13,12 +17,14 @@ const Loginpage = (props) => {
         }else{
             setPassword(e.target.value)
         }
-        console.log(userName + "  " + password)
     }
 
     const formSubmitHandler = (e) => {
         e.preventDefault()
-        props.userLogin({userName,password})
+        axios.post("http://localhost:8025/register",{userName,password}).then(res => {
+            props.activeUser(res.data)
+            navigate("/quizzes")
+        }).catch(err => console.log(err))
     }
 
     return <div>
@@ -38,4 +44,4 @@ const mapStateToProps = state => ({
 
 })
 
-export default connect(mapStateToProps,userLogin)(Loginpage)
+export default connect(mapStateToProps,{activeUser})(Loginpage)

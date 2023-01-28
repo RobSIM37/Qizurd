@@ -1,7 +1,7 @@
 const arrUtil = require("./arrayUtils");
 
 const ID_LENGTH = 20;
-const charSet = [];
+let charSet = [];
 
 const buildCharSet = (start, end) => {
     const charSet = [];

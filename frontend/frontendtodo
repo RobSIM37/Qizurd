@@ -9,3 +9,4 @@ start making backend calls with axios when needed.
 create logic for filtering
 create logic for displaying quiz progress
 clicking on student while in the "QuizDetails" will pull up the next question they need to answer correctly.
+Login validation (Private Routers and such)

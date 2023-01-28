@@ -2,7 +2,7 @@ let users = [];
 
 module.exports = {
     addUser: (user) => {
-        user.push(user);
+        users.push(user);
     },
 
     removeUser: (userId) => {

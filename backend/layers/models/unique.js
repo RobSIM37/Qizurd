@@ -1,6 +1,7 @@
-const uuidv4 = require("uuid/v4");
+const idUtils = require("../../utils/idUtils");
 const data = require("../data/data");
-export class Unique {
+
+class Unique {
     #uuid;
 
     constructor (existingId){
@@ -8,7 +9,7 @@ export class Unique {
             this.#uuid = existingId
         } else {
             do {
-                this.#uuid = uuidv4();
+                this.#uuid = idUtils();
             } while (data.isKnownId(this.#uuid,true))
         }
     }
@@ -17,3 +18,5 @@ export class Unique {
         return this.#uuid;
     }
 }
+
+module.exports = Unique;

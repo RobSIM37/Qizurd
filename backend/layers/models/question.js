@@ -1,6 +1,6 @@
 const Unique = require("./unique");
 
-export class Question extends Unique {
+class Question extends Unique {
     
     questionText;
     answer;
@@ -15,9 +15,11 @@ export class Question extends Unique {
     export(){
         return {
             text: this.questionText,
-            id: this.#uuid,
+            id: super.id,
             answer: this.answer,
             wrongAnswer: this.wrongAnswer
         }
     }
 }
+
+module.exports = Question

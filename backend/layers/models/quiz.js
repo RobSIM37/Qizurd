@@ -1,8 +1,6 @@
-import { deleteQuestion } from "../controllers/quizController";
-
 const Unique = require("./unique");
 
-export class Quiz extends Unique {
+class Quiz extends Unique {
 
     name;
     description;
@@ -22,7 +20,7 @@ export class Quiz extends Unique {
     export(){
         return {
             name: this.name,
-            id: this.#uuid,
+            id: super.id,
             questions: this.#questions.map(question=>question.export()),
             students: this.#students.map(student=>student.export())
         }
@@ -53,3 +51,5 @@ export class Quiz extends Unique {
         return [...this.#students];
     }
 }
+
+module.exports = Quiz

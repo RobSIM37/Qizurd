@@ -35,4 +35,4 @@ class Student extends Unique {
     }
 }
 
-module.exports = Student
+module.exports = Student;

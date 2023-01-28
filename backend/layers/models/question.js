@@ -22,4 +22,4 @@ class Question extends Unique {
     }
 }
 
-module.exports = Question
+module.exports = Question;

@@ -18,6 +18,7 @@ class User extends Unique {
         return {
             userName: this.userName,
             id: super.id,
+            id: super.id,
             quizzes: this.#quizzes.map(quiz=>quiz.export()),
             students: this.#students.map(student=>student.export())
         }
@@ -53,4 +54,4 @@ class User extends Unique {
     }
 }
 
-module.exports = User
+module.exports = User;

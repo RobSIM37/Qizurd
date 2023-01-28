@@ -52,4 +52,4 @@ class Quiz extends Unique {
     }
 }
 
-module.exports = Quiz
+module.exports = Quiz;

@@ -1,6 +1,7 @@
 const uuidv4 = require("uuid/v4");
 const data = require("../data/data");
-export class Unique {
+
+class Unique {
     #uuid;
 
     constructor (existingId){
@@ -17,3 +18,5 @@ export class Unique {
         return this.#uuid;
     }
 }
+
+module.exports = Unique;

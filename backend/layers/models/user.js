@@ -1,6 +1,6 @@
 const Unique = require("./unique");
 
-export class User extends Unique {
+class User extends Unique {
     userName;
     #quizzes = [];
     #students = [];
@@ -17,7 +17,7 @@ export class User extends Unique {
     export(){
         return {
             userName: this.userName,
-            id: this.#uuid,
+            id: super.id,
             quizzes: this.#quizzes.map(quiz=>quiz.export()),
             students: this.#students.map(student=>student.export())
         }
@@ -52,3 +52,5 @@ export class User extends Unique {
         return [...this.#students];
     }
 }
+
+module.exports = User;

@@ -2,7 +2,7 @@ const express = require('express');
 const server = express();
 const cors = require('cors')
 
-server.using(cors());
+server.use(cors());
 
 const quizCtrl = require("./layers/controllers/quizController");
 const userCtrl = require("./layers/controllers/usersController");

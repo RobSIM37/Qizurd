@@ -1,6 +1,6 @@
 const Unique = require("./unique");
 
-export class Student extends Unique {
+class Student extends Unique {
     firstName;
     lastName;
     #results = [];
@@ -20,7 +20,7 @@ export class Student extends Unique {
         return {
             firstName: this.firstName,
             lastName: this.lastName,
-            id: this.#uuid,
+            id: super.id,
             results: this.#results
         }
     }
@@ -34,3 +34,5 @@ export class Student extends Unique {
         return this.getAllQuizResults(quizId).filter(result=>result.correct);
     }
 }
+
+module.exports = Student;

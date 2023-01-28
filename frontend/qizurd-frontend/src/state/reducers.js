@@ -1,5 +1,6 @@
 import { combineReducers } from "redux";
 import {
+  ACTIVE_USER,
   CARD_CLICKED,
   REMOVE_STUDENT,
   TOGGLE_MENU,
@@ -13,6 +14,13 @@ import {
 
 
 //dummy data, data structure is not set in stone, and there is plenty to rework
+
+let emptyUser = {
+  userName: "",
+  id: "",
+  quizzes: [],
+  students: []
+}
 
 let hamburgerMenu = {
   menuSelections:
@@ -52,6 +60,15 @@ let initialQuizzes = [
     {quizTitle:"signs your monkey has taken your identity",id:4,description:"the quick brown fox jumped the quick brown fox jumped the quick brown fox jumped the quick brown fox jumped the quick brown fox jumped",questions:[sampleQuestion],students:[...initialStudents]},
     {quizTitle:"banana",id:5,description:"bananananannanananananannanaanananananananananananaa",questions:[sampleQuestion],students:[{name: "Alex Jones",id:1,quizzes:[]}]},
 ]
+
+const user = (state = emptyUser, action) => {
+  switch(action.type){
+    case ACTIVE_USER:
+      return action.payload
+    default:
+      return state
+  }
+}
 
 const menu = (state = hamburgerMenu, action) => {
   switch(action.type){
@@ -96,4 +113,4 @@ const quizzes = (state = initialQuizzes, action) => {
   }
 }
 
-export default combineReducers({menu,students,quizzes})
+export default combineReducers({user,menu,students,quizzes})

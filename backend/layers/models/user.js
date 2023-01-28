@@ -5,6 +5,7 @@ class User extends Unique {
     #quizzes = [];
     #students = [];
     constructor (parameters){
+        console.log("parameters:",parameters)
         const {userName, id} = parameters;
         super(id);
         this.userName = userName;

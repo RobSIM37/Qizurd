@@ -1,6 +1,5 @@
 import {
-    USER_REGISTER,
-    USER_LOGIN,
+    ACTIVE_USER,
     CARD_CLICKED,
     TOGGLE_MENU,
     REMOVE_STUDENT,
@@ -12,15 +11,9 @@ import axios from "axios"
 
 
 
-export const userLogin = (loginData) => {
-    return {type: USER_LOGIN, }
+export const activeUser = (user) => {
+    return {type: ACTIVE_USER, payload: user}
 }
-
-export const userRegister = () => dispatch => (registerData => {
-    axios.post("localhost:8020/register",registerData).then(res => {
-        dispatch({type: USER_REGISTER, payload: res.data})
-    })
-})
 
 export const cardClicked = (id) => {
     return {type: CARD_CLICKED,payload: id}

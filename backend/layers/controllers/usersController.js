@@ -4,13 +4,15 @@ const data = require("../data/data");
 
 module.exports = {
     registerUser: (req,res) => {
-        const userInfo = JSON.parse(req.body);
+        const userInfo = req.body;
         if (data.registerUser(userInfo.userName, userInfo.password)) {
             const newUser = new User({userName: userInfo.userName});
+            console.log("New user Obj:",newUser.export())
             userServices.addUser(newUser);
-            res.status(200).send(JSON.stringify(newUser.export()));
+            res.status(200).send(newUser.export());
         } else {
-            res.status(400).send("unable to register user");
+            console.log("in else")
+            res.status(400).send({message:"unable to register user"});
         }
         
     },

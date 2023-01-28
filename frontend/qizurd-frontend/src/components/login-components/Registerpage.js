@@ -1,8 +1,12 @@
 import React, {useState} from "react"
 import { connect } from "react-redux"
-import { userRegister } from "../../state/action-builder"
+import { useNavigate } from "react-router-dom"
+import axios from "axios"
+import { activeUser } from "../../state/action-builder"
 
 const Registerpage = (props) => {
+
+    const navigate = useNavigate()
 
     let [userName,setUserName] = useState("")
     let [password, setPassword] = useState("")
@@ -18,7 +22,10 @@ const Registerpage = (props) => {
 
     const formSubmitHandler = (e) => {
         e.preventDefault()
-        props.userRegister({userName,password})
+        axios.post("http://localhost:8025/register",{userName,password}).then(res => {
+            props.activeUser(res.data)
+            navigate("/quizzes")
+        }).catch(err => console.log(err))
     }
 
     return <div>
@@ -38,4 +45,4 @@ const mapStateToProps = state => ({
 
 })
 
-export default connect(mapStateToProps,{userRegister})(Registerpage)
+export default connect(mapStateToProps,{activeUser})(Registerpage)

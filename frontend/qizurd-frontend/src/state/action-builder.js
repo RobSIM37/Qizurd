@@ -1,6 +1,8 @@
 import {
     CHANGE_TEXT,
     ACTIVE_USER,
+    FILL_QUIZ_STATE,
+    FILL_STUDENT_STATE,
     CARD_CLICKED,
     TOGGLE_MENU,
     ADD_STUDENT,
@@ -8,12 +10,19 @@ import {
     DELETE_QUIZ,
     DELETE_STUDENT
 } from "./action-types"
-import axios from "axios"
 
 
 
 export const activeUser = (user) => {
     return {type: ACTIVE_USER, payload: user}
+}
+
+export const fillQuizState = (quizzes) => {
+    return {type: FILL_QUIZ_STATE, payload: quizzes}
+}
+
+export const fillStudentState = (students) => {
+    return {type: FILL_STUDENT_STATE, payload: students}
 }
 
 export const changeQuizText = (inputid,inputValue) =>  {
@@ -28,10 +37,8 @@ export const menuToggle = (boolToChangeTo) => {
     return {type: TOGGLE_MENU,payload:boolToChangeTo}
 }
 
-export const addStudentToQuiz = (id) => dispatch => {
-    axios.get(`http://localhost:8025/students/${id}`).then(res => {
-        dispatch({type: ADD_STUDENT_TO_QUIZ,payload:res.data})
-    })
+export const addStudentToQuiz = (student) => {
+    return {type: ADD_STUDENT_TO_QUIZ,payload:student}
 }
 
 export const addStudent = (studentid) => {

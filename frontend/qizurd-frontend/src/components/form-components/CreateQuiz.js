@@ -1,4 +1,5 @@
 import React, {useState} from "react"
+import axios from "axios"
 import FormQuestionList from "./FormQuestionList"
 import { connect } from "react-redux"
 import FormStudentCard from "./FormStudentCard"
@@ -9,12 +10,16 @@ const CreateQuiz = (props) => {
 
     let [questionCounter,setQuestionCounter] = useState(0)
     let [addedStudents, setAddedStudents] = useState([])
+    let [selectedStudents, setSelectedStudents] = useState(props.quiz.students)
 
     const addQuestionClickHandler = () => {
         setQuestionCounter(questionCounter += 1)
     }
     
     const optionClickHandler = (e) => {
+        axios.get(`http://localhost:8025/students/${e.target.id}`).then(res => {
+        setSelectedStudents(selectedStudents.push(res.data))
+    })
         props.removeStudent(e.target.id)
     }
 

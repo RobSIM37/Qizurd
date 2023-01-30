@@ -1,6 +1,8 @@
 import { combineReducers } from "redux";
 import {
   ACTIVE_USER,
+  FILL_QUIZ_STATE,
+  FILL_STUDENT_STATE,
   CARD_CLICKED,
   TOGGLE_MENU,
   ADD_STUDENT,
@@ -106,6 +108,8 @@ const menu = (state = hamburgerMenu, action) => {
 
 const userStudents = (state = initialStudents, action) => {
   switch(action.type){
+    case FILL_STUDENT_STATE:
+      return action.payload
     case ADD_STUDENT_TO_QUIZ:
       console.log(state)
       const newArr = state.filter(el => el.id !== parseInt(action.payload))
@@ -124,6 +128,8 @@ const userStudents = (state = initialStudents, action) => {
 
 const quizzes = (state = initialQuizzes, action) => {
   switch(action.type){
+    case FILL_QUIZ_STATE:
+      return action.payload
     case CARD_CLICKED:
       console.log(action.payload)
       return state

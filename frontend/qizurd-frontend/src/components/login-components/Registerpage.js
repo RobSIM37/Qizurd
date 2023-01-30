@@ -2,7 +2,7 @@ import React, {useState} from "react"
 import { connect } from "react-redux"
 import { useNavigate } from "react-router-dom"
 import axios from "axios"
-import { activeUser } from "../../state/action-builder"
+import { activeUser,fillQuizState,fillStudentState } from "../../state/action-builder"
 
 const Registerpage = (props) => {
 
@@ -24,6 +24,8 @@ const Registerpage = (props) => {
         e.preventDefault()
         axios.post("http://localhost:8025/register",{userName,password}).then(res => {
             props.activeUser(res.data)
+            props.fillQuizState(res.data.quizzes)
+            props.fillStudentState(res.data.students)
             navigate("/quizzes")
         }).catch(err => console.log(err))
     }
@@ -45,4 +47,4 @@ const mapStateToProps = state => ({
 
 })
 
-export default connect(mapStateToProps,{activeUser})(Registerpage)
+export default connect(mapStateToProps,{activeUser,fillQuizState,fillStudentState})(Registerpage)

@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom"
 import { connect } from "react-redux"
 import FormStudentCard from "./FormStudentCard"
 import { FormContainer,FormStyles,LabelStyles,InputBoxStyle} from "./formStyles"
-import { removeStudent } from "../../state/action-builder"
+// import { removeStudent } from "../../state/action-builder"
 
 const EditQuiz = (props) => {
 
@@ -46,4 +46,4 @@ const mapStateToProps = state => ({
     quizzes: state.quizzes
 })
 
-export default connect(mapStateToProps,{removeStudent})(EditQuiz)
+export default connect(mapStateToProps,{})(EditQuiz)

@@ -1,12 +1,15 @@
 import { combineReducers } from "redux";
 import {
   ACTIVE_USER,
+  FILL_QUIZ_STATE,
+  FILL_STUDENT_STATE,
   CARD_CLICKED,
-  REMOVE_STUDENT,
   TOGGLE_MENU,
   ADD_STUDENT,
+  ADD_STUDENT_TO_QUIZ,
   DELETE_QUIZ,
-  DELETE_STUDENT
+  DELETE_STUDENT,
+  CHANGE_TEXT
 } from "./action-types"
 
 // need to eventually add list of action types here.
@@ -35,14 +38,14 @@ let hamburgerMenu = {
 }
 
 let initialStudents = [
-    {name: "Alex Jones",id:1,quizzes:[]},
-    {name: "Freddy Mercury",id:2,quizzes:[]},
-    {name: "Walter Disney",id:3,quizzes:[]},
-    {name: "Tony Stark",id:4,quizzes:[]},
-    {name: "Jonathon Coulton",id:5,quizzes:[]},
-    {name: "Arther Dent",id:6,quizzes:[]},
-    {name: "Donna Noble",id:7,quizzes:[]},
-    {name: "John Smith",id:8,quizzes:[]}
+    {name: "Alex Jones",id:"1",quizzes:[]},
+    {name: "Freddy Mercury",id:"2",quizzes:[]},
+    {name: "Walter Disney",id:"3",quizzes:[]},
+    {name: "Tony Stark",id:"4",quizzes:[]},
+    {name: "Jonathon Coulton",id:"5",quizzes:[]},
+    {name: "Arther Dent",id:"6",quizzes:[]},
+    {name: "Donna Noble",id:"7",quizzes:[]},
+    {name: "John Smith",id:"8",quizzes:[]}
   ]
 
 let sampleQuestion = {
@@ -61,10 +64,30 @@ let initialQuizzes = [
     {quizTitle:"banana",id:5,description:"bananananannanananananannanaanananananananananananaa",questions:[sampleQuestion],students:[{name: "Alex Jones",id:1,quizzes:[]}]},
 ]
 
+let initialQuizForm = {
+  id: "",
+  quizTitle: "",
+  description: "",
+  questions: [],
+  students: []
+}
+
 const user = (state = emptyUser, action) => {
   switch(action.type){
     case ACTIVE_USER:
       return action.payload
+    default:
+      return state
+  }
+}
+
+const quizForm = (state = initialQuizForm, action) => {
+  switch(action.type){
+    case CHANGE_TEXT:
+      console.log(state)
+      return {...state, [action.payload.inputid]: action.payload.inputValue}
+    case ADD_STUDENT_TO_QUIZ:
+      return {...state, students:state.students.push(action.payload)}
     default:
       return state
   }
@@ -83,17 +106,14 @@ const menu = (state = hamburgerMenu, action) => {
 
 }
 
-const students = (state = initialStudents, action) => {
+const userStudents = (state = initialStudents, action) => {
   switch(action.type){
-    case REMOVE_STUDENT:
+    case FILL_STUDENT_STATE:
+      return action.payload
+    case ADD_STUDENT_TO_QUIZ:
       console.log(state)
       const newArr = state.filter(el => el.id !== parseInt(action.payload))
        return newArr
-    case ADD_STUDENT:
-        console.log(action.payload)
-        const objFromData = initialStudents.filter(el => el.id === parseInt(action.payload))[0]
-        console.log(objFromData)
-        return [...state, objFromData]
     case DELETE_STUDENT:
         return state.filter(el => el.id !== parseInt(action.payload))
     default:
@@ -103,6 +123,8 @@ const students = (state = initialStudents, action) => {
 
 const quizzes = (state = initialQuizzes, action) => {
   switch(action.type){
+    case FILL_QUIZ_STATE:
+      return action.payload
     case CARD_CLICKED:
       console.log(action.payload)
       return state
@@ -113,4 +135,4 @@ const quizzes = (state = initialQuizzes, action) => {
   }
 }
 
-export default combineReducers({user,menu,students,quizzes})
+export default combineReducers({user,quizForm,menu,userStudents,quizzes})

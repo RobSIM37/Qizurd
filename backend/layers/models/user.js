@@ -24,8 +24,13 @@ class User extends Unique {
             students: this.#students.map(student=>student.export())
         }
     }
-    addQuiz(quiz){
-        this.#quizzes.push(quiz);
+    addOrUpdateQuiz(incommingQuiz){
+        const quizIndex = this.#quizzes.map(quiz=>quiz.id).indexOf(incommingQuiz.id)
+        if (quizIndex == -1) {
+            this.#quizzes.push(quiz);
+        } else {
+            this.#quizzes[quizIndex] = incommingQuiz;
+        }
     }
     getQuiz(quizId){
         return this.#quizzes.filter(quiz=>quiz.id == quizId)[0];

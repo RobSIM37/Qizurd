@@ -29,11 +29,16 @@ const CreateQuiz = (props) => {
         <FormStyles>
             <LabelStyles htmlFor={"quizTitle"}>Quiz Title</LabelStyles>
             <InputBoxStyle id={"quizTitle"} value={props.quiz.quizTitle} onChange={inputChangeHandler}/>
+
             <LabelStyles htmlFor={"description"}>Quiz Description</LabelStyles>
             <InputBoxStyle id={"description"} onChange={inputChangeHandler}/>
+
             {questionCounter !== 0 && <FormQuestionList questionCounter={questionCounter}></FormQuestionList>}
             <button type="button" onClick={addQuestionClickHandler}>Add a question</button>
-            {selectedStudents.map(el => {return <FormStudentCard selectedStudents={selectedStudents} setSelectedStudents={setSelectedStudents} id={el.id} key={el.id}>{el.name}</FormStudentCard>})}
+
+            {selectedStudents.map(el => 
+                {return <FormStudentCard selectedStudents={selectedStudents} setSelectedStudents={setSelectedStudents} id={el.id} key={el.id}>{el.name}</FormStudentCard>})}
+
             <select value={0}>
                 <option value={0}>--Select Student--</option>
                 {props.userStudents
@@ -42,6 +47,7 @@ const CreateQuiz = (props) => {
                     .map(el => 
                     {return <option onClick={optionClickHandler} key={el.name} id={el.id}>{el.name}</option>})}
             </select>
+            
         </FormStyles>    
     </FormContainer>
     )

@@ -5,7 +5,6 @@ import {
     FILL_STUDENT_STATE,
     CARD_CLICKED,
     TOGGLE_MENU,
-    ADD_STUDENT,
     ADD_STUDENT_TO_QUIZ,
     DELETE_QUIZ,
     DELETE_STUDENT
@@ -39,10 +38,6 @@ export const menuToggle = (boolToChangeTo) => {
 
 export const addStudentToQuiz = (student) => {
     return {type: ADD_STUDENT_TO_QUIZ,payload:student}
-}
-
-export const addStudent = (studentid) => {
-    return {type: ADD_STUDENT,payload: studentid}
 }
 
 export const deleteQuiz = (quizid) => {

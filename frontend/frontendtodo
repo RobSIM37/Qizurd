@@ -2,7 +2,6 @@ Add Routing to the Hamburger menu ***DONE***
 Route the profile icon (Don't make a page for this, no idea what to do with it.) ***DONE***
 route "Qizurd" to home ***DONE***
 Add forms to those routes
-do a minor amout of state manipulation, relearn the reducer process
 clean up card styling bugs (descriptions pooling off the sides, horizontal scroll bar) ***DONE***
 brush up on async action/reducer workflow
 start making backend calls with axios when needed.

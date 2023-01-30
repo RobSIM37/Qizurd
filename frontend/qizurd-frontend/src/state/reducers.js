@@ -114,11 +114,6 @@ const userStudents = (state = initialStudents, action) => {
       console.log(state)
       const newArr = state.filter(el => el.id !== parseInt(action.payload))
        return newArr
-    case ADD_STUDENT:
-        console.log(action.payload)
-        const objFromData = initialStudents.filter(el => el.id === parseInt(action.payload))[0]
-        console.log(objFromData)
-        return [...state, objFromData]
     case DELETE_STUDENT:
         return state.filter(el => el.id !== parseInt(action.payload))
     default:

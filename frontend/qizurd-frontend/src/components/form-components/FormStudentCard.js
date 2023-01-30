@@ -2,15 +2,13 @@ import React from "react"
 import {AiOutlineCloseCircle} from "react-icons/ai"
 import { connect } from "react-redux"
 import { FormStudentCardStyles,StudentCardText,CloseIconWrapper} from "./formStyles"
-import { addStudent } from "../../state/action-builder"
 
 const FormStudentCard = (props) => {
 
     const closeClickHandler = (e) => {
         const {id} = e.target
         console.log(`card ${id}`)
-        props.setAddedStudents(props.addedStudents.filter(el => el.id !== id))
-        props.addStudent(props.id)
+        props.setSelectedStudents(props.selectedStudents.filter(el => el.id !== id))
     }
 
     return(
@@ -27,4 +25,4 @@ const mapStateToProps = state => ({
 
 })
 
-export default connect(mapStateToProps,{addStudent})(FormStudentCard)
+export default connect(mapStateToProps,{})(FormStudentCard)

@@ -1,11 +1,16 @@
 const userServices = require("./userServices");
 const Quiz = require("../models/quiz");
 const Question = require("../models/question");
+const Student = require("../models/student");
 const arrUtil = require("../../utils/arrayUtils");
+
 module.exports = {
-    addOrUpdateQuiz: (userId, quizData) => {
+    addOrUpdateQuiz: (reqData) => {
+        const {userId, quizData} = reqData;
         const user = userServices.getUser(userId);
         const quiz = new Quiz(quizData);
+        quiz.addStudents(quizData.students.map(student => new Student(student)));
+        quiz.addQuestions(quizData.questions.map(question => new Question(question)));
         user.addOrUpdateQuiz(quiz);
         return true;
     },

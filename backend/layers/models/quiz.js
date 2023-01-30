@@ -8,9 +8,10 @@ class Quiz extends Unique {
     #students = [];
 
     constructor (parameters){
-        const {name, id} = parameters
+        const {name, description, id} = parameters
         super(id);
         this.name = name;
+        this.description = description;
     }
     import(data){
         this.name = data.name;
@@ -39,13 +40,19 @@ class Quiz extends Unique {
             this.#questions[questionIndex] = newQuestion;
         }
     }
+    addQuestions(questionsArr){
+        this.#questions = [...this.#questions, ...questionsArr];
+    }
     deleteQuestion(questionId){
         this.#questions = this.#questions.filter(question=>question.id != questionId);
-    }enrollStudent(newStudent){
-   
+    }
+    enrollStudent(newStudent){
          if (!this.#students.map(student=>student.id).includes(newStudent.id)){
             this.#students.push(newStudent);
         }
+    }
+    addStudents(studentArr){
+        this.#students = [...this.#students, ...studentArr]
     }
     getAllStudents(){
         return [...this.#students];

@@ -17,13 +17,14 @@ module.exports = {
     checkPassword: (userName, password) => {
         const matchingUserNameData = passwordData.filter(data=>data.userName == userName)[0];
         if (matchingUserNameData == null) return false;
+        let userData = null;
+        let err = null;
         bcrypt.compare(password, matchingUserNameData.hash, (err, result) => {
-            if (err) return false;
             if (result) {
-                return getUserData(userName);
+                userData = getUserData(userName);
             }
-            return false;
         });
+        return {userData, err};
     },
 
     storeUserData: (userData) => {

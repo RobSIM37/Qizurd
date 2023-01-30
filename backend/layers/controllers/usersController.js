@@ -7,26 +7,24 @@ module.exports = {
         const userInfo = req.body;
         if (data.registerUser(userInfo.userName, userInfo.password)) {
             const newUser = new User({userName: userInfo.userName});
-            console.log("New user Obj:",newUser.export())
             userServices.addUser(newUser);
             res.status(200).send(newUser.export());
         } else {
-            console.log("in else")
             res.status(400).send({message:"unable to register user"});
         }
         
     },
 
     userLogin: (req,res) => {
-        const userInfo = JSON.parse(req.body);
-        if (data.checkPassword(userInfo.userName, userInfo.password)) {
-            const returningUserData = data.getUserData(userInfo.userName);
-            const returningUser = new User({userName: userInfo.userName, existingId: returningUserData.id})
-            returningUser.import(returningUserData);
+        const userInfo = req.body;
+        const loginAttempt = data.checkPassword(userInfo.userName, userInfo.password);
+        if (loginAttempt.userData) {
+            const returningUser = new User({userName: loginAttempt.userData.userName, existingId: loginAttempt.userData.id})
+            returningUser.import(loginAttempt.userData);
             userServices.addUser(returningUser);
-            res.status(200).send(JSON.stringify(returningUser.export()));
+            res.status(200).send(returningUser.export());
         } else {
-            res.status(400).send("unable to login user");
+            res.status(400).send(loginAttempt.err);
         }
     }
 }

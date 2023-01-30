@@ -18,7 +18,7 @@ server.post("/register",userCtrl.registerUser);
 
 server.post("/quizzes", quizCtrl.addOrUpdateQuiz);
 server.get("/quizzes/:userId/:quizId",quizCtrl.getQuiz);
-server.get("/quizzes/all/:userId", quizCtrl.getAllQuizzes);
+server.get("/quizzes/:userId", quizCtrl.getAllQuizzes);
 server.delete("quizzes/:userId/:quizId", quizCtrl.deleteQuiz);
 server.post("/questions", quizCtrl.addOrUpdateQuestion);
 server.get("/questions/:userId/:quizId/:questionId",quizCtrl.getQuestion);
@@ -27,6 +27,6 @@ server.delete("/questions/:userId/:quizId/:questionId",quizCtrl.deleteQuestion);
 
 server.post("/students", studentCtrl.addOrUpdateStudent);
 server.delete("/students/:userId/:studentId", studentCtrl.deleteStudent);
-server.get("students/all/:userId",studentCtrl.allStudents);
+server.get("/students/:userId",studentCtrl.allStudents);
 
 server.listen(PORT, ()=>{console.log(`Server up and listening on port ${PORT}`)})

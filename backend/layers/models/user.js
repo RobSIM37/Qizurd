@@ -24,7 +24,7 @@ class User extends Unique {
             students: this.#students.map(student=>student.export())
         }
     }
-    addOrEditQuiz(incommingQuiz){
+    addOrUpdateQuiz(incommingQuiz){
         const quizIndex = this.#quizzes.map(quiz=>quiz.id).indexOf(incommingQuiz.id)
         if (quizIndex == -1) {
             this.#quizzes.push(quiz);

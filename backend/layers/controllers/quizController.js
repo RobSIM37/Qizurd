@@ -2,11 +2,11 @@ const quizServices = require("../services/quizServices");
 const data = require("../data/data");
 
 module.exports = {
-    addOrEditQuiz: (req, res) => {
+    addOrUpdateQuiz: (req, res) => {
         const reqData = req.body;
         if (data.isKnownId(reqData.userId)) {
             try {
-                const addedQuiz = quizServices.addorEditQuiz(reqData.userId, reqData);
+                const addedQuiz = quizServices.addOrUpdateQuiz(reqData.userId, reqData);
                 if (addedQuiz) {
                     const allQuizzes = quizServices.allQuizzes();
                     res.status(200).send(allQuizzes.map(quiz=>quiz.export));
@@ -108,6 +108,26 @@ module.exports = {
         if (data.isKnownId(userId) && data.isKnownId(quizId) && data.isKnownId(questionId)) {
             try {
                 const requestedQuestion = quizServices.getQuestion(userId, quizId, questionId);
+                if (requestedQuestion) {
+                    res.status(200).send(requestedQuestion.export());
+                } else {
+                    res.status(400).send({message:"unable to return question with the information provided"});
+                }
+            } catch {
+                res.status(500).send({message:"an unknown server error has prevented this transaction"});
+            }
+        } else {
+            res.status(400).send({message:"unable to return question with the information provided"});
+        }
+   },
+
+   getRandomQuestionForStudent: (req, res) => {
+        const userId = req.params.userId;
+        const quizId = req.params.quizId;
+        const studentId = req.params.studentId;
+        if (data.isKnownId(userId) && data.isKnownId(quizId) && data.isKnownId(studentId)) {
+            try {
+                const requestedQuestion = quizServices.getRandomQuestionForStudent(userId, quizId, studentId);
                 if (requestedQuestion) {
                     res.status(200).send(requestedQuestion.export());
                 } else {

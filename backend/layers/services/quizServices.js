@@ -3,10 +3,10 @@ const Quiz = require("../models/quiz");
 const Question = require("../models/question");
 const arrUtil = require("../../utils/arrayUtils");
 module.exports = {
-    addOrEditQuiz: (userId, quizData) => {
+    addOrUpdateQuiz: (userId, quizData) => {
         const user = userServices.getUser(userId);
         const quiz = new Quiz(quizData);
-        user.addOrEditQuiz(quiz);
+        user.addOrUpdateQuiz(quiz);
         return true;
     },
     getQuiz: (userId, quizId) => {
@@ -44,13 +44,6 @@ module.exports = {
         const user = userServices.getUser(userId);
         const quiz = user.getQuiz(quizId);
         return quiz.getAllQuestions();
-    },
-    enrollStudent: (userId, quizId, studentId) => {
-        const user = userServices.getUser(userId);
-        const quiz = user.getQuiz(quizId);
-        const student = user.getStudent(studentId);
-        quiz.enrollStudent(student);
-        return true;
     },
     getRandomQuestionForStudent: (userId, quizId, studentId) => {
         const user = userServices.getUser(userId);

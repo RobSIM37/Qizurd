@@ -1,4 +1,5 @@
 import {
+    CHANGE_TEXT,
     ACTIVE_USER,
     CARD_CLICKED,
     TOGGLE_MENU,
@@ -13,6 +14,10 @@ import axios from "axios"
 
 export const activeUser = (user) => {
     return {type: ACTIVE_USER, payload: user}
+}
+
+export const changeQuizText = (inputid,inputValue) =>  {
+    return {type: CHANGE_TEXT, payload: {inputid,inputValue}}
 }
 
 export const cardClicked = (id) => {

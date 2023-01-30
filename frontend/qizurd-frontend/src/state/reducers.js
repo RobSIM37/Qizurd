@@ -6,7 +6,8 @@ import {
   TOGGLE_MENU,
   ADD_STUDENT,
   DELETE_QUIZ,
-  DELETE_STUDENT
+  DELETE_STUDENT,
+  CHANGE_TEXT
 } from "./action-types"
 
 // need to eventually add list of action types here.
@@ -61,6 +62,14 @@ let initialQuizzes = [
     {quizTitle:"banana",id:5,description:"bananananannanananananannanaanananananananananananaa",questions:[sampleQuestion],students:[{name: "Alex Jones",id:1,quizzes:[]}]},
 ]
 
+let initialQuizForm = {
+  id: "",
+  quizTitle: "",
+  description: "",
+  questions: [],
+  students: []
+}
+
 const user = (state = emptyUser, action) => {
   switch(action.type){
     case ACTIVE_USER:
@@ -68,6 +77,15 @@ const user = (state = emptyUser, action) => {
     default:
       return state
   }
+}
+
+const quizForm = (state = initialQuizForm, action) => {
+  switch(action.type){
+    case CHANGE_TEXT:
+      console.log(state)
+      return {...state, [action.payload.inputid]: action.payload.inputValue}
+  }
+  return state
 }
 
 const menu = (state = hamburgerMenu, action) => {
@@ -113,4 +131,4 @@ const quizzes = (state = initialQuizzes, action) => {
   }
 }
 
-export default combineReducers({user,menu,students,quizzes})
+export default combineReducers({user,quizForm,menu,students,quizzes})

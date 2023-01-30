@@ -22,11 +22,11 @@ server.get("/quizzes/:userId", quizCtrl.getAllQuizzes);
 server.delete("quizzes/:userId/:quizId", quizCtrl.deleteQuiz);
 server.post("/questions", quizCtrl.addOrUpdateQuestion);
 server.get("/questions/:userId/:quizId/:questionId",quizCtrl.getQuestion);
-server.get("/questions/random/:userId/:quizId/:studentId",quizCtrl.getRandomQuestionForStudent)
+server.get("/questions/random/:userId/:quizId/:studentId",quizCtrl.getRandomQuestionForStudent);
 server.delete("/questions/:userId/:quizId/:questionId",quizCtrl.deleteQuestion);
 
 server.post("/students", studentCtrl.addOrUpdateStudent);
 server.delete("/students/:userId/:studentId", studentCtrl.deleteStudent);
 server.get("/students/:userId",studentCtrl.allStudents);
 
-server.listen(PORT, ()=>{console.log(`Server up and listening on port ${PORT}`)})
+server.listen(PORT, ()=>{console.log(`Server up and listening on port ${PORT}`)});

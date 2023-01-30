@@ -3,8 +3,8 @@ import {
     ACTIVE_USER,
     CARD_CLICKED,
     TOGGLE_MENU,
-    REMOVE_STUDENT,
     ADD_STUDENT,
+    ADD_STUDENT_TO_QUIZ,
     DELETE_QUIZ,
     DELETE_STUDENT
 } from "./action-types"
@@ -28,8 +28,10 @@ export const menuToggle = (boolToChangeTo) => {
     return {type: TOGGLE_MENU,payload:boolToChangeTo}
 }
 
-export const removeStudent = (studentid) => {
-    return {type: REMOVE_STUDENT,payload: studentid}
+export const addStudentToQuiz = (id) => dispatch => {
+    axios.get(`http://localhost:8025/students/${id}`).then(res => {
+        dispatch({type: ADD_STUDENT_TO_QUIZ,payload:res.data})
+    })
 }
 
 export const addStudent = (studentid) => {

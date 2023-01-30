@@ -2,9 +2,9 @@ import { combineReducers } from "redux";
 import {
   ACTIVE_USER,
   CARD_CLICKED,
-  REMOVE_STUDENT,
   TOGGLE_MENU,
   ADD_STUDENT,
+  ADD_STUDENT_TO_QUIZ,
   DELETE_QUIZ,
   DELETE_STUDENT,
   CHANGE_TEXT
@@ -84,8 +84,11 @@ const quizForm = (state = initialQuizForm, action) => {
     case CHANGE_TEXT:
       console.log(state)
       return {...state, [action.payload.inputid]: action.payload.inputValue}
+    case ADD_STUDENT_TO_QUIZ:
+      return {...state, students:state.students.push(action.payload)}
+    default:
+      return state
   }
-  return state
 }
 
 const menu = (state = hamburgerMenu, action) => {
@@ -101,9 +104,9 @@ const menu = (state = hamburgerMenu, action) => {
 
 }
 
-const students = (state = initialStudents, action) => {
+const userStudents = (state = initialStudents, action) => {
   switch(action.type){
-    case REMOVE_STUDENT:
+    case ADD_STUDENT_TO_QUIZ:
       console.log(state)
       const newArr = state.filter(el => el.id !== parseInt(action.payload))
        return newArr
@@ -131,4 +134,4 @@ const quizzes = (state = initialQuizzes, action) => {
   }
 }
 
-export default combineReducers({user,quizForm,menu,students,quizzes})
+export default combineReducers({user,quizForm,menu,userStudents,quizzes})

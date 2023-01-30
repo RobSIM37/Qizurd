@@ -3,7 +3,7 @@ import FormQuestionList from "./FormQuestionList"
 import { connect } from "react-redux"
 import FormStudentCard from "./FormStudentCard"
 import { FormContainer,FormStyles,LabelStyles,InputBoxStyle} from "./formStyles"
-import { removeStudent,changeQuizText } from "../../state/action-builder"
+import { changeQuizText } from "../../state/action-builder"
 
 const CreateQuiz = (props) => {
 
@@ -15,9 +15,7 @@ const CreateQuiz = (props) => {
     }
     
     const optionClickHandler = (e) => {
-        const {id,value} = e.target
-        setAddedStudents([...addedStudents,{id,value}])
-        props.removeStudent(id)
+        props.removeStudent(e.target.id)
     }
 
     const inputChangeHandler = (e) => {
@@ -37,6 +35,7 @@ const CreateQuiz = (props) => {
             {addedStudents.map(el => {return <FormStudentCard addedStudents={addedStudents} setAddedStudents={setAddedStudents} id={el.id} key={el.id}>{el.value}</FormStudentCard>})}
             <select value={0}>
                 <option value={0}>--Select Student--</option>
+                {props.userStudents.map(el => {return <option onClick={optionClickHandler} key={el.name} id={el.id}>{el.name}</option>})}
             </select>
         </FormStyles>    
     </FormContainer>
@@ -44,7 +43,8 @@ const CreateQuiz = (props) => {
 }
 
 const mapStateToProps = state => ({
-    quiz: state.quizForm
+    quiz: state.quizForm,
+    userStudents: state.userStudents
 })
 
-export default connect(mapStateToProps,{removeStudent,changeQuizText})(CreateQuiz)
+export default connect(mapStateToProps,{changeQuizText})(CreateQuiz)

@@ -38,14 +38,14 @@ let hamburgerMenu = {
 }
 
 let initialStudents = [
-    {name: "Alex Jones",id:1,quizzes:[]},
-    {name: "Freddy Mercury",id:2,quizzes:[]},
-    {name: "Walter Disney",id:3,quizzes:[]},
-    {name: "Tony Stark",id:4,quizzes:[]},
-    {name: "Jonathon Coulton",id:5,quizzes:[]},
-    {name: "Arther Dent",id:6,quizzes:[]},
-    {name: "Donna Noble",id:7,quizzes:[]},
-    {name: "John Smith",id:8,quizzes:[]}
+    {name: "Alex Jones",id:"1",quizzes:[]},
+    {name: "Freddy Mercury",id:"2",quizzes:[]},
+    {name: "Walter Disney",id:"3",quizzes:[]},
+    {name: "Tony Stark",id:"4",quizzes:[]},
+    {name: "Jonathon Coulton",id:"5",quizzes:[]},
+    {name: "Arther Dent",id:"6",quizzes:[]},
+    {name: "Donna Noble",id:"7",quizzes:[]},
+    {name: "John Smith",id:"8",quizzes:[]}
   ]
 
 let sampleQuestion = {

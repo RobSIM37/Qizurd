@@ -5,11 +5,10 @@ import {
   FILL_STUDENT_STATE,
   CARD_CLICKED,
   TOGGLE_MENU,
-  ADD_STUDENT,
   ADD_STUDENT_TO_QUIZ,
   DELETE_QUIZ,
   DELETE_STUDENT,
-  CHANGE_TEXT
+  CHANGE_TEXT,
 } from "./action-types"
 
 // need to eventually add list of action types here.

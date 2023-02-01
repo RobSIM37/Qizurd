@@ -1,17 +1,21 @@
 import React, {useState} from "react"
-import FormQuestionList from "./FormQuestionList"
 import { connect } from "react-redux"
 import FormStudentCard from "./FormStudentCard"
+import FormQuestionCard from "./FormQuestionCard"
 import { FormContainer,FormStyles,LabelStyles,InputBoxStyle} from "./formStyles"
 import { changeQuizText } from "../../state/action-builder"
 
 const CreateQuiz = (props) => {
 
-    let [questionCounter,setQuestionCounter] = useState(0)
+    let [questionsArr,setQuestionsArr] = useState(props.quiz.questions)
     let [selectedStudents, setSelectedStudents] = useState(props.quiz.students)
 
     const addQuestionClickHandler = () => {
-        setQuestionCounter(questionCounter += 1)
+        setQuestionsArr([...questionsArr,{
+            id:"",
+            title:"",
+            answer:""
+        }])
     }
     
     const optionClickHandler = (e) => {
@@ -20,10 +24,15 @@ const CreateQuiz = (props) => {
     }
 
     const inputChangeHandler = (e) => {
-            props.changeQuizText(e.target.id,e.target.value)
-        }
+        props.changeQuizText(e.target.id,e.target.value)
+    }
     
-
+    const questionInputChangeHandler = (e) => {
+        setQuestionsArr([...questionsArr,
+        questionsArr[e.target.id][e.target.className] = e.target.value
+        ])
+        console.log(questionsArr)
+    }
     return(
     <FormContainer>
         <FormStyles>
@@ -31,9 +40,13 @@ const CreateQuiz = (props) => {
             <InputBoxStyle id={"quizTitle"} value={props.quiz.quizTitle} onChange={inputChangeHandler}/>
 
             <LabelStyles htmlFor={"description"}>Quiz Description</LabelStyles>
-            <InputBoxStyle id={"description"} onChange={inputChangeHandler}/>
+            <InputBoxStyle className={"bigInput"} id={"description"} onChange={inputChangeHandler}/>
 
-            {questionCounter !== 0 && <FormQuestionList questionCounter={questionCounter}></FormQuestionList>}
+            {questionsArr.map((el,index) =>
+                {return <FormQuestionCard key={index} id={index} 
+                question={el} questionInputChangeHandler={questionInputChangeHandler}></FormQuestionCard>})
+            }
+
             <button type="button" onClick={addQuestionClickHandler}>Add a question</button>
 
             {selectedStudents.map(el => 

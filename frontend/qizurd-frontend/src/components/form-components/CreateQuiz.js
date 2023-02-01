@@ -27,6 +27,7 @@ const CreateQuiz = (props) => {
         props.changeQuizText(e.target.id,e.target.value)
     }
     
+    //THIS IS WHERE THE ISSUE PROBABLY IS
     const questionInputChangeHandler = (e) => {
         setQuestionsArr([...questionsArr,
         questionsArr[e.target.id][e.target.className] = e.target.value

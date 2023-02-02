@@ -7,7 +7,9 @@ import {
     TOGGLE_MENU,
     ADD_STUDENT_TO_QUIZ,
     DELETE_QUIZ,
-    DELETE_STUDENT
+    DELETE_STUDENT,
+    EDIT_QUIZ_QUESTION,
+    ADD_QUIZ_QUESTION
 } from "./action-types"
 
 
@@ -38,6 +40,14 @@ export const menuToggle = (boolToChangeTo) => {
 
 export const addStudentToQuiz = (student) => {
     return {type: ADD_STUDENT_TO_QUIZ,payload:student}
+}
+
+export const addQuizQuestion = () => {
+    return {type:ADD_QUIZ_QUESTION}
+}
+
+export const editQuizQuestion = (id,inputType,inputValue) => {
+    return {type: EDIT_QUIZ_QUESTION, payload: {id,inputType,inputValue}}
 }
 
 export const deleteQuiz = (quizid) => {

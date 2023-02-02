@@ -1,28 +1,37 @@
 import React, {useState} from "react"
-import FormQuestionList from "./FormQuestionList"
 import { connect } from "react-redux"
 import FormStudentCard from "./FormStudentCard"
+import FormQuestionCard from "./FormQuestionCard"
 import { FormContainer,FormStyles,LabelStyles,InputBoxStyle} from "./formStyles"
-import { changeQuizText } from "../../state/action-builder"
+import { changeQuizText,editQuizQuestion,addQuizQuestion } from "../../state/action-builder"
 
 const CreateQuiz = (props) => {
 
-    let [questionCounter,setQuestionCounter] = useState(0)
     let [selectedStudents, setSelectedStudents] = useState(props.quiz.students)
 
     const addQuestionClickHandler = () => {
-        setQuestionCounter(questionCounter += 1)
+        props.addQuizQuestion()
     }
-    
+
+    //THIS IS WHERE THE ISSUE PROBABLY IS
+    const questionInputChangeHandler = (e) => {
+        const {id,className,value} = e.target
+        const inputType = className.split(" ")[2]
+        // const questionToEdit = questionsArr[id]
+        // const question = questionToEdit[inputType] = value
+        // setQuestionsArr([questionsArr,question])
+        // console.log(questionToEdit)
+        props.editQuizQuestion(id,inputType,value)
+    }
+        
     const optionClickHandler = (e) => {
         const selectedStudent = props.userStudents.filter(el => e.target.id === el.id)[0]
         setSelectedStudents([...selectedStudents,selectedStudent])
     }
 
     const inputChangeHandler = (e) => {
-            props.changeQuizText(e.target.id,e.target.value)
-        }
-    
+        props.changeQuizText(e.target.id,e.target.value)
+    }
 
     return(
     <FormContainer>
@@ -31,9 +40,13 @@ const CreateQuiz = (props) => {
             <InputBoxStyle id={"quizTitle"} value={props.quiz.quizTitle} onChange={inputChangeHandler}/>
 
             <LabelStyles htmlFor={"description"}>Quiz Description</LabelStyles>
-            <InputBoxStyle id={"description"} onChange={inputChangeHandler}/>
+            <InputBoxStyle className={"bigInput"} id={"description"} onChange={inputChangeHandler}/>
 
-            {questionCounter !== 0 && <FormQuestionList questionCounter={questionCounter}></FormQuestionList>}
+            {props.quiz.questions.map((el,index) =>
+                {return <FormQuestionCard key={index} id={index} 
+                question={el} questionInputChangeHandler={questionInputChangeHandler}></FormQuestionCard>})
+            }
+
             <button type="button" onClick={addQuestionClickHandler}>Add a question</button>
 
             {selectedStudents.map(el => 
@@ -58,4 +71,4 @@ const mapStateToProps = state => ({
     userStudents: state.userStudents
 })
 
-export default connect(mapStateToProps,{changeQuizText})(CreateQuiz)
+export default connect(mapStateToProps,{changeQuizText,editQuizQuestion,addQuizQuestion})(CreateQuiz)

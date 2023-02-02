@@ -33,13 +33,13 @@ border-radius: 10px;
 box-shadow: 5px 5px 1px black;
 `
 
-export const QuestionFormStyles = styled.form`
+export const QuestionFormStyles = styled.div`
 display:flex;
 flex-direction:column;
 justify-content: space-around;
 align-items:center;
 background-color: blue;
-width: 80vw;
+width: 80%;
 padding: 1rem;
 margin: 1rem;
 border-radius: 10px;
@@ -85,6 +85,6 @@ font-size: 1.5rem;
 `
 
 export const InputBoxStyle = styled.input`
-${props => props.id === "quizDescription" ? `width: 80%;` : null}
-${props => props.id === "quizDescription" ? `height: 3rem;` : null}
+${props => props.className === "bigInput" ? `width: 80%;` : null}
+${props => props.className === "bigInput" ? `height: 3rem;` : null}
 `

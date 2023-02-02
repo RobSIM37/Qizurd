@@ -9,6 +9,8 @@ import {
   DELETE_QUIZ,
   DELETE_STUDENT,
   CHANGE_TEXT,
+  EDIT_QUIZ_QUESTION,
+  ADD_QUIZ_QUESTION
 } from "./action-types"
 
 // need to eventually add list of action types here.
@@ -85,6 +87,15 @@ const quizForm = (state = initialQuizForm, action) => {
     case CHANGE_TEXT:
       console.log(state)
       return {...state, [action.payload.inputid]: action.payload.inputValue}
+    case ADD_QUIZ_QUESTION:
+      console.log(state)
+      return {...state,questions:[...state.questions,{id:"",title:"",answer:""}]}
+    case EDIT_QUIZ_QUESTION: 
+      console.log(state)
+      const questionToEdit = state.questions[action.payload.id] 
+      questionToEdit[action.payload.inputType] = action.payload.inputValue
+      state.questions[action.payload.id] = questionToEdit
+      return {...state,questions:[...state.questions]}
     case ADD_STUDENT_TO_QUIZ:
       return {...state, students:state.students.push(action.payload)}
     default:

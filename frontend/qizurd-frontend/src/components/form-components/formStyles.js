@@ -39,7 +39,7 @@ flex-direction:column;
 justify-content: space-around;
 align-items:center;
 background-color: blue;
-width: 80vw;
+width: 80%;
 padding: 1rem;
 margin: 1rem;
 border-radius: 10px;

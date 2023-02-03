@@ -7,9 +7,9 @@ import {
     TOGGLE_MENU,
     ADD_STUDENT_TO_QUIZ,
     DELETE_QUIZ,
-    DELETE_STUDENT,
+    DELETE_STUDENT_FROM_QUIZ,
     EDIT_QUIZ_QUESTION,
-    ADD_QUIZ_QUESTION
+    ADD_QUIZ_QUESTION,
 } from "./action-types"
 
 
@@ -54,6 +54,6 @@ export const deleteQuiz = (quizid) => {
     return {type: DELETE_QUIZ,payload:quizid}
 }
 
-export const deleteStudent = (studentid) => {
-    return {type: DELETE_STUDENT,payload:studentid}
+export const deleteStudentFromQuiz = (studentid) => {
+    return {type: DELETE_STUDENT_FROM_QUIZ,payload:studentid}
 }

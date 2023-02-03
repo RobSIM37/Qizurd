@@ -3,7 +3,7 @@ import { connect } from "react-redux"
 import FormStudentCard from "./FormStudentCard"
 import FormQuestionCard from "./FormQuestionCard"
 import { FormContainer,FormStyles,LabelStyles,InputBoxStyle} from "./formStyles"
-import { changeQuizText,editQuizQuestion,addQuizQuestion } from "../../state/action-builder"
+import { changeQuizText,editQuizQuestion,addQuizQuestion,addStudentToQuiz } from "../../state/action-builder"
 
 const CreateQuiz = (props) => {
 
@@ -13,29 +13,30 @@ const CreateQuiz = (props) => {
         props.addQuizQuestion()
     }
 
-    //THIS IS WHERE THE ISSUE PROBABLY IS
     const questionInputChangeHandler = (e) => {
         const {id,className,value} = e.target
         const inputType = className.split(" ")[2]
-        // const questionToEdit = questionsArr[id]
-        // const question = questionToEdit[inputType] = value
-        // setQuestionsArr([questionsArr,question])
-        // console.log(questionToEdit)
         props.editQuizQuestion(id,inputType,value)
     }
         
     const optionClickHandler = (e) => {
         const selectedStudent = props.userStudents.filter(el => e.target.id === el.id)[0]
         setSelectedStudents([...selectedStudents,selectedStudent])
+        props.addStudentToQuiz(selectedStudent)
     }
 
     const inputChangeHandler = (e) => {
         props.changeQuizText(e.target.id,e.target.value)
     }
 
+    const formSubmitHandler = (e) => {
+        e.preventDefault()
+        console.log(props.quiz)
+    }
+
     return(
     <FormContainer>
-        <FormStyles>
+        <FormStyles onSubmit={formSubmitHandler}>
             <LabelStyles htmlFor={"quizTitle"}>Quiz Title</LabelStyles>
             <InputBoxStyle id={"quizTitle"} value={props.quiz.quizTitle} onChange={inputChangeHandler}/>
 
@@ -60,6 +61,8 @@ const CreateQuiz = (props) => {
                     .map(el => 
                     {return <option onClick={optionClickHandler} key={el.name} id={el.id}>{el.name}</option>})}
             </select>
+            <button type="submit">Submit</button>
+
             
         </FormStyles>    
     </FormContainer>
@@ -71,4 +74,4 @@ const mapStateToProps = state => ({
     userStudents: state.userStudents
 })
 
-export default connect(mapStateToProps,{changeQuizText,editQuizQuestion,addQuizQuestion})(CreateQuiz)
+export default connect(mapStateToProps,{changeQuizText,editQuizQuestion,addQuizQuestion,addStudentToQuiz})(CreateQuiz)

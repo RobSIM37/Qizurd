@@ -2,7 +2,6 @@ import React from "react";
 import { connect } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { StudentContainer,StudentCard } from "./studentStyles";
-import { deleteStudent } from "../../state/action-builder";
 
 //feed this component a list of students.
 //TODO
@@ -36,4 +35,4 @@ const mapStateToProps = state => ({
     userStudents: state.students
 })
 
-export default connect(mapStateToProps,{deleteStudent})(StudentList)
+export default connect(mapStateToProps,{})(StudentList)

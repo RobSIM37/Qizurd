@@ -58,9 +58,6 @@ class User extends Unique {
     getAllStudents(){
         return [...this.#students];
     }
-    get id(){
-        return super.id;
-    }
 }
 
 module.exports = User;

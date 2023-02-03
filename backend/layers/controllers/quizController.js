@@ -9,7 +9,7 @@ module.exports = {
                 const addedQuiz = quizServices.addOrUpdateQuiz(reqData);
                 if (addedQuiz) {
                     const allQuizzes = quizServices.getAllQuizzes(userId);
-                    res.status(200).send(allQuizzes.map(quiz=>quiz.export));
+                    res.status(200).send(allQuizzes.map(quiz=>quiz.export()));
                 } else {
                     res.status(400).send({message:"unable to add quiz with information provided"});
                 }

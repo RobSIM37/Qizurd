@@ -20,6 +20,10 @@ class Question extends Unique {
             wrongAnswer: this.wrongAnswer
         }
     }
+
+    get id(){
+        return super.id;
+    }
 }
 
 module.exports = Question;

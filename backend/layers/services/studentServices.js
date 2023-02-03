@@ -2,11 +2,13 @@ const userServices = require("./userServices");
 const Student = require("../models/student");
 
 module.exports = {
-    addOrEditStudent: (userId, studentData) => {
+    addOrUpdateStudent: (userId, studentData) => {
         const user = userServices.getUser(userId);
+        console.log("user: ",user)
         const newStudent = new Student(studentData);
-        user.addStudent(newStudent);
-        return newStudent;
+        console.log("new student: ", newStudent)
+        user.addOrUpdateStudent(newStudent);
+        return true;
     },
     deleteStudent: (userId, studentId) => {
         const user = userServices.getUser(userId);

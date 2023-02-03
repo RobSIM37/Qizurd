@@ -11,12 +11,19 @@ import {
     DELETE_STUDENT_FROM_QUIZ,
     EDIT_QUIZ_QUESTION,
     ADD_QUIZ_QUESTION,
-    CLEAR_QUIZ_FORM
+    CLEAR_QUIZ_FORM,
+    ADD_STUDENT_TO_USER
 } from "./action-types"
 
 
-export const postQuiz = (quiz) => dispatch => {
-    axios.post("http://localhost:8025/")
+export const postQuiz = (userid,quiz) => dispatch => {
+    axios.post("http://localhost:8025/quizzes")
+}
+
+export const postStudent = (student) => dispatch => {
+    axios.post("http://localhost:8025/students",student).then(res => {
+        dispatch({type:ADD_STUDENT_TO_USER,payload:res.data})
+    }).catch(err => console.log(err))
 }
 
 export const activeUser = (user) => {
@@ -31,7 +38,7 @@ export const fillStudentState = (students) => {
     return {type: FILL_STUDENT_STATE, payload: students}
 }
 
-export const changeQuizText = (inputid,inputValue) =>  {
+export const changeInputText = (inputid,inputValue) =>  {
     return {type: CHANGE_TEXT, payload: {inputid,inputValue}}
 }
 

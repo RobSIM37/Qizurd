@@ -29,7 +29,7 @@ const QuizList = (props) => {
             {props.clickHandlerid === "showDetails" && <div>Quizzes</div>}
             {props.clickHandlerid === "editQuiz" && <div>Edit Quiz</div>}
             {props.clickHandlerid === "deleteQuiz" && <div>Delete a Quiz</div>}
-            {props.quizzes.map( el => {
+            {props.user.quizzes.map( el => {
                 return <QuizCard id={el.id} key={el.id} onClick={clickHandlerControl}>
                     {el.quizTitle}
                 </QuizCard>
@@ -39,7 +39,7 @@ const QuizList = (props) => {
 }
 
 const mapStateToProps = state => ({
-    quizzes: state.quizzes
+    user: state.user
 })
 
 //insert actions into empty object

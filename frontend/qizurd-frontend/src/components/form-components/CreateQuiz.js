@@ -4,7 +4,7 @@ import FormStudentCard from "./FormStudentCard"
 import FormQuestionCard from "./FormQuestionCard"
 import { FormContainer,FormStyles,LabelStyles,InputBoxStyle} from "./formStyles"
 import { 
-    changeQuizText,
+    changeInputText,
     editQuizQuestion,
     addQuizQuestion,
     addStudentToQuiz,
@@ -23,7 +23,7 @@ const CreateQuiz = (props) => {
     }
         
     const optionClickHandler = (e) => {
-        const selectedStudent = props.userStudents.filter(el => e.target.id === el.id)[0]
+        const selectedStudent = props.user.students.filter(el => e.target.id === el.id)[0]
         props.addStudentToQuiz(selectedStudent)
     }
 
@@ -54,15 +54,15 @@ const CreateQuiz = (props) => {
             <button type="button" onClick={addQuestionClickHandler}>Add a question</button>
 
             {props.quiz.students.map(el => 
-                {return <FormStudentCard id={el.id} key={el.id}>{el.name}</FormStudentCard>})}
+                {return <FormStudentCard id={el.id} key={el.id}>{el.firstName + " " + el.lastName}</FormStudentCard>})}
 
             <select value={0}>
                 <option value={0}>--Select Student--</option>
-                {props.userStudents
+                {props.user.students
                     .filter(el => props.quiz.students.map(el => el.id)
                     .includes(el.id) === false)
                     .map(el => 
-                    {return <option onClick={optionClickHandler} key={el.name} id={el.id}>{el.name}</option>})}
+                    {return <option onClick={optionClickHandler} key={el.id} id={el.id}>{el.firstName + " " + el.lastName}</option>})}
             </select>
             <button type="submit">Submit</button>
 
@@ -73,11 +73,11 @@ const CreateQuiz = (props) => {
 
 const mapStateToProps = state => ({
     quiz: state.quizForm,
-    userStudents: state.userStudents
+    user: state.user,
 })
 
 export default connect(mapStateToProps,{
-    changeQuizText,
+    changeInputText,
     editQuizQuestion,
     addQuizQuestion,
     addStudentToQuiz,

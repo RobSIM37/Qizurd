@@ -1,3 +1,4 @@
+import axios from "axios"
 import {
     CHANGE_TEXT,
     ACTIVE_USER,
@@ -10,9 +11,13 @@ import {
     DELETE_STUDENT_FROM_QUIZ,
     EDIT_QUIZ_QUESTION,
     ADD_QUIZ_QUESTION,
+    CLEAR_QUIZ_FORM
 } from "./action-types"
 
 
+export const postQuiz = (quiz) => dispatch => {
+    axios.post("http://localhost:8025/")
+}
 
 export const activeUser = (user) => {
     return {type: ACTIVE_USER, payload: user}
@@ -56,4 +61,8 @@ export const deleteQuiz = (quizid) => {
 
 export const deleteStudentFromQuiz = (studentid) => {
     return {type: DELETE_STUDENT_FROM_QUIZ,payload:studentid}
+}
+
+export const clearQuizForm = () => {
+    return {type: CLEAR_QUIZ_FORM}
 }

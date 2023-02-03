@@ -7,10 +7,10 @@ import {
   TOGGLE_MENU,
   ADD_STUDENT_TO_QUIZ,
   DELETE_QUIZ,
-  DELETE_STUDENT,
+  DELETE_STUDENT_FROM_QUIZ,
   CHANGE_TEXT,
   EDIT_QUIZ_QUESTION,
-  ADD_QUIZ_QUESTION
+  ADD_QUIZ_QUESTION,
 } from "./action-types"
 
 // need to eventually add list of action types here.
@@ -85,19 +85,19 @@ const user = (state = emptyUser, action) => {
 const quizForm = (state = initialQuizForm, action) => {
   switch(action.type){
     case CHANGE_TEXT:
-      console.log(state)
       return {...state, [action.payload.inputid]: action.payload.inputValue}
     case ADD_QUIZ_QUESTION:
-      console.log(state)
       return {...state,questions:[...state.questions,{id:"",title:"",answer:""}]}
-    case EDIT_QUIZ_QUESTION: 
-      console.log(state)
+    case EDIT_QUIZ_QUESTION:
       const questionToEdit = state.questions[action.payload.id] 
       questionToEdit[action.payload.inputType] = action.payload.inputValue
       state.questions[action.payload.id] = questionToEdit
       return {...state,questions:[...state.questions]}
     case ADD_STUDENT_TO_QUIZ:
-      return {...state, students:state.students.push(action.payload)}
+      return {...state, students: [...state.students, action.payload]}
+    case DELETE_STUDENT_FROM_QUIZ:
+      console.log(state.students)
+      return {...state, students: [...state.students.filter(el => parseInt(action.payload) !== el.id)]}
     default:
       return state
   }
@@ -120,12 +120,6 @@ const userStudents = (state = initialStudents, action) => {
   switch(action.type){
     case FILL_STUDENT_STATE:
       return action.payload
-    case ADD_STUDENT_TO_QUIZ:
-      console.log(state)
-      const newArr = state.filter(el => el.id !== parseInt(action.payload))
-       return newArr
-    case DELETE_STUDENT:
-        return state.filter(el => el.id !== parseInt(action.payload))
     default:
       return state
   }

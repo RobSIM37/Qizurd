@@ -2,19 +2,19 @@ const Unique = require("./unique");
 
 class Quiz extends Unique {
 
-    name;
+    quizTitle;
     description;
     #questions = [];
     #students = [];
 
     constructor (parameters){
-        const {name, description, id} = parameters
+        const {quizTitle, description, id} = parameters
         super(id);
-        this.name = name;
+        this.quizTitle = quizTitle;
         this.description = description;
     }
     import(data){
-        this.name = data.name;
+        this.quizTitle = data.quizTitle;
         this.#questions = data.questions;
         this.#students = data.students;
     }

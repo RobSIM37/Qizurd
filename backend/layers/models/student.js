@@ -33,9 +33,6 @@ class Student extends Unique {
     getCorrectQuizResults (quizId) {
         return this.getAllQuizResults(quizId).filter(result=>result.correct);
     }
-    get id(){
-        return super.id;
-    }
 }
 
 module.exports = Student;

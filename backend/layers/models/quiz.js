@@ -57,9 +57,6 @@ class Quiz extends Unique {
     getAllStudents(){
         return [...this.#students];
     }
-    get id(){
-        return super.id;
-    }
 }
 
 module.exports = Quiz;

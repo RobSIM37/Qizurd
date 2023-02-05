@@ -20,20 +20,11 @@ module.exports = {
         return true;
     },
 
-    checkPassword: (userName, password) => {
-        const matchingUserNameData = passwordData.filter(data=>data.userName == userName)[0];
+    checkPassword: async (userName, password) => {
+        const matchingUserNameData = passwordData.filter(data=>data.userName === userName)[0];
         if (matchingUserNameData == null) return false;
-        let userData = null;
-        let errData = null;
-        bcrypt.compare(password, matchingUserNameData.hash, (err, result) => {
-            if (result) {
-                userData = getUserData(userName);
-            }
-            if (err) {
-                errData = err
-            }
-        });
-        return {userData, errData};
+        const result = await bcrypt.compare(password, matchingUserNameData.hash);
+        return result;
     },
 
     storeUserData: (userData) => {
@@ -43,10 +34,6 @@ module.exports = {
         } else {
             usersData[userIndex] = userData;
         }
-    },
-
-    getUserData: (userName) => {
-        return usersData.filter(data=>data.userName == userName)[0]
     },
 
     isKnownId: (id, addIfNot) => {

@@ -6,11 +6,10 @@ const arrUtil = require("../../utils/arrayUtils");
 
 module.exports = {
     addOrUpdateQuiz: (reqData) => {
-        const {userId, quizData} = reqData;
-        const user = userServices.getUser(userId);
-        const quiz = new Quiz(quizData);
-        quiz.addStudents(quizData.students.map(student => new Student(student)));
-        quiz.addQuestions(quizData.questions.map(question => new Question(question)));
+        const user = userServices.getUser(reqData.userId);
+        const quiz = new Quiz(reqData);
+        quiz.addStudents(reqData.students.map(student => new Student(student)));
+        quiz.addQuestions(reqData.questions.map(question => new Question(question)));
         user.addOrUpdateQuiz(quiz);
         return true;
     },

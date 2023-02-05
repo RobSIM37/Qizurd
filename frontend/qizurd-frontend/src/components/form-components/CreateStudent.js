@@ -1,21 +1,21 @@
 import React from "react" 
 import { connect } from "react-redux"
 import { FormContainer, LabelStyles, StudentFormStyles, InputBoxStyle } from "./formStyles"
-import { changeInputText,postStudent } from "../../state/action-builder"
+import { changeInputText,postStudent,clearStudentForm } from "../../state/action-builder"
 
 const CreateStudent = (props) => {
 
     const studentNameChangeHandler = (e) => {
         const {id,value} = e.target
         props.changeInputText(id,value)
-        console.log(props.studentForm)
     }
 
     const studentFormSubmitHandler = (e) => {
         e.preventDefault()
-        const {firstName,lastName} = props.studentForm
-        const backendReq = {userId:props.user.id,firstName,lastName}
+        const {firstName,lastName,id} = props.studentForm
+        const backendReq = {userId:props.user.id,firstName,lastName,id}
         props.postStudent(backendReq)
+        props.clearStudentForm()
     }
 
     return( 
@@ -38,4 +38,4 @@ const mapStateToProps = state => ({
     studentForm: state.studentForm
 })
 
-export default connect(mapStateToProps,{changeInputText,postStudent})(CreateStudent)
+export default connect(mapStateToProps,{changeInputText,postStudent,clearStudentForm})(CreateStudent)

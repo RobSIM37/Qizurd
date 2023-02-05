@@ -8,17 +8,13 @@ module.exports = {
       if (data.isKnownId(reqData.userId)) {
          try {
             const addedStudent = studentServices.addOrUpdateStudent(reqData.userId, reqData)
-            console.log("added student: ",addedStudent)
             if (addedStudent) {
-               console.log("added student success")
                const allStudents = studentServices.getAllStudents(reqData.userId);
-               console.log("all students",allStudents)
                res.status(200).send(allStudents.map(student=>student.export()));
             } else {
                res.status(400).send({message:"unable to add student with information provided"});
             }
          } catch(err) {
-            console.log("Error: ", err)
             res.status(500).send({message:"an unknown server error has prevented this transaction"});
          }
       } else {

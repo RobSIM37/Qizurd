@@ -17,7 +17,6 @@ const Registerpage = (props) => {
         }else{
             setPassword(e.target.value)
         }
-        console.log(userName + "  " + password)
     }
 
     const formSubmitHandler = (e) => {

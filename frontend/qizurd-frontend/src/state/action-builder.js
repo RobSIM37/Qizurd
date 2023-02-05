@@ -1,23 +1,30 @@
 import axios from "axios"
 import {
     CHANGE_TEXT,
+    CHANGE_QUIZ_TEXT,
     ACTIVE_USER,
     FILL_QUIZ_STATE,
     FILL_STUDENT_STATE,
     CARD_CLICKED,
     TOGGLE_MENU,
     ADD_STUDENT_TO_QUIZ,
+    ADD_QUIZ_TO_USER,
     DELETE_QUIZ,
     DELETE_STUDENT_FROM_QUIZ,
     EDIT_QUIZ_QUESTION,
     ADD_QUIZ_QUESTION,
     CLEAR_QUIZ_FORM,
-    ADD_STUDENT_TO_USER
+    CLEAR_STUDENT_FORM,
+    ADD_STUDENT_TO_USER,
+    FILL_STUDENT_FORM
 } from "./action-types"
 
 
-export const postQuiz = (userid,quiz) => dispatch => {
-    axios.post("http://localhost:8025/quizzes")
+export const postQuiz = (quiz) => dispatch => {
+    axios.post("http://localhost:8025/quizzes",quiz).then(res => {
+        console.log(res.data)
+        dispatch({type:ADD_QUIZ_TO_USER,payload:res.data})
+    }).catch(err => console.log(err))
 }
 
 export const postStudent = (student) => dispatch => {
@@ -40,6 +47,10 @@ export const fillStudentState = (students) => {
 
 export const changeInputText = (inputid,inputValue) =>  {
     return {type: CHANGE_TEXT, payload: {inputid,inputValue}}
+}
+
+export const changeQuizText = (inputid,inputValue) => {
+    return {type:CHANGE_QUIZ_TEXT, payload:{inputid,inputValue}}
 }
 
 export const cardClicked = (id) => {
@@ -72,4 +83,12 @@ export const deleteStudentFromQuiz = (studentid) => {
 
 export const clearQuizForm = () => {
     return {type: CLEAR_QUIZ_FORM}
+}
+
+export const clearStudentForm = () => {
+    return {type:CLEAR_STUDENT_FORM}
+}
+
+export const fillStudentForm = (student) => {
+    return {type:FILL_STUDENT_FORM,payload:student}
 }

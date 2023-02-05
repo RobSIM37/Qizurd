@@ -6,15 +6,15 @@ module.exports = {
         const reqData = req.body;
         if (data.isKnownId(reqData.userId)) {
             try {
-                console.log("finds user")
                 const addedQuiz = quizServices.addOrUpdateQuiz(reqData);
                 if (addedQuiz) {
-                    const allQuizzes = quizServices.getAllQuizzes(userId);
+                    const allQuizzes = quizServices.getAllQuizzes(reqData.userId);
                     res.status(200).send(allQuizzes.map(quiz=>quiz.export()));
                 } else {
                     res.status(400).send({message:"unable to add quiz with information provided"});
                 }
-            } catch {
+            } catch (err){ 
+                console.log(err)
                 res.status(500).send({message:"an unknown server error has prevented this transaction"});
             }
         } else {

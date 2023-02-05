@@ -21,7 +21,7 @@ const Loginpage = (props) => {
 
     const formSubmitHandler = (e) => {
         e.preventDefault()
-        axios.post("http://localhost:8025/register",{userName,password}).then(res => {
+        axios.post("http://localhost:8025/",{userName,password}).then(res => {
             props.activeUser(res.data)
             props.fillQuizState(res.data.quizzes)
             props.fillStudentState(res.data.students)

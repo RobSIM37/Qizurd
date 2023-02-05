@@ -43,7 +43,6 @@ const CreateQuiz = (props) => {
             questions: questions,
             students: students
         }
-        console.log(quizToAdd)
         props.postQuiz(quizToAdd)
         props.clearQuizForm()
     }

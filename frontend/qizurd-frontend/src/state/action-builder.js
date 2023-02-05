@@ -22,6 +22,7 @@ import {
 
 export const postQuiz = (quiz) => dispatch => {
     axios.post("http://localhost:8025/quizzes",quiz).then(res => {
+        console.log(res.data)
         dispatch({type:ADD_QUIZ_TO_USER,payload:res.data})
     }).catch(err => console.log(err))
 }

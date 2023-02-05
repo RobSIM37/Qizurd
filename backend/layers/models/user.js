@@ -1,24 +1,22 @@
 const Unique = require("./unique");
 
 class User extends Unique {
-    userName;
+    name;
     #quizzes = [];
     #students = [];
     constructor (parameters){
-        console.log("parameters:",parameters)
-        const {userName, id} = parameters;
+        const {name, id} = parameters;
         super(id);
-        this.userName = userName;
+        this.name = name;
     }
     import(data){
-        this.userName = data.userName;
+        this.name = data.name;
         this.#quizzes = data.quizzes;
         this.#students = data.students;
     }
     export(){
         return {
-            userName: this.userName,
-            id: super.id,
+            name: this.name,
             id: super.id,
             quizzes: this.#quizzes.map(quiz=>quiz.export()),
             students: this.#students.map(student=>student.export())
@@ -27,7 +25,7 @@ class User extends Unique {
     addOrUpdateQuiz(incommingQuiz){
         const quizIndex = this.#quizzes.map(quiz=>quiz.id).indexOf(incommingQuiz.id)
         if (quizIndex == -1) {
-            this.#quizzes.push(quiz);
+            this.#quizzes.push(incommingQuiz);
         } else {
             this.#quizzes[quizIndex] = incommingQuiz;
         }

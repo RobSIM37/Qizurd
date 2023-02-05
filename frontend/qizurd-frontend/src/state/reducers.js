@@ -36,7 +36,7 @@ let hamburgerMenu = {
   "Create Student",
   "Edit Student",
   "Delete Student",
-  "Close"],
+  "Close",],
   menuOpen:false
 }
 
@@ -61,7 +61,7 @@ const user = (state = emptyUser, action) => {
     case ADD_STUDENT_TO_USER:
       return {...state,students: action.payload}
     case ADD_QUIZ_TO_USER:
-      console.log("quiz: ",state)
+      console.log("hits user reducer")
       return {...state,quizzes: action.payload}
     default:
       return state
@@ -129,7 +129,6 @@ const studentForm = (state = emptyStudentForm, action) => {
 //     case FILL_QUIZ_STATE:
 //       return action.payload
 //     case CARD_CLICKED:
-//       console.log(action.payload)
 //       return state
 //     case DELETE_QUIZ:
 //       return state.filter(el => el.id !== parseInt(action.payload))

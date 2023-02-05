@@ -7,6 +7,9 @@ server.use(bodyParser.json())
 server.use(bodyParser.urlencoded({ extended: true }))
 server.use(cors());
 
+const data = require("./layers/data/data");
+
+
 const quizCtrl = require("./layers/controllers/quizController");
 const userCtrl = require("./layers/controllers/usersController");
 const studentCtrl = require("./layers/controllers/studentController");

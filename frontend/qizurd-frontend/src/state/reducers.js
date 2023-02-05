@@ -15,11 +15,7 @@ import {
   ADD_STUDENT_TO_USER
 } from "./action-types"
 
-// need to eventually add list of action types here.
-// example: INPUT_CHANGE. see sprint 10 sprint challenge
 
-
-//dummy data, data structure is not set in stone, and there is plenty to rework
 
 let emptyUser = {
   userName: "",

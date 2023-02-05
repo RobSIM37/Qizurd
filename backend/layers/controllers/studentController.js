@@ -15,7 +15,6 @@ module.exports = {
                res.status(400).send({message:"unable to add student with information provided"});
             }
          } catch(err) {
-            console.log("Error: ", err)
             res.status(500).send({message:"an unknown server error has prevented this transaction"});
          }
       } else {

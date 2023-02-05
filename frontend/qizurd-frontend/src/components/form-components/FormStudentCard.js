@@ -8,7 +8,6 @@ const FormStudentCard = (props) => {
 
     const closeClickHandler = (e) => {
         const {id} = e.target
-        console.log(`card ${id}`)
         props.deleteStudentFromQuiz(id)
     }
 

@@ -7,7 +7,7 @@ return(
 <QuestionFormStyles>
     <LabelStyles htmlFor="question">Question {props.id + 1}:</LabelStyles>
     <InputBoxStyle id={props.id} key={"title"} className={"title"}
-    value={props.question.title} onChange={props.questionInputChangeHandler}></InputBoxStyle>
+    value={props.question.text} onChange={props.questionInputChangeHandler}></InputBoxStyle>
 
     <LabelStyles htmlFor="answer">Answer:</LabelStyles>
     <InputBoxStyle id={props.id} key={"answer"} className={"answer"}

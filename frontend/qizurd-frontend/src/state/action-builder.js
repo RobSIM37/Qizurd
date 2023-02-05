@@ -16,13 +16,14 @@ import {
     CLEAR_QUIZ_FORM,
     CLEAR_STUDENT_FORM,
     ADD_STUDENT_TO_USER,
-    FILL_STUDENT_FORM
+    FILL_STUDENT_FORM,
+    FILL_QUIZ_FORM
 } from "./action-types"
 
 
 export const postQuiz = (quiz) => dispatch => {
     axios.post("http://localhost:8025/quizzes",quiz).then(res => {
-        console.log(res.data)
+        console.log("here", res.data)
         dispatch({type:ADD_QUIZ_TO_USER,payload:res.data})
     }).catch(err => console.log(err))
 }
@@ -91,4 +92,9 @@ export const clearStudentForm = () => {
 
 export const fillStudentForm = (student) => {
     return {type:FILL_STUDENT_FORM,payload:student}
+}
+
+export const fillQuizForm = (quiz) => {
+    console.log("action",quiz)
+    return {type:FILL_QUIZ_FORM,payload:quiz}
 }

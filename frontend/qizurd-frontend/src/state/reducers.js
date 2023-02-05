@@ -16,7 +16,8 @@ import {
   CLEAR_STUDENT_FORM,
   ADD_STUDENT_TO_USER,
   ADD_QUIZ_TO_USER,
-  FILL_STUDENT_FORM
+  FILL_STUDENT_FORM,
+  FILL_QUIZ_FORM
 } from "./action-types"
 
 
@@ -85,6 +86,9 @@ const quizForm = (state = emptyQuizForm, action) => {
       return {...state, students: [...state.students.filter(el => action.payload !== el.id)]}
     case CLEAR_QUIZ_FORM:
       return emptyQuizForm
+    case FILL_QUIZ_FORM:
+      console.log("reducer" ,action.payload)
+      return action.payload
     default:
       return state
   }

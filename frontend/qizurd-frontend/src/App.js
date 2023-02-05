@@ -25,7 +25,6 @@ function App(props) {
           <Route path="/quizzes/:id" element={<QuizView/>}/>
           <Route path="quiz/create-quiz" element={<CreateQuiz/>}/>
           <Route path="/quiz/edit-quiz" element={<QuizList clickHandlerid={"editQuiz"}/>}/>
-          {/* <Route path="/quiz/edit-quiz/:id" element={<EditQuiz/>}/> */}
           <Route path="/quiz/delete-quiz" element={<QuizList clickHandlerid={"deleteQuiz"}/>}/>
           <Route path="/student/create-student" element={<CreateStudent/>}/>
           <Route path="/student/edit-student" element={<StudentList clickHandlerid={"editStudent"}/>}/>

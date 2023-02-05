@@ -9,10 +9,14 @@ import {
   // DELETE_QUIZ,
   DELETE_STUDENT_FROM_QUIZ,
   CHANGE_TEXT,
+  CHANGE_QUIZ_TEXT,
   EDIT_QUIZ_QUESTION,
   ADD_QUIZ_QUESTION,
   CLEAR_QUIZ_FORM,
-  ADD_STUDENT_TO_USER
+  CLEAR_STUDENT_FORM,
+  ADD_STUDENT_TO_USER,
+  ADD_QUIZ_TO_USER,
+  FILL_STUDENT_FORM
 } from "./action-types"
 
 
@@ -55,8 +59,10 @@ const user = (state = emptyUser, action) => {
     case ACTIVE_USER:
       return action.payload
     case ADD_STUDENT_TO_USER:
-      console.log("hits the reducer")
-      return {...state,students:action.payload}
+      return {...state,students: action.payload}
+    case ADD_QUIZ_TO_USER:
+      console.log("quiz: ",state)
+      return {...state,quizzes: action.payload}
     default:
       return state
   }
@@ -64,7 +70,7 @@ const user = (state = emptyUser, action) => {
 
 const quizForm = (state = emptyQuizForm, action) => {
   switch(action.type){
-    case CHANGE_TEXT:
+    case CHANGE_QUIZ_TEXT:
       return {...state, [action.payload.inputid]: action.payload.inputValue}
     case ADD_QUIZ_QUESTION:
       return {...state,questions:[...state.questions,{id:"",title:"",answer:""}]}
@@ -99,7 +105,11 @@ const menu = (state = hamburgerMenu, action) => {
 const studentForm = (state = emptyStudentForm, action) => {
   switch(action.type){
     case CHANGE_TEXT:
-      return {...state, [action.payload.inputid]: action.payload.inputValue} 
+      return {...state, [action.payload.inputid]: action.payload.inputValue}
+    case FILL_STUDENT_FORM: 
+      return action.payload
+    case CLEAR_STUDENT_FORM:
+      return emptyStudentForm 
     default:
       return state
   }

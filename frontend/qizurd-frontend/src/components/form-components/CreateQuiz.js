@@ -4,7 +4,8 @@ import FormStudentCard from "./FormStudentCard"
 import FormQuestionCard from "./FormQuestionCard"
 import { FormContainer,FormStyles,LabelStyles,InputBoxStyle} from "./formStyles"
 import { 
-    changeInputText,
+    postQuiz,
+    changeQuizText,
     editQuizQuestion,
     addQuizQuestion,
     addStudentToQuiz,
@@ -33,7 +34,17 @@ const CreateQuiz = (props) => {
 
     const formSubmitHandler = (e) => {
         e.preventDefault()
-        console.log(props.quiz)
+        const {id,quizTitle,description,questions,students} = props.quiz
+        const quizToAdd = {
+            userId: props.user.id,
+            id: id,
+            quizTitle: quizTitle,
+            description: description,
+            questions: questions,
+            students: students
+        }
+        console.log(quizToAdd)
+        props.postQuiz(quizToAdd)
         props.clearQuizForm()
     }
 
@@ -77,7 +88,8 @@ const mapStateToProps = state => ({
 })
 
 export default connect(mapStateToProps,{
-    changeInputText,
+    postQuiz,
+    changeQuizText,
     editQuizQuestion,
     addQuizQuestion,
     addStudentToQuiz,

@@ -6,6 +6,7 @@ module.exports = {
         const reqData = req.body;
         if (data.isKnownId(reqData.userId)) {
             try {
+                console.log("finds user")
                 const addedQuiz = quizServices.addOrUpdateQuiz(reqData);
                 if (addedQuiz) {
                     const allQuizzes = quizServices.getAllQuizzes(userId);

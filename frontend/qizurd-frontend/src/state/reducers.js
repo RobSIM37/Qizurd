@@ -61,7 +61,7 @@ const user = (state = emptyUser, action) => {
     case ADD_STUDENT_TO_USER:
       return {...state,students: action.payload}
     case ADD_QUIZ_TO_USER:
-      console.log("hits user reducer")
+      console.log(action.payload)
       return {...state,quizzes: action.payload}
     default:
       return state

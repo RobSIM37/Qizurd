@@ -103,5 +103,5 @@ dist
 # TernJS port file
 .tern-port
 
-utils/dbUtils.js
-permissions/
+/backend/utils/dbUtils.js
+/backend/permissions/

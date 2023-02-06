@@ -104,3 +104,4 @@ dist
 .tern-port
 
 utils/dbUtils.js
+permissions/

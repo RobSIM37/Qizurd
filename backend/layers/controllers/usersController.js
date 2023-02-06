@@ -18,14 +18,11 @@ module.exports = {
     userLogin: async (req,res) => {
         const userInfo = req.body;
         const loginAttempt = await data.checkPassword(userInfo.userName, userInfo.password);
-        console.log("Login attempt", loginAttempt);
         if (loginAttempt) {
-            const returningUser = new User({userName: userInfo.userName, existingId: loginAttempt.userData.id})
-            returningUser.import(loginAttempt.userData);
-            userServices.addUser(returningUser);
+            const returningUser = userServices.getUserByName(userInfo.userName);
             res.status(200).send(returningUser.export());
         } else {
-            res.status(400).send(loginAttempt);
+            res.status(400).send("error logging in");
         }
     }
 }

@@ -21,7 +21,6 @@ class Quiz extends Unique {
     }
     export(){
         return {
-            name: this.name,
             quizTitle: this.quizTitle,
             description: this.description,
             id: super.id,

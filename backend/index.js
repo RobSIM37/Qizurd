@@ -9,10 +9,11 @@ server.use(cors());
 
 const data = require("./layers/data/data");
 
-
 const quizCtrl = require("./layers/controllers/quizController");
 const userCtrl = require("./layers/controllers/usersController");
 const studentCtrl = require("./layers/controllers/studentController");
+
+//data.loadDataFromDB();
 
 const PORT = 8025;
 
@@ -33,3 +34,5 @@ server.delete("/students/:userId/:studentId", studentCtrl.deleteStudent);
 server.get("/students/:userId",studentCtrl.allStudents);
 
 server.listen(PORT, ()=>{console.log(`Server up and listening on port ${PORT}`)});
+
+//process.on("SIGINT", ()=>{data.saveDataToDB(); process.exit()});

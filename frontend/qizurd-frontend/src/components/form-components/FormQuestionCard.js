@@ -6,8 +6,8 @@ const FormQuestion = (props) => {
 return(
 <QuestionFormStyles>
     <LabelStyles htmlFor="question">Question {props.id + 1}:</LabelStyles>
-    <InputBoxStyle id={props.id} key={"title"} className={"title"}
-    value={props.question.text} onChange={props.questionInputChangeHandler}></InputBoxStyle>
+    <InputBoxStyle id={props.id} key={"questionText"} className={"questionText"}
+    value={props.question.questionText} onChange={props.questionInputChangeHandler}></InputBoxStyle>
 
     <LabelStyles htmlFor="answer">Answer:</LabelStyles>
     <InputBoxStyle id={props.id} key={"answer"} className={"answer"}

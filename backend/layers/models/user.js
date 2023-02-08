@@ -58,7 +58,7 @@ class User extends Unique {
             this.#students.push(newStudent);
         } else {
             this.#students[studentIndex] = newStudent;
-            this.#quizzes = this.#quizzes.map(quiz => quiz.addOrUpdateStudent(newStudent));
+            this.#quizzes = this.#quizzes.map(quiz => quiz.updateStudent(newStudent));
         }
     }
     deleteStudent(studentId){

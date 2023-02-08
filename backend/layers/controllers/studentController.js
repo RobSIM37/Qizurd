@@ -1,6 +1,5 @@
 const studentServices = require("../services/studentServices");
 const data = require("../data/data");
-const e = require("express");
 const userServices = require("../services/userServices");
 
 module.exports = {

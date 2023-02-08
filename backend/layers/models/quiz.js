@@ -54,7 +54,7 @@ class Quiz extends Unique {
         }
     }
     updateStudent(updatedStudent){
-        this.#students = this.#students.map(student => student.id == updatedStudent ? updatedStudent : student);
+        this.#students = this.#students.map(student => student.id == updatedStudent.id ? updatedStudent : student);
     }
     dropStudent(studentId){
         this.#students = this.#students.filter(student => student.id != studentId);

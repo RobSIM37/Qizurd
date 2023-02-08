@@ -1,6 +1,7 @@
 const studentServices = require("../services/studentServices");
 const data = require("../data/data");
 const e = require("express");
+const userServices = require("../services/userServices");
 
 module.exports = {
    addOrUpdateStudent: (req, res) => {
@@ -9,8 +10,8 @@ module.exports = {
          try {
             const addedStudent = studentServices.addOrUpdateStudent(reqData.userId, reqData)
             if (addedStudent) {
-               const allStudents = studentServices.getAllStudents(reqData.userId);
-               res.status(200).send(allStudents.map(student=>student.export()));
+               const updatedUser = userServices.getUser(reqData.userId);
+               res.status(200).send(updatedUser.export());
             } else {
                res.status(400).send({message:"unable to add student with information provided"});
             }

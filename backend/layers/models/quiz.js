@@ -53,6 +53,9 @@ class Quiz extends Unique {
             this.#students.push(newStudent);
         }
     }
+    dropStudent(studentId){
+        this.#students = this.#students.filter(student => student.id != studentId);
+    }
     addStudents(studentArr){
         this.#students = [...this.#students, ...studentArr]
     }

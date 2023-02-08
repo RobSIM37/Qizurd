@@ -11,5 +11,3 @@ module.exports = {
         {cur.unit === unit || ack > val ? ack *= cur.ratio : ack}, val);
     }
 }
-
-convertToMilliseconds(3, "hour");

@@ -30,8 +30,8 @@ module.exports = {
          try {
             const removedStudent = studentServices.deleteStudent(userId, studentId);
             if (removedStudent) {
-               const remainingStudents = studentServices.getAllStudents(userId);
-               res.status(200).send(remainingStudents.map(student => student.export()));
+               const updatedUser = userServices.getUser(userId);
+               res.status(200).send(updatedUser.export());
             } else {
                res.status(400).send({message:"unable to delete student with information provided"});
             }

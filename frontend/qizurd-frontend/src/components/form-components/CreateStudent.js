@@ -8,7 +8,6 @@ const CreateStudent = (props) => {
     const studentNameChangeHandler = (e) => {
         const {id,value} = e.target
         props.changeInputText(id,value)
-        console.log(props.studentForm)
     }
 
     const studentFormSubmitHandler = (e) => {

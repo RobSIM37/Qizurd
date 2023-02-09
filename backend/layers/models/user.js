@@ -1,33 +1,44 @@
 const Unique = require("./unique");
+const Quiz = require("./quiz");
+const Student = require("./student");
 
 class User extends Unique {
-    userName;
+    name;
     #quizzes = [];
     #students = [];
     constructor (parameters){
-        console.log("parameters:",parameters)
-        const {userName, id} = parameters;
-        super(id);
-        this.userName = userName;
+        const {name, id, _id, quizzes, students} = parameters;
+        if (_id) {
+            super(_id);
+        } else {
+            super(id);
+        }
+        this.name = name;
+        if (quizzes) {
+            this.#quizzes = quizzes.map(quizData => new Quiz(quizData));
+        }
+        if (students) {
+            this.#students = students.map(studentData => new Student(studentData));
+        }
     }
     import(data){
-        this.userName = data.userName;
+        this.name = data.name;
         this.#quizzes = data.quizzes;
         this.#students = data.students;
     }
-    export(){
-        return {
-            userName: this.userName,
-            id: super.id,
-            id: super.id,
+    export(idKey = "id"){
+        const userData = {
+            name: this.name,
             quizzes: this.#quizzes.map(quiz=>quiz.export()),
             students: this.#students.map(student=>student.export())
         }
+        userData[idKey] = super.id;
+        return userData;
     }
     addOrUpdateQuiz(incommingQuiz){
         const quizIndex = this.#quizzes.map(quiz=>quiz.id).indexOf(incommingQuiz.id)
         if (quizIndex == -1) {
-            this.#quizzes.push(quiz);
+            this.#quizzes.push(incommingQuiz);
         } else {
             this.#quizzes[quizIndex] = incommingQuiz;
         }
@@ -47,10 +58,12 @@ class User extends Unique {
             this.#students.push(newStudent);
         } else {
             this.#students[studentIndex] = newStudent;
+            this.#quizzes = this.#quizzes.map(quiz => quiz.updateStudent(newStudent));
         }
     }
     deleteStudent(studentId){
         this.#students = this.#students.filter(student => student.id != studentId);
+        this.#quizzes = this.#quizzes.map(quiz => quiz.dropStudent(studentId))
     }
     getStudent(studentId){
         return this.#students.filter(student=>student.id == studentId)[0];

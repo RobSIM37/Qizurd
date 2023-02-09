@@ -1,53 +1,40 @@
-import React from "react"
-import styled from "styled-components"
-import {connect} from "react-redux"
-import { useNavigate } from "react-router-dom"
-import { menuToggle } from "../state/action-builder"
-
-const HamburgerMenuContainer = styled.div`
-background-color: grey;
-width: 100vw;
-`
-
-const HamburgerMenuCard = styled.div`
-display: flex;
-justify-content: center;
-align-items: center;
-height: 3rem;
-font-size: 1rem;
-cursor: pointer;
-`
+import React, {useState} from "react"
+import { Button, ButtonGroup, SwipeableDrawer } from "@mui/material"
+import MenuRoundedIcon from '@mui/icons-material/MenuRounded';
+import { useNavigate } from "react-router";
 
 const HamburgerMenu = (props) => {
 
+    const [menuOpen, setMenuOpen] = useState(false)
     const navigate = useNavigate()
 
+    const selectionClickHandler = (e) => {
+        navigate(e.target.id)
+        setMenuOpen(false)
+    }
 
-    //programatically creates a route based on the menu card id
-    const menuCardClickHandler = (e) =>{
-        const id = e.target.id
-        if(id === "Close"){
-            props.menuToggle(false)
-        }else{
-        const baseRoute = id.split(" ")[1]
-        const route = id.replaceAll(" ","-")
-        navigate(`${baseRoute.toLowerCase()}/${route.toLowerCase()}`)
-        }
-        props.menuToggle(false)
-    } 
+    const menuClick = (e) => {
+        setMenuOpen(true)
+    }
 
-    return (
-        <HamburgerMenuContainer>
-            {props.menu.map(el => {
-                return <HamburgerMenuCard key ={el} id={el} onClick={menuCardClickHandler}>{el}</HamburgerMenuCard>
-            })}
-        </HamburgerMenuContainer>
+    const drawerClose = () => {
+        setMenuOpen(false)
+    }
+    return(
+    <>
+    <MenuRoundedIcon fontSize="large" onClick={menuClick}/>
+    <SwipeableDrawer anchor="top" open={menuOpen} onClose={drawerClose}>
+        <ButtonGroup orientation="vertical">
+            <Button size="large" id="/student/create-student" onClick={selectionClickHandler}>Create Student</Button>
+            <Button size="large" id="/student/edit-student" onClick={selectionClickHandler}>Edit Student</Button>
+            <Button size="large" id="/student/delete-student" onClick={selectionClickHandler}>Delete Student</Button>
+            <Button size="large" id="/quiz/create-quiz" onClick={selectionClickHandler}>Create Quiz</Button>
+            <Button size="large" id="/quiz/edit-quiz" onClick={selectionClickHandler}>Edit Quiz</Button>
+            <Button size="large" id="/quiz/delete-quiz" onClick={selectionClickHandler}>Delete Quiz</Button>
+        </ButtonGroup>
+    </SwipeableDrawer>
+    </>
     )
 }
 
-const mapStateToProps = (state) => ({
-    menu: state.menu.menuSelections,
-    menuOpen: state.menu.menuOpen
-})
-
-export default connect(mapStateToProps,{menuToggle})(HamburgerMenu)
+export default HamburgerMenu

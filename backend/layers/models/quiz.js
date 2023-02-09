@@ -8,6 +8,7 @@ class Quiz extends Unique {
     #students = [];
 
     constructor (parameters){
+        console.log(parameters)
         const {quizTitle, description, id} = parameters
         super(id);
         this.quizTitle = quizTitle;
@@ -20,7 +21,8 @@ class Quiz extends Unique {
     }
     export(){
         return {
-            name: this.name,
+            quizTitle: this.quizTitle,
+            description: this.description,
             id: super.id,
             questions: this.#questions.map(question=>question.export()),
             students: this.#students.map(student=>student.export())
@@ -50,6 +52,12 @@ class Quiz extends Unique {
          if (!this.#students.map(student=>student.id).includes(newStudent.id)){
             this.#students.push(newStudent);
         }
+    }
+    updateStudent(updatedStudent){
+        this.#students = this.#students.map(student => student.id == updatedStudent.id ? updatedStudent : student);
+    }
+    dropStudent(studentId){
+        this.#students = this.#students.filter(student => student.id != studentId);
     }
     addStudents(studentArr){
         this.#students = [...this.#students, ...studentArr]

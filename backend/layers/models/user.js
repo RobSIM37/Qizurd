@@ -58,10 +58,12 @@ class User extends Unique {
             this.#students.push(newStudent);
         } else {
             this.#students[studentIndex] = newStudent;
+            this.#quizzes = this.#quizzes.map(quiz => quiz.updateStudent(newStudent));
         }
     }
     deleteStudent(studentId){
         this.#students = this.#students.filter(student => student.id != studentId);
+        this.#quizzes = this.#quizzes.map(quiz => quiz.dropStudent(studentId))
     }
     getStudent(studentId){
         return this.#students.filter(student=>student.id == studentId)[0];

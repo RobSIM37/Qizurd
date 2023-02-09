@@ -53,6 +53,12 @@ class Quiz extends Unique {
             this.#students.push(newStudent);
         }
     }
+    updateStudent(updatedStudent){
+        this.#students = this.#students.map(student => student.id == updatedStudent.id ? updatedStudent : student);
+    }
+    dropStudent(studentId){
+        this.#students = this.#students.filter(student => student.id != studentId);
+    }
     addStudents(studentArr){
         this.#students = [...this.#students, ...studentArr]
     }

@@ -1,5 +1,5 @@
-const {MongoClient, ServerApiVersion} = require("mongodb");
 const dbUtils = require("../../utils/dbUtils");
+const {MongoClient, ServerApiVersion} = require("mongodb");
 const userServices = require("../services/userServices");
 const User = require("../models/user");
 
@@ -8,6 +8,7 @@ const client = new MongoClient(dbUtils.url, {
     sslCert: dbUtils.cert,
     serverApi: ServerApiVersion.v1
 });
+
 const bcrypt = require("bcrypt");
 
 const issuedIdMap = new Map();

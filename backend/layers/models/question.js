@@ -14,7 +14,7 @@ class Question extends Unique {
     }
     export(){
         return {
-            text: this.questionText,
+            questionText: this.questionText,
             id: super.id,
             answer: this.answer,
             wrongAnswer: this.wrongAnswer

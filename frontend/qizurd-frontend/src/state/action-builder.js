@@ -6,7 +6,6 @@ import {
     FILL_QUIZ_STATE,
     FILL_STUDENT_STATE,
     CARD_CLICKED,
-    TOGGLE_MENU,
     ADD_STUDENT_TO_QUIZ,
     ADD_QUIZ_TO_USER,
     DELETE_QUIZ,
@@ -16,13 +15,14 @@ import {
     CLEAR_QUIZ_FORM,
     CLEAR_STUDENT_FORM,
     ADD_STUDENT_TO_USER,
-    FILL_STUDENT_FORM
+    FILL_STUDENT_FORM,
+    FILL_QUIZ_FORM
 } from "./action-types"
 
 
 export const postQuiz = (quiz) => dispatch => {
     axios.post("http://localhost:8025/quizzes",quiz).then(res => {
-        console.log(res.data)
+        console.log("here", res.data)
         dispatch({type:ADD_QUIZ_TO_USER,payload:res.data})
     }).catch(err => console.log(err))
 }
@@ -57,10 +57,6 @@ export const cardClicked = (id) => {
     return {type: CARD_CLICKED,payload: id}
 }
 
-export const menuToggle = (boolToChangeTo) => {
-    return {type: TOGGLE_MENU,payload:boolToChangeTo}
-}
-
 export const addStudentToQuiz = (student) => {
     return {type: ADD_STUDENT_TO_QUIZ,payload:student}
 }
@@ -91,4 +87,9 @@ export const clearStudentForm = () => {
 
 export const fillStudentForm = (student) => {
     return {type:FILL_STUDENT_FORM,payload:student}
+}
+
+export const fillQuizForm = (quiz) => {
+    console.log("action",quiz)
+    return {type:FILL_QUIZ_FORM,payload:quiz}
 }

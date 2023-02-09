@@ -1,13 +1,15 @@
 import React from "react"
+import {AiOutlineCloseCircle} from "react-icons/ai"
 import {connect} from "react-redux"
-import {QuestionFormStyles,LabelStyles,InputBoxStyle} from "./formStyles"
+import {QuestionFormStyles,LabelStyles,InputBoxStyle,CloseIconWrapper} from "./formStyles"
 
 const FormQuestion = (props) => {
 return(
 <QuestionFormStyles>
+<CloseIconWrapper id={props.id} ><AiOutlineCloseCircle style={{pointerEvents: "none"}} id={props.id}/></CloseIconWrapper>
     <LabelStyles htmlFor="question">Question {props.id + 1}:</LabelStyles>
-    <InputBoxStyle id={props.id} key={"title"} className={"title"}
-    value={props.question.title} onChange={props.questionInputChangeHandler}></InputBoxStyle>
+    <InputBoxStyle id={props.id} key={"questionText"} className={"questionText"}
+    value={props.question.questionText} onChange={props.questionInputChangeHandler}></InputBoxStyle>
 
     <LabelStyles htmlFor="answer">Answer:</LabelStyles>
     <InputBoxStyle id={props.id} key={"answer"} className={"answer"}

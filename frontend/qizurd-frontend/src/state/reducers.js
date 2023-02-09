@@ -4,7 +4,6 @@ import {
   // FILL_QUIZ_STATE,
   // FILL_STUDENT_STATE,
   // CARD_CLICKED,
-  TOGGLE_MENU,
   ADD_STUDENT_TO_QUIZ,
   // DELETE_QUIZ,
   DELETE_STUDENT_FROM_QUIZ,
@@ -16,7 +15,8 @@ import {
   CLEAR_STUDENT_FORM,
   ADD_STUDENT_TO_USER,
   ADD_QUIZ_TO_USER,
-  FILL_STUDENT_FORM
+  FILL_STUDENT_FORM,
+  FILL_QUIZ_FORM
 } from "./action-types"
 
 
@@ -28,17 +28,17 @@ let emptyUser = {
   students: []
 }
 
-let hamburgerMenu = {
-  menuSelections:
-  ["Create Quiz",
-  "Edit Quiz",
-  "Delete Quiz",
-  "Create Student",
-  "Edit Student",
-  "Delete Student",
-  "Close",],
-  menuOpen:false
-}
+// let hamburgerMenu = {
+//   menuSelections:
+//   ["Create Quiz",
+//   "Edit Quiz",
+//   "Delete Quiz",
+//   "Create Student",
+//   "Edit Student",
+//   "Delete Student",
+//   "Close",],
+//   menuOpen:false
+// }
 
 let emptyQuizForm = {
   id: null,
@@ -61,7 +61,7 @@ const user = (state = emptyUser, action) => {
     case ADD_STUDENT_TO_USER:
       return {...state,students: action.payload}
     case ADD_QUIZ_TO_USER:
-      console.log("hits user reducer")
+      console.log(action.payload)
       return {...state,quizzes: action.payload}
     default:
       return state
@@ -85,20 +85,11 @@ const quizForm = (state = emptyQuizForm, action) => {
       return {...state, students: [...state.students.filter(el => action.payload !== el.id)]}
     case CLEAR_QUIZ_FORM:
       return emptyQuizForm
+    case FILL_QUIZ_FORM:
+      console.log("reducer" ,action.payload)
+      return action.payload
     default:
       return state
-  }
-}
-
-const menu = (state = hamburgerMenu, action) => {
-  switch(action.type){
-    case TOGGLE_MENU:
-      return {
-        ...state,
-        menuOpen: action.payload
-      }
-    default:
-      return state    
   }
 }
 
@@ -115,26 +106,4 @@ const studentForm = (state = emptyStudentForm, action) => {
   }
 }
 
-// const userStudents = (state = initialStudents, action) => {
-//   switch(action.type){
-//     case FILL_STUDENT_STATE:
-//       return action.payload
-//     default:
-//       return state
-//   }
-// }
-
-// const quizzes = (state = initialQuizzes, action) => {
-//   switch(action.type){
-//     case FILL_QUIZ_STATE:
-//       return action.payload
-//     case CARD_CLICKED:
-//       return state
-//     case DELETE_QUIZ:
-//       return state.filter(el => el.id !== parseInt(action.payload))
-//     default:
-//       return state
-//   }
-// }
-
-export default combineReducers({user,quizForm,studentForm,menu})
+export default combineReducers({user,quizForm,studentForm})

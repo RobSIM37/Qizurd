@@ -2,22 +2,26 @@ import React from "react"
 import { useNavigate } from "react-router"
 import { connect } from "react-redux"
 import {QuizCard,QuizContainer} from "./quizStyles"
-import { deleteQuiz } from "../../state/action-builder"
+import { deleteQuiz,fillQuizForm } from "../../state/action-builder"
 
 const QuizList = (props) => {
 
     const navigate = useNavigate()
 
     const clickHandlerControl = (e) => {
+        const {id} = e.target
         switch(props.clickHandlerid){
             case "showDetails":
-                navigate(`/quizzes/${e.target.id}`)
+                navigate(`/quizzes/${id}`)
                 break
             case "editQuiz":
-                navigate(`/quiz/edit-quiz/${e.target.id}`)
+                const selectedQuiz = props.user.quizzes.filter( el => el.id === id)[0]
+                console.log(selectedQuiz)
+                props.fillQuizForm(selectedQuiz)
+                navigate(`/quiz/create-quiz`)
                 break
             case "deleteQuiz":
-                props.deleteQuiz(e.target.id)
+                props.deleteQuiz(id)
                 navigate("/quizzes")
                 break
             default:
@@ -43,4 +47,4 @@ const mapStateToProps = state => ({
 })
 
 //insert actions into empty object
-export default connect(mapStateToProps,{deleteQuiz})(QuizList)
+export default connect(mapStateToProps,{deleteQuiz,fillQuizForm})(QuizList)

@@ -33,6 +33,7 @@ server.delete("/questions/:userId/:quizId/:questionId",quizCtrl.deleteQuestion);
 server.post("/students", studentCtrl.addOrUpdateStudent);
 server.delete("/students/:userId/:studentId", studentCtrl.deleteStudent);
 server.get("/students/:userId",studentCtrl.allStudents);
+server.post("/students/answer",studentCtrl.logStudentAnswer);
 
 server.listen(PORT, ()=>{console.log(`Server up and listening on port ${PORT}`)});
 

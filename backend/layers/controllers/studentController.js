@@ -1,6 +1,7 @@
 const studentServices = require("../services/studentServices");
 const data = require("../data/data");
 const userServices = require("../services/userServices");
+const { isKnownId } = require("../data/data");
 
 module.exports = {
    addOrUpdateStudent: (req, res) => {
@@ -57,6 +58,25 @@ module.exports = {
          }
       } else {
          res.status(400).send({message:"unable to get students with information provided"});
+      }
+   },
+
+   logStudentAnswer: (req,res) => {
+      const {userId, quizId, questionId, studentId, correct} = req.body;
+      if (isKnownId(userId)) {
+         try {
+            const loggedAnswer = studentServices.logStudentAnswer(userId, studentId, quizId, questionId, correct);
+            if (loggedAnswer) {
+               const allStudents = studentServices.getAllStudentsInQuiz(userId, quizId, true);
+               res.status(200).send(allStudents.map(student => student.export()));
+            } else {
+               res.status(400).send({message:"unable to log answer with information provided"});
+            }
+         } catch (err) {
+            res.status(500).send(err);
+         }
+      } else {
+         res.status(400).send({message:"unable to log answer with information provided"});
       }
    }
 }

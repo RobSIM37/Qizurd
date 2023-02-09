@@ -33,5 +33,11 @@ module.exports = {
     sortStudentsByOutstandingQuizQuestions: (students, quizId) => {
         return students.sort((studentA, studentB) => 
             studentA.getCorrectQuizResults(quizId).length - studentB.getCorrectQuizResults(quizId).length)
+    },
+    logStudentAnswer: (userId, studentId, quizId, questionId, correct) => {
+        const user = userServices.getUser(userId);
+        const student = user.getStudent(studentId);
+        student.logQuestionResult(quizId, questionId, correct);
+        return true;
     }
 }

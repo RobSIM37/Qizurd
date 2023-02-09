@@ -3,11 +3,11 @@ const {MongoClient, ServerApiVersion} = require("mongodb");
 const userServices = require("../services/userServices");
 const User = require("../models/user");
 
-// const client = new MongoClient(dbUtils.url, {
-//     sslKey: dbUtils.cert,
-//     sslCert: dbUtils.cert,
-//     serverApi: ServerApiVersion.v1
-// });
+const client = new MongoClient(dbUtils.url, {
+    sslKey: dbUtils.cert,
+    sslCert: dbUtils.cert,
+    serverApi: ServerApiVersion.v1
+});
 
 const bcrypt = require("bcrypt");
 

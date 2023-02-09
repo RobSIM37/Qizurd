@@ -8,7 +8,6 @@ import QuizView from "./components/quiz-components/QuizView"
 import CreateQuiz from "./components/form-components/CreateQuiz"
 import CreateStudent from "./components/form-components/CreateStudent"
 import StudentList from "./components/student-components/StudentList"
-import HamburgerMenu from "./components/HamburgerMenu"
 import Loginpage from "./components/login-components/Loginpage"
 import Registerpage from "./components/login-components/Registerpage"
 
@@ -18,7 +17,6 @@ function App(props) {
   return (
       <CssBaseline className="App">
         <Header></Header>
-        {props.menuOpen && <HamburgerMenu/>}
         <Routes>
           <Route path="/" element={<Loginpage/>}/>
           <Route path="/register" element={<Registerpage/>}/>
@@ -36,7 +34,6 @@ function App(props) {
 }
 
 const mapStateToProps = state => ({
-  menuOpen: state.menu.menuOpen
 })
 
 export default connect(mapStateToProps,null)(App);

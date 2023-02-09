@@ -6,7 +6,6 @@ import {
     FILL_QUIZ_STATE,
     FILL_STUDENT_STATE,
     CARD_CLICKED,
-    TOGGLE_MENU,
     ADD_STUDENT_TO_QUIZ,
     ADD_QUIZ_TO_USER,
     DELETE_QUIZ,
@@ -56,10 +55,6 @@ export const changeQuizText = (inputid,inputValue) => {
 
 export const cardClicked = (id) => {
     return {type: CARD_CLICKED,payload: id}
-}
-
-export const menuToggle = (boolToChangeTo) => {
-    return {type: TOGGLE_MENU,payload:boolToChangeTo}
 }
 
 export const addStudentToQuiz = (student) => {

@@ -4,7 +4,6 @@ import {
   // FILL_QUIZ_STATE,
   // FILL_STUDENT_STATE,
   // CARD_CLICKED,
-  TOGGLE_MENU,
   ADD_STUDENT_TO_QUIZ,
   // DELETE_QUIZ,
   DELETE_STUDENT_FROM_QUIZ,
@@ -29,17 +28,17 @@ let emptyUser = {
   students: []
 }
 
-let hamburgerMenu = {
-  menuSelections:
-  ["Create Quiz",
-  "Edit Quiz",
-  "Delete Quiz",
-  "Create Student",
-  "Edit Student",
-  "Delete Student",
-  "Close",],
-  menuOpen:false
-}
+// let hamburgerMenu = {
+//   menuSelections:
+//   ["Create Quiz",
+//   "Edit Quiz",
+//   "Delete Quiz",
+//   "Create Student",
+//   "Edit Student",
+//   "Delete Student",
+//   "Close",],
+//   menuOpen:false
+// }
 
 let emptyQuizForm = {
   id: null,
@@ -94,18 +93,6 @@ const quizForm = (state = emptyQuizForm, action) => {
   }
 }
 
-const menu = (state = hamburgerMenu, action) => {
-  switch(action.type){
-    case TOGGLE_MENU:
-      return {
-        ...state,
-        menuOpen: action.payload
-      }
-    default:
-      return state    
-  }
-}
-
 const studentForm = (state = emptyStudentForm, action) => {
   switch(action.type){
     case CHANGE_TEXT:
@@ -119,26 +106,4 @@ const studentForm = (state = emptyStudentForm, action) => {
   }
 }
 
-// const userStudents = (state = initialStudents, action) => {
-//   switch(action.type){
-//     case FILL_STUDENT_STATE:
-//       return action.payload
-//     default:
-//       return state
-//   }
-// }
-
-// const quizzes = (state = initialQuizzes, action) => {
-//   switch(action.type){
-//     case FILL_QUIZ_STATE:
-//       return action.payload
-//     case CARD_CLICKED:
-//       return state
-//     case DELETE_QUIZ:
-//       return state.filter(el => el.id !== parseInt(action.payload))
-//     default:
-//       return state
-//   }
-// }
-
-export default combineReducers({user,quizForm,studentForm,menu})
+export default combineReducers({user,quizForm,studentForm})

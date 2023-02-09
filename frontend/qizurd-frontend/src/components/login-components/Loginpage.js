@@ -3,6 +3,7 @@ import { connect } from "react-redux"
 import { useNavigate } from "react-router"
 import { activeUser,fillQuizState,fillStudentState } from "../../state/action-builder"
 import axios from "axios"
+import { Button, Container, TextField, Typography } from "@mui/material"
 
 const Loginpage = (props) => {
 
@@ -19,6 +20,10 @@ const Loginpage = (props) => {
         }
     }
 
+    const registerButtonClickHandler = (e) => {
+        navigate("/register")
+    }
+
     const formSubmitHandler = (e) => {
         e.preventDefault()
         axios.post("http://localhost:8025/",{userName,password}).then(res => {
@@ -30,15 +35,46 @@ const Loginpage = (props) => {
     }
 
     return <div>
-        <div>This is the login page</div>
-        <form onSubmit={formSubmitHandler}>
-            <label htmlFor={"username"}>Username:</label>
-            <input id={"username"} value={userName} onChange={inputChangeHandler}></input>
-            <br></br>
-            <label htmlFor={"password"}>password</label>
-            <input id={"password"} value={password} onChange={inputChangeHandler}></input>
-            <button type="submit">submit</button>
-        </form>
+        <Container align="center">
+            <Typography align="center" variant="h1" sx={{margin:"1rem"}}> Log In </Typography>
+
+                <TextField 
+                id={"username"}
+                label="Username"
+                variant="standard"
+                align="center"                    
+                value={userName}
+                onChange={inputChangeHandler}>
+                </TextField>
+
+                <TextField
+                id={"password"}
+                label="Password"
+                variant="standard"
+                align="center"
+                value={userName}
+                onChange={inputChangeHandler}
+                sx={{marginBottom: "2rem"}}>
+                </TextField>
+
+                <Container>
+
+                    <Button
+                    variant="contained"
+                    type="submit"
+                    onClick={formSubmitHandler}
+                    sx={{margin:"1rem"}}>Log In
+                    </Button>
+
+                    <Button
+                    variant="outlined"
+                    type="button"
+                    onClick={registerButtonClickHandler}
+                    sx={{margin:"1rem"}}>Register
+                    </Button>
+
+                </Container>
+        </Container>
     </div>
 }
 

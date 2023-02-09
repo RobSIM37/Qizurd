@@ -2,6 +2,7 @@ import "./App.css"
 import Header from "./components/Header"
 import {Routes,Route} from "react-router-dom"
 import {connect} from "react-redux"
+import { CssBaseline } from "@mui/material"
 import QuizList from "./components/quiz-components/QuizList"
 import QuizView from "./components/quiz-components/QuizView"
 import CreateQuiz from "./components/form-components/CreateQuiz"
@@ -15,7 +16,7 @@ import Registerpage from "./components/login-components/Registerpage"
 function App(props) {
 
   return (
-      <div className="App">
+      <CssBaseline className="App">
         <Header></Header>
         {props.menuOpen && <HamburgerMenu/>}
         <Routes>
@@ -30,7 +31,7 @@ function App(props) {
           <Route path="/student/edit-student" element={<StudentList clickHandlerid={"editStudent"}/>}/>
           <Route path="/student/delete-student" element={<StudentList clickHandlerid={"deleteStudent"}/>}/>
         </Routes>
-      </div>
+      </CssBaseline>
   );
 }
 

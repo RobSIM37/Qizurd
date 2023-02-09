@@ -79,6 +79,7 @@ align-items:center;
 background-color: red;
 border-radius: 50%;
 margin-top: 1rem ;
+
 margin-right: .5rem ;
 margin-bottom: 1rem ;
 font-size: 1.5rem;

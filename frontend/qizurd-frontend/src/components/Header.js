@@ -1,34 +1,10 @@
-import { GiHamburgerMenu } from "react-icons/gi"
-import { CgProfile } from "react-icons/cg"
+import MenuRoundedIcon from '@mui/icons-material/MenuRounded';
+import AccountCircleRoundedIcon from '@mui/icons-material/AccountCircleRounded';
 import { useNavigate } from "react-router-dom"
 import { connect } from "react-redux"
+import { AppBar,Toolbar,Typography } from "@mui/material"
 import React from "react"
-import styled from "styled-components"
 import { menuToggle } from "../state/action-builder"
-
-const HeaderStyles = styled.header`
-display:flex;
-background-color:orange;
-width: 100vw;
-height: 10vh;
-align-items: center;
-justify-content: space-between;
-margin: space-between;
-
-@media (max-width: 325px){
-    font-size:2rem;
-
-}
-`
-
-const IconWrapper = styled.div`
-margin:1rem;
-cursor: pointer;
-`
-
-const Logo = styled.p`
-cursor:pointer;
-`
 
 const Header = (props) => {
 
@@ -48,11 +24,13 @@ const Header = (props) => {
         props.menuToggle(false)
     }
 return (
-    <HeaderStyles>
-        <IconWrapper><GiHamburgerMenu onClick={menuClickHandler}/></IconWrapper>
-        <Logo onClick={logoClickHandler}>Qizurd</Logo>
-        <IconWrapper><CgProfile onClick={accountClickHandler}/></IconWrapper>
-    </HeaderStyles>
+    <AppBar position="relative">
+        <Toolbar>
+            <MenuRoundedIcon onClick={menuClickHandler}/>
+            <Typography variant="h6" onClick={logoClickHandler}>Qizurd</Typography>
+            <AccountCircleRoundedIcon onClick={accountClickHandler}/>
+        </Toolbar>
+    </AppBar>
 )
 }
 

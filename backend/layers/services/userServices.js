@@ -1,3 +1,5 @@
+const User = require("../models/user");
+
 let users = [];
 
 module.exports = {
@@ -18,5 +20,8 @@ module.exports = {
     },
     getAllUserData: (idKey = "id") => {
         return users.map(user=>user.export(idKey));
+    },
+    buildUsersFromUserData: (userData) => {
+        users = userData.map(u => new User(u));
     }
 }

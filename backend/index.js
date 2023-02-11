@@ -16,20 +16,20 @@ const studentCtrl = require("./layers/controllers/studentController");
 
 const userServices = require("./layers/services/userServices");
 
-const loadDataAndBuildUsers = async () => {
-    await data.loadDataFromDB();
-    userServices.buildUsersFromUserData(data.getAllUserData());
-}
+// const loadDataAndBuildUsers = async () => {
+//     await data.loadDataFromDB();
+//     userServices.buildUsersFromUserData(data.getAllUserData());
+// }
 
-loadDataAndBuildUsers();
+// loadDataAndBuildUsers();
 
-const exportUsersAndSaveToDB = () => {
-    data.setAllUserData(userServices.getAllUserData("_id"));
-    data.saveDataToDB()
-}
+// const exportUsersAndSaveToDB = () => {
+//     data.setAllUserData(userServices.getAllUserData("_id"));
+//     data.saveDataToDB()
+// }
 
-setInterval(()=>{exportUsersAndSaveToDB},timeUtils.convertToMilliseconds(1,"day"));
-process.on("SIGINT", ()=>{exportUsersAndSaveToDB(); process.exit()});
+// setInterval(()=>{exportUsersAndSaveToDB},timeUtils.convertToMilliseconds(1,"day"));
+// process.on("SIGINT", ()=>{exportUsersAndSaveToDB(); process.exit()});
 
 const PORT = 8025;
 

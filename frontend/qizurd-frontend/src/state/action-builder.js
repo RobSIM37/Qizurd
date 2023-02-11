@@ -16,7 +16,8 @@ import {
     CLEAR_STUDENT_FORM,
     ADD_STUDENT_TO_USER,
     FILL_STUDENT_FORM,
-    FILL_QUIZ_FORM
+    FILL_QUIZ_FORM,
+    DELETE_QUESTION_FROM_QUIZ
 } from "./action-types"
 
 
@@ -76,7 +77,9 @@ export const deleteQuiz = (quizid) => {
 export const deleteStudentFromQuiz = (studentid) => {
     return {type: DELETE_STUDENT_FROM_QUIZ,payload:studentid}
 }
-
+export const deleteQuestionFromQuiz = (quizIndex) => {
+    return {type:DELETE_QUESTION_FROM_QUIZ,payload:quizIndex}
+}
 export const clearQuizForm = () => {
     return {type: CLEAR_QUIZ_FORM}
 }

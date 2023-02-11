@@ -2,7 +2,8 @@ import React from "react"
 import { connect } from "react-redux"
 import FormStudentCard from "./FormStudentCard"
 import FormQuestionCard from "./FormQuestionCard"
-import { FormContainer,FormStyles,LabelStyles,InputBoxStyle} from "./formStyles"
+import { Container,Paper,Typography,TextField,Fab,Button,List } from "@mui/material"
+import AddIcon from '@mui/icons-material/Add';
 import { 
     postQuiz,
     changeQuizText,
@@ -15,12 +16,6 @@ const CreateQuiz = (props) => {
 
     const addQuestionClickHandler = () => {
         props.addQuizQuestion()
-    }
-
-    const questionInputChangeHandler = (e) => {
-        const {id,className,value} = e.target
-        const inputType = className.split(" ")[2]
-        props.editQuizQuestion(id,inputType,value)
     }
         
     const optionClickHandler = (e) => {
@@ -49,36 +44,48 @@ const CreateQuiz = (props) => {
     }
 
     return(
-    <FormContainer>
-        <FormStyles onSubmit={formSubmitHandler}>
-            <LabelStyles htmlFor={"quizTitle"}>Quiz Title</LabelStyles>
-            <InputBoxStyle id={"quizTitle"} value={props.quiz.quizTitle} onChange={inputChangeHandler}/>
+    <Container align="center">
+        <Paper color="secondary" elevation={24}>
 
-            <LabelStyles htmlFor={"description"}>Quiz Description</LabelStyles>
-            <InputBoxStyle className={"bigInput"} id={"description"} value={props.quiz.description} onChange={inputChangeHandler}/>
+                {/* Quiz title and description */}
+                <Typography fontSize="2rem">Quiz Title</Typography>
+                <TextField variant="filled" sx={{marginLeft:"1rem",marginRight:"1rem"}} id={"quizTitle"} value={props.quiz.quizTitle} onChange={inputChangeHandler}/>
 
-            {props.quiz.questions.map((el,index) =>
-                {return <FormQuestionCard key={index} id={index} 
-                question={el} questionInputChangeHandler={questionInputChangeHandler}></FormQuestionCard>})
-            }
+                <Typography fontSize="2rem">Quiz Description</Typography>
+                <TextField variant="filled" sx={{marginLeft:"1rem",marginRight:"1rem"}} id={"description"} value={props.quiz.description} onChange={inputChangeHandler}/>
 
-            <button type="button" onClick={addQuestionClickHandler}>Add a question</button>
+                {/* Question list generator */}
+                <Typography fontSize="2rem">Questions</Typography>
+                {props.quiz.questions.map((el,index) =>
+                    {return <FormQuestionCard key={index} id={index} 
+                    question={el}></FormQuestionCard>})
+                }
 
-            {props.quiz.students.map(el => 
-                {return <FormStudentCard id={el.id} key={el.id}>{el.firstName + " " + el.lastName}</FormStudentCard>})}
+                {/* Add question button */}
+                <Fab sx={{margin:"2rem"}} color="primary" onClick={addQuestionClickHandler}>
+                    <AddIcon/>
+                </Fab>
 
-            <select value={0}>
-                <option value={0}>--Select Student--</option>
-                {props.user.students
-                    .filter(el => props.quiz.students.map(el => el.id)
-                    .includes(el.id) === false)
-                    .map(el => 
-                    {return <option onClick={optionClickHandler} key={el.id} id={el.id}>{el.firstName + " " + el.lastName}</option>})}
-            </select>
-            <button type="submit">Submit</button>
+                {/* Student select list and Student selected list */}
+                <Typography fontSize="2rem">Students</Typography>
+                <TextField sx={{marginLeft:"3rem",marginRight:"3rem"}} select value={0}>
+                    <option value={0}>Add Student</option>
+                    {props.user.students
+                        .filter(el => props.quiz.students.map(el => el.id)
+                        .includes(el.id) === false)
+                        .map(el => 
+                        {return <option onClick={optionClickHandler} key={el.id} id={el.id}>{el.firstName + " " + el.lastName}</option>})}
+                </TextField>
 
-        </FormStyles>    
-    </FormContainer>
+                <List>
+                    {props.quiz.students.map(el => 
+                        {return <FormStudentCard id={el.id} key={el.id}>{el.firstName + " " + el.lastName}</FormStudentCard>})}
+                </List>
+
+                {/* Button to create/edit quiz */}
+                <Button sx={{margin:"2rem"}}variant="contained" onClick={formSubmitHandler}>Create Quiz</Button>
+        </Paper>    
+    </Container>
     )
 }
 

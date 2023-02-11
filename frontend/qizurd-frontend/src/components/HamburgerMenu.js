@@ -20,10 +20,13 @@ const HamburgerMenu = (props) => {
     const drawerClose = () => {
         setMenuOpen(false)
     }
+    const drawerOpen = () => {
+        setMenuOpen(true)
+    }
     return(
     <>
     <MenuRoundedIcon fontSize="large" onClick={menuClick}/>
-    <SwipeableDrawer anchor="top" open={menuOpen} onClose={drawerClose}>
+    <SwipeableDrawer anchor="top" open={menuOpen} onOpen={drawerOpen} onClose={drawerClose}>
         <ButtonGroup orientation="vertical">
             <Button size="large" id="/student/create-student" onClick={selectionClickHandler}>Create Student</Button>
             <Button size="large" id="/student/edit-student" onClick={selectionClickHandler}>Edit Student</Button>

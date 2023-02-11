@@ -23,13 +23,16 @@ const loadDataAndBuildUsers = async () => {
 
 loadDataAndBuildUsers();
 
-const exportUsersAndSaveToDB = () => {
+const exportUsersAndSaveToDB = async () => {
+    console.log("Saving data");
     data.setAllUserData(userServices.getAllUserData("_id"));
-    data.saveDataToDB()
+    await data.clearDB();
+    await data.saveDataToDB();
+    console.log("Data saved");
 }
 
 setInterval(()=>{exportUsersAndSaveToDB},timeUtils.convertToMilliseconds(1,"day"));
-process.on("SIGINT", ()=>{exportUsersAndSaveToDB(); process.exit()});
+process.on("SIGINT", async ()=>{await exportUsersAndSaveToDB(); process.exit()});
 
 const PORT = 8025;
 

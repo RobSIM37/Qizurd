@@ -14,7 +14,22 @@ const quizCtrl = require("./layers/controllers/quizController");
 const userCtrl = require("./layers/controllers/usersController");
 const studentCtrl = require("./layers/controllers/studentController");
 
-data.loadDataFromDB();
+const userServices = require("./layers/services/userServices");
+
+const loadDataAndBuildUsers = async () => {
+    await data.loadDataFromDB();
+    userServices.buildUsersFromUserData(data.getAllUserData());
+}
+
+loadDataAndBuildUsers();
+
+const exportUsersAndSaveToDB = () => {
+    data.setAllUserData(userServices.getAllUserData("_id"));
+    data.saveDataToDB()
+}
+
+setInterval(()=>{exportUsersAndSaveToDB},timeUtils.convertToMilliseconds(1,"day"));
+process.on("SIGINT", ()=>{exportUsersAndSaveToDB(); process.exit()});
 
 const PORT = 8025;
 
@@ -36,6 +51,3 @@ server.get("/students/:userId",studentCtrl.allStudents);
 server.post("/students/answer",studentCtrl.logStudentAnswer);
 
 server.listen(PORT, ()=>{console.log(`Server up and listening on port ${PORT}`)});
-
-//setInterval(()=>{data.saveDataToDB()},timeUtils.convertToMilliseconds(1,"day"));
-//process.on("SIGINT", ()=>{data.saveDataToDB(); process.exit()});

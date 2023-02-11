@@ -6,7 +6,7 @@ import { deleteQuestionFromQuiz,editQuizQuestion } from "../../state/action-buil
 
 const FormQuestion = (props) => {
     
-    // classnames got fucked, use question index to fix this.
+    // classnames got fucked, use question index,input ids, and input values to fix this.
     const questionInputChangeHandler = (e) => {
         const {id,className,value} = e.target
         const inputType = className.split(" ")[2]

@@ -45,6 +45,17 @@ module.exports = {
     setAllUserData: (incommingUserData) => {
         userData = [...incommingUserData];
     },
+    clearDB: async () => {
+        try {
+            await client.connect();
+            await client.db("qizurdDB").collection("users").deleteMany();
+            await client.db("qizurdDB").collection("pwHashes").deleteMany();
+            await client.db("qizurdDB").collection("issuedId").deleteMany();
+            console.log("DB Cleared");
+        } finally {
+            await client.close();
+        }
+    },
     loadDataFromDB: async () => {
 
         try {
@@ -82,12 +93,12 @@ module.exports = {
             }
 
             if (passwordData.length > 0) {
-                const passwordResult = await client.db("qizurdDB").collection("pwHashes").insertMany(passwordData, upsertOption);
+                const passwordResult = await client.db("qizurdDB").collection("pwHashes").insertMany(userData, upsertOption);
                 console.log(`- ${passwordResult.insertedCount} hash documents were inserted`);
             }
 
             if (issuedIdArr.length > 0) {
-                const issuedIdDataResult = await client.db("qizurdDB").collection("issuedId").insertMany(issuedIdArr, upsertOption);
+                const issuedIdDataResult = await client.db("qizurdDB").collection("issuedId").insertMany(userData, upsertOption);
                 console.log(`- ${issuedIdDataResult.insertedCount} id documents were inserted`);
             }
             

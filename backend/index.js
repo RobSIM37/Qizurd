@@ -16,12 +16,12 @@ const studentCtrl = require("./layers/controllers/studentController");
 
 const userServices = require("./layers/services/userServices");
 
-const loadDataAndBuildUsers = async () => {
-    await data.loadDataFromDB();
-    userServices.buildUsersFromUserData(data.getAllUserData());
-}
+// const loadDataAndBuildUsers = async () => {
+//     await data.loadDataFromDB();
+//     userServices.buildUsersFromUserData(data.getAllUserData());
+// }
 
-loadDataAndBuildUsers();
+// loadDataAndBuildUsers();
 
 const exportUsersAndSaveToDB = async () => {
     console.log("Saving data");

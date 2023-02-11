@@ -72,6 +72,8 @@ module.exports = {
                 issuedIdMap.set(issuedIdData._id, true)
             })
             console.log("Data Loaded Successfully");
+        } catch(err) {
+            console.log(err)
         } finally {
             await client.close();
         }

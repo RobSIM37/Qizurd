@@ -16,10 +16,9 @@ import {
   ADD_STUDENT_TO_USER,
   ADD_QUIZ_TO_USER,
   FILL_STUDENT_FORM,
-  FILL_QUIZ_FORM
+  FILL_QUIZ_FORM,
+  DELETE_QUESTION_FROM_QUIZ
 } from "./action-types"
-
-
 
 let emptyUser = {
   userName: "",
@@ -27,18 +26,6 @@ let emptyUser = {
   quizzes: [],
   students: []
 }
-
-// let hamburgerMenu = {
-//   menuSelections:
-//   ["Create Quiz",
-//   "Edit Quiz",
-//   "Delete Quiz",
-//   "Create Student",
-//   "Edit Student",
-//   "Delete Student",
-//   "Close",],
-//   menuOpen:false
-// }
 
 let emptyQuizForm = {
   id: null,
@@ -83,6 +70,8 @@ const quizForm = (state = emptyQuizForm, action) => {
       return {...state, students: [...state.students, action.payload]}
     case DELETE_STUDENT_FROM_QUIZ:
       return {...state, students: [...state.students.filter(el => action.payload !== el.id)]}
+    case DELETE_QUESTION_FROM_QUIZ:
+      return {...state, questions: [...state.questions.filter((el,index) => index !== action.payload)]}
     case CLEAR_QUIZ_FORM:
       return emptyQuizForm
     case FILL_QUIZ_FORM:

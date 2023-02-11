@@ -1,7 +1,7 @@
 import React from "react"
-import {AiOutlineCloseCircle} from "react-icons/ai"
 import { connect } from "react-redux"
-import { FormStudentCardStyles,StudentCardText,CloseIconWrapper} from "./formStyles"
+import { ListItem,ListItemText,IconButton,Divider  } from "@mui/material"
+import ClearIcon from '@mui/icons-material/Clear';
 import { deleteStudentFromQuiz } from "../../state/action-builder"
 
 const FormStudentCard = (props) => {
@@ -9,15 +9,19 @@ const FormStudentCard = (props) => {
     const closeClickHandler = (e) => {
         const {id} = e.target
         props.deleteStudentFromQuiz(id)
+        console.log(id)
     }
 
     return(
-        <FormStudentCardStyles>
-            <CloseIconWrapper id={props.id} onClick={closeClickHandler}><AiOutlineCloseCircle style={{pointerEvents: "none"}} id={props.id}/></CloseIconWrapper>
-            <StudentCardText>
+        <ListItem>
+            <ListItemText>
                 {props.children}
-            </StudentCardText>
-        </FormStudentCardStyles>
+            </ListItemText>
+            <IconButton id={props.id} onClick={closeClickHandler}>
+                <ClearIcon sx={{pointerEvents:"none"}}/>
+            </IconButton>
+            <Divider/>
+        </ListItem>
     )
 }
 

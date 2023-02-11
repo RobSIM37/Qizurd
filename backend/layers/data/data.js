@@ -1,7 +1,5 @@
 const dbUtils = require("../../utils/dbUtils");
 const {MongoClient, ServerApiVersion} = require("mongodb");
-const userServices = require("../services/userServices");
-const User = require("../models/user");
 
 const client = new MongoClient(dbUtils.url, {
     sslKey: dbUtils.cert,
@@ -13,6 +11,7 @@ const bcrypt = require("bcrypt");
 
 const issuedIdMap = new Map();
 let passwordData = [];
+let userData = [];
 
 module.exports = {
     registerUser: (userName, password) => {
@@ -40,21 +39,24 @@ module.exports = {
     addIdManually: (id) => {
         issuedIdMap.set(id, true);
     },
+    getAllUserData: () => {
+        return [...userData];
+    },
+    setAllUserData: (incommingUserData) => {
+        userData = [...incommingUserData];
+    },
     loadDataFromDB: async () => {
 
         try {
             await client.connect();
-            const usersDataArray = await client.db("qizurdDB").collection("users").find({}).toArray();
+            userData = await client.db("qizurdDB").collection("users").find({}).toArray();
             passwordData = await client.db("qizurdDB").collection("pwHashes").find({}).toArray();
             const issuedIdDataArray = await client.db("qizurdDB").collection("issuedId").find({}).toArray();
 
-            console.log(`- userDataArray has ${usersDataArray.length} entries`);
+            console.log(`- userData has ${userData.length} entries`);
             console.log(`- passwordData has ${passwordData.length} entries`);
             console.log(`- issuedIdDataArray has ${issuedIdDataArray.length} entries`);
 
-            usersDataArray.forEach(userData=>{
-                userServices.addUser(new User(userData));
-            })
             issuedIdDataArray.forEach(issuedIdData=>{
                 issuedIdMap.set(issuedIdData._id, true)
             })
@@ -69,7 +71,6 @@ module.exports = {
             await client.connect();
             const upsertOption = {upsert: true}
 
-            const userData = userServices.getAllUserData("_id");
             const issuedIdArr = [];
             issuedIdMap.forEach((val, key) => issuedIdArr.push({_id: key}));
 

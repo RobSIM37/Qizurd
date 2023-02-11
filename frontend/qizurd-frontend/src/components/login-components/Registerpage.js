@@ -52,7 +52,7 @@ const Registerpage = (props) => {
                 label="Password"
                 variant="standard"
                 align="center"
-                value={userName}
+                value={password}
                 onChange={inputChangeHandler}
                 sx={{marginBottom:"2rem"}}>
                 </TextField>

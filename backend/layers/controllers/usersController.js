@@ -6,7 +6,7 @@ module.exports = {
     registerUser: (req,res) => {
         const userInfo = req.body;
         if (data.registerUser(userInfo.userName, userInfo.password)) {
-            const newUser = new User({userName: userInfo.userName});
+            const newUser = new User({name: userInfo.userName});
             userServices.addUser(newUser);
             res.status(200).send(newUser.export());
         } else {

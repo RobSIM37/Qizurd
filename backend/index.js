@@ -14,7 +14,7 @@ const quizCtrl = require("./layers/controllers/quizController");
 const userCtrl = require("./layers/controllers/usersController");
 const studentCtrl = require("./layers/controllers/studentController");
 
-data.loadDataFromDB();
+//data.loadDataFromDB();
 
 const PORT = 8025;
 

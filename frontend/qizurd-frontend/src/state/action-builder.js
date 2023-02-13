@@ -3,12 +3,9 @@ import {
     CHANGE_TEXT,
     CHANGE_QUIZ_TEXT,
     ACTIVE_USER,
-    FILL_QUIZ_STATE,
-    FILL_STUDENT_STATE,
-    CARD_CLICKED,
     ADD_STUDENT_TO_QUIZ,
     ADD_QUIZ_TO_USER,
-    DELETE_QUIZ,
+    DELETE_QUIZ_FROM_USER,
     DELETE_STUDENT_FROM_QUIZ,
     EDIT_QUIZ_QUESTION,
     ADD_QUIZ_QUESTION,
@@ -34,16 +31,14 @@ export const postStudent = (student) => dispatch => {
     }).catch(err => console.log(err))
 }
 
+export const deleteQuiz = (params) => dispatch => {
+    axios.delete(`http://localhost:8025/quizzes/${params.userId}/${params.quizId}`).then(res => {
+        dispatch({type:DELETE_QUIZ_FROM_USER,payload:res.data})
+    }).catch(err => console.log(err)) 
+}
+
 export const activeUser = (user) => {
     return {type: ACTIVE_USER, payload: user}
-}
-
-export const fillQuizState = (quizzes) => {
-    return {type: FILL_QUIZ_STATE, payload: quizzes}
-}
-
-export const fillStudentState = (students) => {
-    return {type: FILL_STUDENT_STATE, payload: students}
 }
 
 export const changeInputText = (inputid,inputValue) =>  {
@@ -52,10 +47,6 @@ export const changeInputText = (inputid,inputValue) =>  {
 
 export const changeQuizText = (inputid,inputValue) => {
     return {type:CHANGE_QUIZ_TEXT, payload:{inputid,inputValue}}
-}
-
-export const cardClicked = (id) => {
-    return {type: CARD_CLICKED,payload: id}
 }
 
 export const addStudentToQuiz = (student) => {
@@ -68,10 +59,6 @@ export const addQuizQuestion = () => {
 
 export const editQuizQuestion = (id,inputType,inputValue) => {
     return {type: EDIT_QUIZ_QUESTION, payload: {id,inputType,inputValue}}
-}
-
-export const deleteQuiz = (quizid) => {
-    return {type: DELETE_QUIZ,payload:quizid}
 }
 
 export const deleteStudentFromQuiz = (studentid) => {

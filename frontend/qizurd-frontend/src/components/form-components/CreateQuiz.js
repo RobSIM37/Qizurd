@@ -43,15 +43,15 @@ const CreateQuiz = (props) => {
     }
 
     return(
-    <Container align="center">
-        <Paper color="secondary" elevation={24}>
+    <Container align="center" >
+        <Paper sx={{marginTop:2}} elevation={24}>
 
                 {/* Quiz title and description */}
                 <Typography fontSize="2rem">Quiz Title</Typography>
-                <TextField variant="filled" sx={{marginLeft:"1rem",marginRight:"1rem"}} id={"quizTitle"} value={props.quiz.quizTitle} onChange={inputChangeHandler}/>
+                <TextField size="small"  sx={{marginLeft:"1rem",marginRight:"1rem"}} id={"quizTitle"} value={props.quiz.quizTitle} onChange={inputChangeHandler}/>
 
                 <Typography fontSize="2rem">Quiz Description</Typography>
-                <TextField variant="filled" sx={{marginLeft:"1rem",marginRight:"1rem"}} id={"description"} value={props.quiz.description} onChange={inputChangeHandler}/>
+                <TextField  sx={{marginLeft:"1rem",marginRight:"1rem"}} id={"description"} value={props.quiz.description} onChange={inputChangeHandler}/>
 
                 {/* Question list generator */}
                 <Typography fontSize="2rem">Questions</Typography>
@@ -82,7 +82,7 @@ const CreateQuiz = (props) => {
                 </List>
 
                 {/* Button to create/edit quiz */}
-                <Button sx={{margin:"2rem"}}variant="contained" onClick={formSubmitHandler}>Create Quiz</Button>
+                <Button sx={{margin:"2rem"}} variant="contained" onClick={formSubmitHandler}>Submit Quiz</Button>
         </Paper>    
     </Container>
     )

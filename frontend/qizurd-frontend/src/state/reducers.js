@@ -3,9 +3,8 @@ import {
   ACTIVE_USER,
   // FILL_QUIZ_STATE,
   // FILL_STUDENT_STATE,
-  // CARD_CLICKED,
   ADD_STUDENT_TO_QUIZ,
-  // DELETE_QUIZ,
+  DELETE_QUIZ_FROM_USER,
   DELETE_STUDENT_FROM_QUIZ,
   CHANGE_TEXT,
   CHANGE_QUIZ_TEXT,
@@ -52,6 +51,8 @@ const user = (state = emptyUser, action) => {
     case ADD_QUIZ_TO_USER:
       console.log("add quiz reducer", state)
       return {...state,quizzes: action.payload}
+    case DELETE_QUIZ_FROM_USER:
+      return action.payload
     default:
       return state
   }

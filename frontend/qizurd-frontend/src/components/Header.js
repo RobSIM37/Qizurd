@@ -11,7 +11,6 @@ const Header = (props) => {
 
     const logoClickHandler = (e) => {
         navigate("/quizzes")
-        props.menuToggle(false)
     }
 
     const accountClickHandler = (e) => {

@@ -6,43 +6,39 @@ import { deleteQuestionFromQuiz,editQuizQuestion } from "../../state/action-buil
 
 const FormQuestion = (props) => {
     
-    // classnames got fucked, use question index,input ids, and input values to fix this.
     const questionInputChangeHandler = (e) => {
-        const {id,className,value} = e.target
-        const inputType = className.split(" ")[2]
-        console.log(className)
-        props.editQuizQuestion(id,inputType,value)
+        const {id,name,value} = e.target
+        props.editQuizQuestion(id,name,value)
     }
 
-    const closeClickHandler = (e) => {
-        const {id} = props
-        props.deleteQuestionFromQuiz(id)
+    const deleteQuestionClickHandler = (e) => {
+        const {id} = e.target
+        const intId = parseInt(id);
+        props.deleteQuestionFromQuiz(intId);
     }
 
     return(
     <Card sx={{width:"80%",margin:"2rem"}} elevation={12}>
         <Container align="right">
-            <IconButton onClick={closeClickHandler}>
+            <IconButton id={props.id} onClick={deleteQuestionClickHandler}>
                 <ClearIcon sx={{pointerEvents:"none"}}/>
             </IconButton>
         </Container>
         <Container align="center">
             <Box sx={{margin:"2rem",marginTop: "0px"}}>
-                <Typography>Question {props.id + 1}:</Typography>
-                <TextField id={props.id} key={"questionText"} className={"questionText"}
-                value={props.question.questionText} onChange={questionInputChangeHandler}></TextField>
+                <Typography>Question {parseInt(props.index) + 1}:</Typography>
+                <TextField id={props.id} name="questionText" value={props.question.questionText} onChange={questionInputChangeHandler}></TextField>
             </Box>
             <Box sx={{margin:"2rem"}}>
                 <Typography>Answer:</Typography>
-                <TextField id={props.id} key={"answer"} className={"answer"}
-                value={props.question.answer} onChange={questionInputChangeHandler}></TextField>
+                <TextField id={props.id} name="answer" value={props.question.answer} onChange={questionInputChangeHandler}></TextField>
             </Box>
         </Container>
     </Card>)
     }
 
 const mapStateToProps = state => ({
-
+    quizForm: state.quizForm
 })
 
 export default connect(mapStateToProps,{deleteQuestionFromQuiz,editQuizQuestion})(FormQuestion)

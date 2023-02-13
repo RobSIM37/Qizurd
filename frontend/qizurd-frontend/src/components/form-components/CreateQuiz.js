@@ -57,7 +57,7 @@ const CreateQuiz = (props) => {
                 {/* Question list generator */}
                 <Typography fontSize="2rem">Questions</Typography>
                 {props.quiz.questions.map((el,index) =>
-                    {return <FormQuestionCard key={index} id={index} 
+                    {return <FormQuestionCard index={index} id={""+el.renderId} key={el.renderId} 
                     question={el}></FormQuestionCard>})
                 }
 

@@ -50,7 +50,7 @@ const user = (state = emptyUser, action) => {
     case ADD_STUDENT_TO_USER:
       return action.payload
     case ADD_QUIZ_TO_USER:
-      console.log(action.payload)
+      console.log("add quiz reducer", state)
       return {...state,quizzes: action.payload}
     default:
       return state

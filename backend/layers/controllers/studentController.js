@@ -6,16 +6,19 @@ const { isKnownId } = require("../data/data");
 module.exports = {
    addOrUpdateStudent: (req, res) => {
       const reqData = req.body;
+      console.log("student reqData:", reqData)
       if (data.isKnownId(reqData.userId)) {
          try {
             const addedStudent = studentServices.addOrUpdateStudent(reqData.userId, reqData)
             if (addedStudent) {
                const updatedUser = userServices.getUser(reqData.userId);
+               console.log("sending back:", updatedUser.export())
                res.status(200).send(updatedUser.export());
             } else {
                res.status(400).send({message:"unable to add student with information provided"});
             }
          } catch(err) {
+            console.log(err)
             res.status(500).send({message:"an unknown server error has prevented this transaction"});
          }
       } else {

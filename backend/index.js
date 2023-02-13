@@ -23,16 +23,16 @@ const userServices = require("./layers/services/userServices");
 
 // loadDataAndBuildUsers();
 
-const exportUsersAndSaveToDB = async () => {
-    console.log("Saving data");
-    data.setAllUserData(userServices.getAllUserData("_id"));
-    await data.clearDB();
-    await data.saveDataToDB();
-    console.log("Data saved");
-}
+// const exportUsersAndSaveToDB = async () => {
+//     console.log("Saving data");
+//     data.setAllUserData(userServices.getAllUserData("_id"));
+//     await data.clearDB();
+//     await data.saveDataToDB();
+//     console.log("Data saved");
+// }
 
-setInterval(()=>{exportUsersAndSaveToDB},timeUtils.convertToMilliseconds(1,"day"));
-process.on("SIGINT", async ()=>{await exportUsersAndSaveToDB(); process.exit()});
+// setInterval(()=>{exportUsersAndSaveToDB},timeUtils.convertToMilliseconds(1,"day"));
+// process.on("SIGINT", async ()=>{await exportUsersAndSaveToDB(); process.exit()});
 
 const PORT = 8025;
 

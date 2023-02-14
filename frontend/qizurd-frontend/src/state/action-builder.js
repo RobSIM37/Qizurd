@@ -77,9 +77,11 @@ export const deleteQuiz = (quizid) => {
 export const deleteStudentFromQuiz = (studentid) => {
     return {type: DELETE_STUDENT_FROM_QUIZ,payload:studentid}
 }
-export const deleteQuestionFromQuiz = (quizIndex) => {
-    return {type:DELETE_QUESTION_FROM_QUIZ,payload:quizIndex}
+
+export const deleteQuestionFromQuiz = (quizRenderId) => {
+    return {type:DELETE_QUESTION_FROM_QUIZ,payload:quizRenderId}
 }
+
 export const clearQuizForm = () => {
     return {type: CLEAR_QUIZ_FORM}
 }
@@ -93,6 +95,5 @@ export const fillStudentForm = (student) => {
 }
 
 export const fillQuizForm = (quiz) => {
-    console.log("action",quiz)
     return {type:FILL_QUIZ_FORM,payload:quiz}
 }

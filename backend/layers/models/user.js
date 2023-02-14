@@ -35,12 +35,12 @@ class User extends Unique {
         userData[idKey] = super.id;
         return userData;
     }
-    addOrUpdateQuiz(incommingQuiz){
-        const quizIndex = this.#quizzes.map(quiz=>quiz.id).indexOf(incommingQuiz.id)
+    addOrUpdateQuiz(incomingQuiz){
+        const quizIndex = this.#quizzes.map(quiz=>quiz.id).indexOf(incomingQuiz.id)
         if (quizIndex == -1) {
-            this.#quizzes.push(incommingQuiz);
+            this.#quizzes.push(incomingQuiz);
         } else {
-            this.#quizzes[quizIndex] = incommingQuiz;
+            this.#quizzes[quizIndex] = incomingQuiz;
         }
     }
     getQuiz(quizId){
@@ -58,7 +58,9 @@ class User extends Unique {
             this.#students.push(newStudent);
         } else {
             this.#students[studentIndex] = newStudent;
-            this.#quizzes = this.#quizzes.map(quiz => quiz.updateStudent(newStudent));
+            this.#quizzes.forEach(quiz => {
+                quiz.updateStudent(newStudent);
+            })
         }
     }
     deleteStudent(studentId){

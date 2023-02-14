@@ -20,6 +20,8 @@ import {
   DELETE_QUESTION_FROM_QUIZ
 } from "./action-types"
 
+const RENDER_ID_MAX = 1000000
+
 let emptyUser = {
   userName: "",
   id: "",
@@ -46,9 +48,9 @@ const user = (state = emptyUser, action) => {
     case ACTIVE_USER:
       return action.payload
     case ADD_STUDENT_TO_USER:
-      return {...state,students: action.payload}
+      return action.payload
     case ADD_QUIZ_TO_USER:
-      console.log(action.payload)
+      console.log("add quiz reducer", state)
       return {...state,quizzes: action.payload}
     default:
       return state
@@ -60,22 +62,26 @@ const quizForm = (state = emptyQuizForm, action) => {
     case CHANGE_QUIZ_TEXT:
       return {...state, [action.payload.inputid]: action.payload.inputValue}
     case ADD_QUIZ_QUESTION:
-      return {...state,questions:[...state.questions,{id:"",title:"",answer:""}]}
+      console.log(state)
+      const updatedQuizQuestions = [...state.questions,{renderId: Math.floor(Math.random() * RENDER_ID_MAX),questionText:"", answer:""}]
+      return {...state,questions:updatedQuizQuestions}
     case EDIT_QUIZ_QUESTION:
-      const questionToEdit = state.questions[action.payload.id] 
-      questionToEdit[action.payload.inputType] = action.payload.inputValue
-      state.questions[action.payload.id] = questionToEdit
-      return {...state,questions:[...state.questions]}
+      const updatedArr = [...state.questions]
+      updatedArr.forEach(el => {
+        if(el.renderId === parseInt(action.payload.id)){
+          el[action.payload.inputType] = action.payload.inputValue
+        }
+      })
+      return {...state,questions:updatedArr}
     case ADD_STUDENT_TO_QUIZ:
       return {...state, students: [...state.students, action.payload]}
     case DELETE_STUDENT_FROM_QUIZ:
       return {...state, students: [...state.students.filter(el => action.payload !== el.id)]}
     case DELETE_QUESTION_FROM_QUIZ:
-      return {...state, questions: [...state.questions.filter((el,index) => index !== action.payload)]}
+      return {...state, questions: [...state.questions.filter(el => action.payload !== el.renderId)]}
     case CLEAR_QUIZ_FORM:
       return emptyQuizForm
     case FILL_QUIZ_FORM:
-      console.log("reducer" ,action.payload)
       return action.payload
     default:
       return state

@@ -4,7 +4,6 @@ const data = require("../data/data");
 module.exports = {
     addOrUpdateQuiz: (req, res) => {
         const reqData = req.body;
-        console.log("reqData:",reqData)
         if (data.isKnownId(reqData.userId)) {
             try {
                 const addedQuiz = quizServices.addOrUpdateQuiz(reqData);

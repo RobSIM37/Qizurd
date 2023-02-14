@@ -27,8 +27,6 @@ class User extends Unique {
         this.#students = data.students;
     }
     export(idKey = "id"){
-        console.log("quizzes:",this.#quizzes)
-        console.log("quiz count:", this.#quizzes.length, "student count:", this.#students.length)
         const userData = {
             name: this.name,
             quizzes: this.#quizzes.map(quiz=>quiz.export()),
@@ -38,7 +36,6 @@ class User extends Unique {
         return userData;
     }
     addOrUpdateQuiz(incomingQuiz){
-        console.log("incoming quiz:", incomingQuiz)
         const quizIndex = this.#quizzes.map(quiz=>quiz.id).indexOf(incomingQuiz.id)
         if (quizIndex == -1) {
             this.#quizzes.push(incomingQuiz);
@@ -61,7 +58,9 @@ class User extends Unique {
             this.#students.push(newStudent);
         } else {
             this.#students[studentIndex] = newStudent;
-            this.#quizzes = this.#quizzes.map(quiz => quiz.updateStudent(newStudent));
+            this.#quizzes.forEach(quiz => {
+                quiz.updateStudent(newStudent);
+            })
         }
     }
     deleteStudent(studentId){

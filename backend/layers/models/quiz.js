@@ -8,7 +8,6 @@ class Quiz extends Unique {
     #students = [];
 
     constructor (parameters){
-        console.log(parameters)
         const {quizTitle, description, id} = parameters
         super(id);
         this.quizTitle = quizTitle;

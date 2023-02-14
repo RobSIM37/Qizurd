@@ -6,7 +6,6 @@ const { isKnownId } = require("../data/data");
 module.exports = {
    addOrUpdateStudent: (req, res) => {
       const reqData = req.body;
-      console.log("student reqData:", reqData)
       if (data.isKnownId(reqData.userId)) {
          try {
             const addedStudent = studentServices.addOrUpdateStudent(reqData.userId, reqData)

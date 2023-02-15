@@ -1,21 +1,14 @@
 import React from "react"
-import QuizQuestion from "./QuizQuestion"
-import StudentList from "../student-components/StudentList"
-import {QuizDetailsStyles,TitleStyle,QuizContainer,Bar,DescriptionStyle} from "./quizStyles"
+import {Container,Paper,Typography,Divider} from "@mui/material"
 
 const QuizDetails = (props) => {
     return(
-        <QuizContainer>
-            <QuizDetailsStyles>
-                <TitleStyle>{props.quiz.quizTitle}</TitleStyle>
-                <Bar/>
-                <DescriptionStyle>{props.quiz.description}</DescriptionStyle>
-                <Bar/>
-                <p>Questions:</p>
-                {props.quiz.questions.map(question => {return <QuizQuestion question={question}/>})}
-            </QuizDetailsStyles>
-            <StudentList quiz={props.quiz}/>
-        </QuizContainer>
+            <Container align="center">
+                <Paper sx={{marginTop:2}} elevation={24}>
+                    <Typography>Test</Typography>
+                    <Typography>Test2</Typography>
+                </Paper>
+            </Container>
         )
     
 }

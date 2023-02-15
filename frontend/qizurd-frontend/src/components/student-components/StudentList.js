@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { StudentContainer,StudentCard } from "./studentStyles";
+import { Card,Container,Typography,Box } from "@mui/material"
 import { fillStudentForm } from "../../state/action-builder"
 
 //feed this component a list of students.
@@ -29,15 +29,16 @@ const StudentList = (props) => {
     }
 
     return(
-        <StudentContainer>
-            {props.clickHandlerid === "deleteStudent" && <div>Delete a Student</div>}
-            {props.clickHandlerid === "deleteStudent" && props.user.students.map(el => {return <StudentCard id={el.id}
-            onClick={clickHandlerControl}>{el.firstName + " " + el.lastName}</StudentCard>})}
-
-            {props.clickHandlerid === "editStudent" && <div>Edit a Student</div>}
-            {props.clickHandlerid === "editStudent" && props.user.students.map(el => {return <StudentCard id={el.id}
-            onClick={clickHandlerControl}>{el.firstName + " " + el.lastName}</StudentCard>})}
-        </StudentContainer>
+        <Container align="center">
+            {props.clickHandlerid === "deleteStudent" && <Typography fontSize="2rem">Delete a Student</Typography>}
+            {props.clickHandlerid === "editStudent" && <Typography fontSize="2rem">Edit a Student</Typography>}
+            {props.user.students.map(el => {return (
+                <Box mt={2} mb={2}>
+                    <Card id={el.id} onClick={clickHandlerControl}>
+                        <Typography sx={{pointerEvents:"none"}} mt={1} mb={1} fontSize="1.5rem">{el.firstName + " " + el.lastName}</Typography>
+                    </Card>
+                </Box>)})}
+        </Container>
     )
 }
 

@@ -1,9 +1,9 @@
 import React,{useState} from "react"
 import { connect } from "react-redux"
 import { useNavigate } from "react-router"
-import { activeUser,fillQuizState,fillStudentState } from "../../state/action-builder"
+import { activeUser } from "../../state/action-builder"
 import axios from "axios"
-import { Button, Container, TextField, Typography } from "@mui/material"
+import { Button, Container, TextField,Typography,Paper } from "@mui/material"
 
 const Loginpage = (props) => {
 
@@ -28,14 +28,13 @@ const Loginpage = (props) => {
         e.preventDefault()
         axios.post("http://localhost:8025/",{userName,password}).then(res => {
             props.activeUser(res.data)
-            props.fillQuizState(res.data.quizzes)
-            props.fillStudentState(res.data.students)
             navigate("/quizzes")
         }).catch(err => console.log(err))
     }
 
     return <div>
         <Container align="center">
+            <Paper>
             <Typography align="center" variant="h1" sx={{margin:"1rem"}}> Log In </Typography>
 
                 <TextField 
@@ -74,6 +73,7 @@ const Loginpage = (props) => {
                     </Button>
 
                 </Container>
+            </Paper>
         </Container>
     </div>
 }
@@ -82,4 +82,4 @@ const mapStateToProps = state => ({
 
 })
 
-export default connect(mapStateToProps,{activeUser,fillQuizState,fillStudentState})(Loginpage)
+export default connect(mapStateToProps,{activeUser})(Loginpage)

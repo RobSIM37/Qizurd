@@ -17,18 +17,20 @@ const theme = createTheme({
     primary: {
       main: "#384D48"
     },
-    secondary: {
-      main: "#D4CDAB"
+    background:{
+      default: "#567670"
     }
   },
   typography: {
+    fontFamily: "'Vollkorn', serif",
     headerFont: {
       fontFamily: "'Vollkorn', serif"
     },
     h1: {
       fontSize: "3rem"
     }
-  }
+  },
+  spacing: 10
 })
 
 const root = ReactDOM.createRoot(document.getElementById('root'));

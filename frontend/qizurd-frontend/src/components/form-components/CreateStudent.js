@@ -1,6 +1,6 @@
 import React from "react" 
 import { connect } from "react-redux"
-import { FormContainer, LabelStyles, StudentFormStyles, InputBoxStyle } from "./formStyles"
+import { Paper,Container,Button,Typography,TextField} from "@mui/material"
 import { changeInputText,postStudent,clearStudentForm } from "../../state/action-builder"
 
 const CreateStudent = (props) => {
@@ -19,17 +19,16 @@ const CreateStudent = (props) => {
     }
 
     return( 
-    <FormContainer>
-        <StudentFormStyles onSubmit={studentFormSubmitHandler}>
+    <Container align="center">
+        <Paper sx={{marginTop:2}} elevation={24}>
+            <Typography fontSize="2rem">First name</Typography>
+            <TextField size="small" id={"firstName"} value={props.studentForm.firstName} onChange={studentNameChangeHandler}/>
 
-            <LabelStyles htmlFor="firstName">First name</LabelStyles>
-            <InputBoxStyle id={"firstName"} value={props.studentForm.firstName} onChange={studentNameChangeHandler}/>
-
-            <LabelStyles htmlFor="lastName">Last name</LabelStyles>
-            <InputBoxStyle id={"lastName"} value={props.studentForm.lastName} onChange={studentNameChangeHandler}/>
-        <button type="submit">Submit</button>
-        </StudentFormStyles>
-    </FormContainer>
+            <Typography fontSize="2rem">Last name</Typography>
+            <TextField size="small" id={"lastName"} value={props.studentForm.lastName} onChange={studentNameChangeHandler}/>
+            <Button sx={{margin:"2rem"}} variant="contained" onClick={studentFormSubmitHandler}>Submit Student</Button>
+        </Paper>
+    </Container>
     )
 }
 

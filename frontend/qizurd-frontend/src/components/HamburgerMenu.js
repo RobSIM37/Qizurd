@@ -1,7 +1,9 @@
 import React, {useState} from "react"
+import {connect} from "react-redux"
 import { Button, ButtonGroup, SwipeableDrawer } from "@mui/material"
 import MenuRoundedIcon from '@mui/icons-material/MenuRounded';
 import { useNavigate } from "react-router";
+import { clearQuizForm,clearStudentForm } from "../state/action-builder";
 
 const HamburgerMenu = (props) => {
 
@@ -10,6 +12,8 @@ const HamburgerMenu = (props) => {
 
     const selectionClickHandler = (e) => {
         navigate(e.target.id)
+        props.clearQuizForm()
+        props.clearStudentForm()
         setMenuOpen(false)
     }
 
@@ -40,4 +44,8 @@ const HamburgerMenu = (props) => {
     )
 }
 
-export default HamburgerMenu
+const mapStateToProps = state => ({
+
+})
+
+export default connect(mapStateToProps,{clearQuizForm,clearStudentForm})(HamburgerMenu)

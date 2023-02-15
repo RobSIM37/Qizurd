@@ -1,7 +1,7 @@
 import React from "react"
 import { useNavigate } from "react-router"
 import { connect } from "react-redux"
-import {QuizCard,QuizContainer} from "./quizStyles"
+import { Card,Container,Typography,Box } from "@mui/material"
 import { deleteQuiz,fillQuizForm } from "../../state/action-builder"
 
 const QuizList = (props) => {
@@ -21,7 +21,7 @@ const QuizList = (props) => {
                 navigate(`/quiz/create-quiz`)
                 break
             case "deleteQuiz":
-                props.deleteQuiz(id)
+                props.deleteQuiz({userId:props.user.id,quizId:id})
                 navigate("/quizzes")
                 break
             default:
@@ -29,16 +29,18 @@ const QuizList = (props) => {
     }
 
     return(
-        <QuizContainer>
-            {props.clickHandlerid === "showDetails" && <div>Quizzes</div>}
-            {props.clickHandlerid === "editQuiz" && <div>Edit Quiz</div>}
-            {props.clickHandlerid === "deleteQuiz" && <div>Delete a Quiz</div>}
-            {props.user.quizzes.map( el => {
-                return <QuizCard id={el.id} key={el.id} onClick={clickHandlerControl}>
-                    {el.quizTitle}
-                </QuizCard>
-            })}
-        </QuizContainer>
+        <Container align="center">
+            {props.clickHandlerid === "showDetails" && <Typography>Quizzes</Typography>}
+            {props.clickHandlerid === "editQuiz" && <Typography>Edit Quiz</Typography>}
+            {props.clickHandlerid === "deleteQuiz" && <Typography>Delete a Quiz</Typography>}
+            {props.user.quizzes.map( el => {return (
+                <Box mt={2} mb={2}>
+                    <Card id={el.id} key={el.id} onClick={clickHandlerControl}>
+                        <Typography sx={{pointerEvents:"none"}} mt={1} mb={1} fontSize="1.5rem">{el.quizTitle}</Typography>
+                    </Card>
+                </Box>
+            )})}
+        </Container>
     )
 }
 

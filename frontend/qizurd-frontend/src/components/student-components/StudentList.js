@@ -2,7 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { Card,Container,Typography,Box } from "@mui/material"
-import { fillStudentForm } from "../../state/action-builder"
+import { fillStudentForm,deleteStudent } from "../../state/action-builder"
 
 //feed this component a list of students.
 //TODO
@@ -20,7 +20,7 @@ const StudentList = (props) => {
                 navigate("/student/create-student")
                 break
             case "deleteStudent":
-                props.deleteStudent(id)
+                props.deleteStudent({userId:props.user.id,studentId:id})
                 navigate("/quizzes")
                 break
             default:
@@ -46,4 +46,4 @@ const mapStateToProps = state => ({
     user: state.user
 })
 
-export default connect(mapStateToProps,{fillStudentForm})(StudentList)
+export default connect(mapStateToProps,{fillStudentForm,deleteStudent})(StudentList)

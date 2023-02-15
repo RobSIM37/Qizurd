@@ -22,7 +22,7 @@ function App(props) {
           <Route path="/register" element={<Registerpage/>}/>
           <Route path="/quizzes" element={<QuizList clickHandlerid={"showDetails"}/>}/>
           <Route path="/quizzes/:id" element={<QuizDetails/>}/>
-          <Route path="quiz/create-quiz" element={<CreateQuiz/>}/>
+          <Route path="/quiz/create-quiz" element={<CreateQuiz/>}/>
           <Route path="/quiz/edit-quiz" element={<QuizList clickHandlerid={"editQuiz"}/>}/>
           <Route path="/quiz/delete-quiz" element={<QuizList clickHandlerid={"deleteQuiz"}/>}/>
           <Route path="/student/create-student" element={<CreateStudent/>}/>

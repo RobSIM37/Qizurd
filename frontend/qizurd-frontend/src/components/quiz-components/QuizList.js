@@ -21,7 +21,7 @@ const QuizList = (props) => {
                 navigate(`/quiz/create-quiz`)
                 break
             case "deleteQuiz":
-                props.deleteQuiz(id)
+                props.deleteQuiz({userId:props.user.id,quizId:id})
                 navigate("/quizzes")
                 break
             default:

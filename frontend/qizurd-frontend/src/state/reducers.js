@@ -16,7 +16,8 @@ import {
   ADD_QUIZ_TO_USER,
   FILL_STUDENT_FORM,
   FILL_QUIZ_FORM,
-  DELETE_QUESTION_FROM_QUIZ
+  DELETE_QUESTION_FROM_QUIZ,
+  DELETE_STUDENT_FROM_USER
 } from "./action-types"
 
 const RENDER_ID_MAX = 1000000
@@ -52,6 +53,8 @@ const user = (state = emptyUser, action) => {
       console.log("add quiz reducer", state)
       return {...state,quizzes: action.payload}
     case DELETE_QUIZ_FROM_USER:
+      return {...state,quizzes: action.payload}
+    case DELETE_STUDENT_FROM_USER:
       return action.payload
     default:
       return state

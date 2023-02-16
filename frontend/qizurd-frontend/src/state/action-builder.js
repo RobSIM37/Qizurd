@@ -14,7 +14,8 @@ import {
     ADD_STUDENT_TO_USER,
     FILL_STUDENT_FORM,
     FILL_QUIZ_FORM,
-    DELETE_QUESTION_FROM_QUIZ
+    DELETE_QUESTION_FROM_QUIZ,
+    DELETE_STUDENT_FROM_USER
 } from "./action-types"
 
 
@@ -35,6 +36,12 @@ export const deleteQuiz = (params) => dispatch => {
     axios.delete(`http://localhost:8025/quizzes/${params.userId}/${params.quizId}`).then(res => {
         dispatch({type:DELETE_QUIZ_FROM_USER,payload:res.data})
     }).catch(err => console.log(err)) 
+}
+
+export const deleteStudent = (params) => dispatch => {
+    axios.delete(`http://localhost:8025/students/${params.userId}/${params.quizId}`).then(res => {
+        dispatch({type:DELETE_STUDENT_FROM_USER,payload:res.data})
+    }).catch(err => console.log(err))
 }
 
 export const activeUser = (user) => {

@@ -73,7 +73,8 @@ module.exports = {
                 } else {
                     res.status(400).send({message:"unable to delete quiz with the information provided"});
                 }
-            } catch {
+            } catch (err){
+                console.log(err);
                 res.status(500).send({message:"an unknown server error has prevented this transaction"});
             }
         } else {

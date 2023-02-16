@@ -28,7 +28,7 @@ module.exports = {
    deleteStudent: (req, res) => {
       const userId = req.params.userId;
       const studentId = req.params.studentId;
-      if (data.isKnownId(reqData.userId)) {
+      if (data.isKnownId(userId)) {
          try {
             const removedStudent = studentServices.deleteStudent(userId, studentId);
             if (removedStudent) {

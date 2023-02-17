@@ -65,7 +65,7 @@ class User extends Unique {
     }
     deleteStudent(studentId){
         this.#students = this.#students.filter(student => student.id != studentId);
-        this.#quizzes = this.#quizzes.map(quiz => quiz.dropStudent(studentId))
+        this.#quizzes.forEach(quiz => quiz.dropStudent(studentId));
     }
     getStudent(studentId){
         return this.#students.filter(student=>student.id == studentId)[0];

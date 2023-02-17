@@ -39,7 +39,7 @@ export const deleteQuiz = (params) => dispatch => {
 }
 
 export const deleteStudent = (params) => dispatch => {
-    axios.delete(`http://localhost:8025/students/${params.userId}/${params.quizId}`).then(res => {
+    axios.delete(`http://localhost:8025/students/${params.userId}/${params.studentId}`).then(res => {
         dispatch({type:DELETE_STUDENT_FROM_USER,payload:res.data})
     }).catch(err => console.log(err))
 }

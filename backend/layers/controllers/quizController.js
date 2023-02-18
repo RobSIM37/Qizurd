@@ -163,5 +163,28 @@ module.exports = {
         } else {
             res.status(400).send({message:"unable to return question with the information provided"});
         }
+   },
+
+   getRankedListOfStudents: (req, res) => {
+        const userId = req.params.userId;
+        const quizId = req.params.quizId;
+
+        if (data.isKnownId(userId)) {
+            try {
+                const students = quizServices.getRankedListOfStudents(userId, quizId);
+                if (students) {
+                    res.status(200).send(students.map(student=>
+                        {return {...student.export(),
+                                    complete: quizServices.completePercentage(userId,quizId,student.id)}
+                        }));
+                } else {
+                    res.status(400).send({message:"unable to return students with the information provided"});
+                }
+            } catch {
+                res.status(500).send({message:"an unknown server error has prevented this transaction"});
+            }
+        } else {
+            res.status(400).send({message:"unable to return students with the information provided"});
+        }
    }
 }

@@ -58,5 +58,17 @@ module.exports = {
         const outstandingQuestionsForStudent = allQuestions.filter(question=>!correctQuestionIds.includes(question.id));
         const randomIndex = arrUtil.getRandomArrayIndex(outstandingQuestionsForStudent);
         return outstandingQuestionsForStudent[randomIndex];
+    },
+    getRankedListOfStudents: (userId, quizId) => {
+        const user = userServices.getUser(userId)
+        const quiz = user.getQuiz(quizId);
+        return quiz.getAllStudentsRanked();
+    },
+
+    completePercentage: (userId, quizId, studentId) => {
+        const user = userServices.getUser(userId)
+        const quiz = user.getQuiz(quizId);
+        const student = user.getStudent(studentId);
+        return Math.floor(student.getCorrectQuizResults(quizId).length / quiz.getAllQuestions().length);
     }
 }

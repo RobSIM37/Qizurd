@@ -43,6 +43,7 @@ server.post("/quizzes", quizCtrl.addOrUpdateQuiz);
 server.get("/quizzes/:userId/:quizId",quizCtrl.getQuiz);
 server.get("/quizzes/:userId", quizCtrl.getAllQuizzes);
 server.delete("/quizzes/:userId/:quizId", quizCtrl.deleteQuiz);
+server.get("/quizzes/students/ranked/:userId/:quizId", quizCtrl.getRankedListOfStudents);
 server.post("/questions", quizCtrl.addOrUpdateQuestion);
 server.get("/questions/:userId/:quizId/:questionId",quizCtrl.getQuestion);
 server.get("/questions/random/:userId/:quizId/:studentId",quizCtrl.getRandomQuestionForStudent);

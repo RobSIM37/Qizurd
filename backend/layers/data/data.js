@@ -15,6 +15,7 @@ let userData = [];
 
 module.exports = {
     registerUser: (userName, password) => {
+        if (!userName || !password) return false
         if (passwordData.map(data=>data.userName).includes(userName)) return false;
         bcrypt.hash(password, 10, (err, hash) => {
             if (err !== undefined) return false;

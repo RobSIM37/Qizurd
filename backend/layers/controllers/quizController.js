@@ -173,7 +173,10 @@ module.exports = {
             try {
                 const students = quizServices.getRankedListOfStudents(userId, quizId);
                 if (students) {
-                    res.status(200).send(students.map(student=>student.export()));
+                    res.status(200).send(students.map(student=>
+                        {return {...student.export(),
+                                    complete: quizServices.completePercentage(userId,quizId,student.id)}
+                        }));
                 } else {
                     res.status(400).send({message:"unable to return students with the information provided"});
                 }

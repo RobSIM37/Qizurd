@@ -1,5 +1,6 @@
 import { SPINNER_LOADING, SPINNER_ERROR, SPINNER_HIDDEN } from "../consts";
 import { CircularProgress, Card, Typography } from '@mui/material';
+
 const Spinner = (props) => {
     const {status, errorText} = props;
 
@@ -7,7 +8,7 @@ const Spinner = (props) => {
         case SPINNER_LOADING:
             return (
                 <Card sx={{margin:"2rem"}} elevation={12}>
-                    <CircularProgress></CircularProgress>
+                    <CircularProgress/>
                 </Card>
             );
         case SPINNER_ERROR:

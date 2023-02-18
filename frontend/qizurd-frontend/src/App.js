@@ -10,6 +10,7 @@ import CreateStudent from "./components/form-components/CreateStudent"
 import StudentList from "./components/student-components/StudentList"
 import Loginpage from "./components/login-components/Loginpage"
 import Registerpage from "./components/login-components/Registerpage"
+import QuizQuestion from "./components/quiz-components/QuizQuestion"
 
 
 function App(props) {
@@ -24,10 +25,9 @@ function App(props) {
           <Route path="/quizzes/:id" element={<QuizDetails/>}/>
           <Route path="/quiz/create-quiz" element={<CreateQuiz/>}/>
           <Route path="/quiz/edit-quiz" element={<QuizList clickHandlerid={"editQuiz"}/>}/>
-          <Route path="/quiz/delete-quiz" element={<QuizList clickHandlerid={"deleteQuiz"}/>}/>
           <Route path="/student/create-student" element={<CreateStudent/>}/>
           <Route path="/student/edit-student" element={<StudentList clickHandlerid={"editStudent"}/>}/>
-          <Route path="/student/delete-student" element={<StudentList clickHandlerid={"deleteStudent"}/>}/>
+          <Route path="/quizzes/:id/:studentId" element={<QuizQuestion/>}/>
         </Routes>
       </CssBaseline>
   );

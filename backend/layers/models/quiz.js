@@ -65,6 +65,12 @@ class Quiz extends Unique {
     getAllStudents(){
         return [...this.#students];
     }
+    getAllStudentsRanked(){
+        return [...this.#students].sort(
+            (a,b) => a.getCorrectQuizResults(super.id).length
+                    - b.getCorrectQuizResults(super.id).length
+        )
+    }
 }
 
 module.exports = Quiz;

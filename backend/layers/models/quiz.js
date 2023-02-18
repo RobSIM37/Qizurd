@@ -24,7 +24,7 @@ class Quiz extends Unique {
             description: this.description,
             id: super.id,
             questions: this.#questions.map(question=>question.export()),
-            students: this.#students.map(student=>student.export())
+            students: this.#students.map(student=>student.export(this))
         }
     }
     getQuestion(questionId){
@@ -64,6 +64,12 @@ class Quiz extends Unique {
     }
     getAllStudents(){
         return [...this.#students];
+    }
+    getAllStudentsRanked(){
+        return [...this.#students].sort(
+            (a,b) => a.getCorrectQuizResults(super.id).length
+                    - b.getCorrectQuizResults(super.id).length
+        )
     }
 }
 

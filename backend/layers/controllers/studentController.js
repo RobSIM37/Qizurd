@@ -11,7 +11,6 @@ module.exports = {
             const addedStudent = studentServices.addOrUpdateStudent(reqData.userId, reqData)
             if (addedStudent) {
                const updatedUser = userServices.getUser(reqData.userId);
-               console.log("sending back:", updatedUser.export())
                res.status(200).send(updatedUser.export());
             } else {
                res.status(400).send({message:"unable to add student with information provided"});
@@ -69,8 +68,8 @@ module.exports = {
          try {
             const loggedAnswer = studentServices.logStudentAnswer(userId, studentId, quizId, questionId, correct);
             if (loggedAnswer) {
-               const allStudents = studentServices.getAllStudentsInQuiz(userId, quizId, true);
-               res.status(200).send(allStudents.map(student => student.export()));
+               const user = userServices.getUser(userId);
+               res.status(200).send(user.export());
             } else {
                res.status(400).send({message:"unable to log answer with information provided"});
             }

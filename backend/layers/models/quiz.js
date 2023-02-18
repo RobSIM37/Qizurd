@@ -24,7 +24,7 @@ class Quiz extends Unique {
             description: this.description,
             id: super.id,
             questions: this.#questions.map(question=>question.export()),
-            students: this.#students.map(student=>student.export())
+            students: this.#students.map(student=>student.export(this))
         }
     }
     getQuestion(questionId){

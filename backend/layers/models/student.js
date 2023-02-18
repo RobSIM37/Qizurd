@@ -16,13 +16,17 @@ class Student extends Unique {
         this.lastName = data.lastName;
         this.#results = data.results;
     }
-    export() {
-        return {
+    export(quiz=null) {
+        const exportData = {
             firstName: this.firstName,
             lastName: this.lastName,
             id: super.id,
             results: this.#results
         }
+        if (quiz) {
+            exportData["completion"] = Math.floor(this.getCorrectQuizResults(quiz.id).length / quiz.getAllQuestions().length)
+        }
+        return exportData;
     }
     logQuestionResult (quizId, questionId, correct) {
         this.#results.push({quizId, questionId, correct});

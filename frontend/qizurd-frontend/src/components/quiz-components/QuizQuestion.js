@@ -1,18 +1,32 @@
 import React from "react"
 import { connect } from "react-redux"
-import { useNavigate } from "react-router"
+import { useNavigate,useParams } from "react-router"
 import { Container,Paper,Typography,Divider,Button } from "@mui/material"
+import { sendResult } from "../../state/action-builder"
 
 const QuizQuestion = (props) => {
 
+    
     const navigate = useNavigate()
+    const {id,studentId} = useParams()
 
     const interruptedClickHandler = (e) => {
         navigate("/quizzes")
     }
 
     const submitResult = (e) => {
-        
+        let correct = false
+        if(e.target.id === "correct"){
+            correct = true
+        }
+        const objToSend = {
+            userId:props.user.id,
+            quizId:id,
+            studentId:studentId,
+            questionId:props.question.id,
+            correct
+        }
+        props.sendResult(objToSend)
     }
 
     return(
@@ -27,8 +41,8 @@ const QuizQuestion = (props) => {
                 <Typography fontSize={"1.2rem"}>{props.question.answer}</Typography>
                 <Divider/>
                 <Container sx={{display:"flex",justifyContent:"space-around"}}>
-                    <Button sx={{marginBottom:"1rem",marginTop:"1rem"}} variant="contained">Correct</Button>
-                    <Button sx={{marginBottom:"1rem",marginTop:"1rem"}} variant="contained">Incorrect</Button>
+                    <Button onClick={submitResult} id={"correct"} sx={{marginBottom:"1rem",marginTop:"1rem"}} variant="contained">Correct</Button>
+                    <Button onClick={submitResult} id={"incorrect"} sx={{marginBottom:"1rem",marginTop:"1rem"}} variant="contained">Incorrect</Button>
                     <Button onClick={interruptedClickHandler} sx={{marginBottom:"1rem",marginTop:"1rem"}} variant="contained">Interrupted</Button>
                 </Container>
             </Paper>
@@ -37,7 +51,8 @@ const QuizQuestion = (props) => {
 }
 
 const mapStateToProps = state => ({
+    user: state.user,
     question: state.question
 })
 
-export default connect(mapStateToProps,{})(QuizQuestion)
+export default connect(mapStateToProps,{sendResult})(QuizQuestion)

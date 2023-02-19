@@ -2,6 +2,7 @@ import React from "react"
 import { connect } from "react-redux"
 import { CircularProgress,Container,Paper,Typography,Divider,Card } from "@mui/material"
 import { useParams,useNavigate } from "react-router"
+import { getQuestion } from "../../state/action-builder"
 
 const QuizDetails = (props) => {
 
@@ -10,6 +11,7 @@ const QuizDetails = (props) => {
     const navigate = useNavigate()
 
     const askStudentQuestion = (e) => {
+        props.getQuestion({userId:props.user.id,quizId:id,studentId:e.target.id})
         navigate(`/quizzes/${id}/${e.target.id}`)
     } 
 
@@ -26,7 +28,7 @@ const QuizDetails = (props) => {
                             <Typography sx={{pointerEvents:"none"}} mt={1} mb={1} fontSize="1.5rem">
                             {student.firstName + " " + student.lastName}
                             </Typography>
-                            <CircularProgress size={25} variant="determinate" value={25} color={"primary"}/>
+                            <CircularProgress size={student.completion} variant="determinate" value={25} color={"primary"}/>
                         </Card>
                         <Divider/>
                         </>
@@ -41,4 +43,4 @@ const mapStateToProps = state => ({
     user: state.user
 })
 
-export default connect(mapStateToProps,{})(QuizDetails)
+export default connect(mapStateToProps,{getQuestion})(QuizDetails)

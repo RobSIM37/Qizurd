@@ -1,8 +1,6 @@
 import { combineReducers } from "redux";
 import {
   ACTIVE_USER,
-  // FILL_QUIZ_STATE,
-  // FILL_STUDENT_STATE,
   ADD_STUDENT_TO_QUIZ,
   DELETE_QUIZ_FROM_USER,
   DELETE_STUDENT_FROM_QUIZ,
@@ -17,7 +15,8 @@ import {
   FILL_STUDENT_FORM,
   FILL_QUIZ_FORM,
   DELETE_QUESTION_FROM_QUIZ,
-  DELETE_STUDENT_FROM_USER
+  DELETE_STUDENT_FROM_USER,
+  GET_QUESTION
 } from "./action-types"
 
 const RENDER_ID_MAX = 1000000
@@ -41,6 +40,11 @@ let emptyStudentForm = {
   firstName: "",
   lastName: "",
   id: null
+}
+
+let emptyQuestion = {
+  questionText: "",
+  answer: ""
 }
 
 const user = (state = emptyUser, action) => {
@@ -105,4 +109,14 @@ const studentForm = (state = emptyStudentForm, action) => {
   }
 }
 
-export default combineReducers({user,quizForm,studentForm})
+const question = (state = emptyQuestion, action) => {
+  switch(action.type){
+    case GET_QUESTION:
+      console.log("reducer",action.payload)
+      return action.payload
+    default:
+      return state
+  }
+}
+
+export default combineReducers({user,quizForm,studentForm,question})

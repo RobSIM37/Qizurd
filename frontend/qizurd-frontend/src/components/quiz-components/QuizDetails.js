@@ -22,7 +22,7 @@ const QuizDetails = (props) => {
                     <Divider/>
                     <Typography fontSize={"1.2rem"}>{selectedQuiz.description}</Typography>
                     <Divider/>
-                    {selectedQuiz.students.map(student => {return(
+                    {selectedQuiz.students.sort((a,b)=>a.completion - b.completion).map(student => {return(
                         <>
                         <Card onClick={student.completion === 100 ? null : askStudentQuestion} id={student.id} sx={{display:"flex",flexDirection:"row",justifyContent:"center",alignItems:"center",cursor:"pointer"}}>
                             <Typography sx={{pointerEvents:"none"}} mt={1} mb={1} fontSize="1.5rem">

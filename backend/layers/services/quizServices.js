@@ -55,7 +55,10 @@ module.exports = {
         const student = user.getStudent(studentId);
         const correctQuestionIds = student.getCorrectQuizResults(quizId).map(result=>result.questionId);
         const allQuestions = quiz.getAllQuestions();
-        const outstandingQuestionsForStudent = allQuestions.filter(question=>!correctQuestionIds.includes(question.id));
+        let outstandingQuestionsForStudent = allQuestions.filter(question=>!correctQuestionIds.includes(question.id));
+        if (outstandingQuestionsForStudent.length == 0) {
+            outstandingQuestionsForStudent = allQuestions;
+        }
         const randomIndex = arrUtil.getRandomArrayIndex(outstandingQuestionsForStudent);
         return outstandingQuestionsForStudent[randomIndex];
     },

@@ -2,15 +2,16 @@ import React from "react"
 import { connect } from "react-redux"
 import { useNavigate,useParams } from "react-router"
 import { Container,Paper,Typography,Divider,Button } from "@mui/material"
-import { sendResult } from "../../state/action-builder"
+import { sendResult,getQuestion } from "../../state/action-builder"
 
 const QuizQuestion = (props) => {
 
     
     const navigate = useNavigate()
     const {id,studentId} = useParams()
+    const currentStudent = props.user.students.filter(student => student.id === studentId)[0]
 
-    const interruptedClickHandler = (e) => {
+    const backClickHandler = (e) => {
         navigate("/quizzes")
     }
 
@@ -19,19 +20,28 @@ const QuizQuestion = (props) => {
         if(e.target.id === "correct"){
             correct = true
         }
-        const objToSend = {
+        const objToSendResult = {
             userId:props.user.id,
             quizId:id,
             studentId:studentId,
             questionId:props.question.id,
             correct
         }
-        props.sendResult(objToSend)
+        const objToGetQuestion = {
+            userId:props.user.id,
+            quizId:id,
+            studentId:studentId            
+        }
+
+        props.sendResult(objToSendResult)
+        props.getQuestion(objToGetQuestion)
     }
 
     return(
         <Container align="center">
             <Paper sx={{marginTop:2}} elevation={24}>
+                <Typography fontSize={"2rem"}>{currentStudent.firstName + " " + currentStudent.lastName}</Typography>
+                <Divider/>
                 <Typography fontSize={"2rem"}>Question:</Typography>
                 <Divider/>
                 <Typography fontSize={"1.2rem"}>{props.question.questionText}</Typography>
@@ -41,10 +51,10 @@ const QuizQuestion = (props) => {
                 <Typography fontSize={"1.2rem"}>{props.question.answer}</Typography>
                 <Divider/>
                 <Container sx={{display:"flex",justifyContent:"space-around"}}>
-                    <Button onClick={submitResult} id={"correct"} sx={{marginBottom:"1rem",marginTop:"1rem"}} variant="contained">Correct</Button>
-                    <Button onClick={submitResult} id={"incorrect"} sx={{marginBottom:"1rem",marginTop:"1rem"}} variant="contained">Incorrect</Button>
-                    <Button onClick={interruptedClickHandler} sx={{marginBottom:"1rem",marginTop:"1rem"}} variant="contained">Interrupted</Button>
+                    <Button onClick={submitResult} id={"correct"} sx={{marginBottom:"1rem",marginTop:"1rem",width:"7rem"}} variant="contained">Correct</Button>
+                    <Button onClick={submitResult} id={"incorrect"} sx={{marginBottom:"1rem",marginTop:"1rem",width:"7rem"}} variant="contained">Incorrect</Button>
                 </Container>
+                <Button onClick={backClickHandler} sx={{marginBottom:"1rem",marginTop:"1rem"}} variant="contained">Back</Button>
             </Paper>
         </Container>
     )
@@ -55,4 +65,4 @@ const mapStateToProps = state => ({
     question: state.question
 })
 
-export default connect(mapStateToProps,{sendResult})(QuizQuestion)
+export default connect(mapStateToProps,{sendResult,getQuestion})(QuizQuestion)

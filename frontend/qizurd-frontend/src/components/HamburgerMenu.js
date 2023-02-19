@@ -29,7 +29,7 @@ const HamburgerMenu = (props) => {
     }
     return(
     <>
-    <MenuRoundedIcon fontSize="large" onClick={menuClick}/>
+    <MenuRoundedIcon sx={{cursor:"pointer"}} fontSize="large" onClick={menuClick}/>
     <SwipeableDrawer anchor="top" open={menuOpen} onOpen={drawerOpen} onClose={drawerClose}>
         <ButtonGroup orientation="vertical">
             <Button size="large" id="/student/create-student" onClick={selectionClickHandler}>Create Student</Button>

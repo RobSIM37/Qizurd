@@ -1,5 +1,6 @@
 import React from "react"
 import { connect } from "react-redux"
+import { useNavigate } from "react-router"
 import FormStudentCard from "./FormStudentCard"
 import FormQuestionCard from "./FormQuestionCard"
 import { Container,Paper,Typography,TextField,Fab,Button,List } from "@mui/material"
@@ -13,6 +14,8 @@ import {
     clearQuizForm } from "../../state/action-builder"
 
 const CreateQuiz = (props) => {
+
+    const navigate = useNavigate()
 
     const addQuestionClickHandler = () => {
         props.addQuizQuestion()
@@ -40,6 +43,7 @@ const CreateQuiz = (props) => {
         }
         props.postQuiz(quizToAdd)
         props.clearQuizForm()
+        navigate("/quizzes")
     }
 
     return(

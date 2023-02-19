@@ -8,6 +8,7 @@ module.exports = {
         if (data.registerUser(userInfo.userName, userInfo.password)) {
             const newUser = new User({name: userInfo.userName});
             userServices.addUser(newUser);
+            console.log("new user id:",newUser.id)
             res.status(200).send(newUser.export());
         } else {
             res.status(400).send({message:"unable to register user"});
@@ -28,18 +29,22 @@ module.exports = {
 
     getUserById: (req, res) => {
         const userId = req.params.userId;
-        if (data.isKnownId(reqData.userId)) {
+        console.log("userid:",userId)
+        if (data.isKnownId(userId)) {
             try {
-                const user = userServices.getUserById(userId);
+                const user = userServices.getUser(userId);
+                console.log("user:",user)
                 if (user) {
                     res.status(200).send(user.export());
                 } else {
                     res.status(400).send({message:"unable to get user with information provided"});
                 }
-            } catch {
+            } catch(err) {
+                console.log(err)
                 res.status(500).send({message:"an unknown server error has prevented this transaction"});
             }
         } else {
+            console.log("second 400")
             res.status(400).send({message:"unable to get user with information provided"});
         }
     }

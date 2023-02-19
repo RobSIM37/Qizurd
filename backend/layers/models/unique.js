@@ -10,6 +10,7 @@ class Unique {
         } else {
             do {
                 this.#uuid = idUtils();
+                console.log("uuid: ",this.#uuid)
             } while (data.isKnownId(this.#uuid,true))
         }
     }

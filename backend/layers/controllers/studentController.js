@@ -46,7 +46,7 @@ module.exports = {
 
    allStudents: (req, res) => {
       const userId = req.params.userId;
-      if (data.isKnownId(reqData.userId)) {
+      if (data.isKnownId(userId)) {
          try {
             const students = studentServices.getAllStudents(userId);
             if (students) {

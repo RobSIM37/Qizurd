@@ -33,6 +33,7 @@ module.exports = {
     isKnownId: (id, addIfNot) => {
         const alreadyIssued = issuedIdMap.get(id) == true;
         if (addIfNot && !alreadyIssued) {
+            console.log("adding id: ",id)
             issuedIdMap.set(id, true)
         } 
         return alreadyIssued;

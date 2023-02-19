@@ -10,9 +10,12 @@ const Loginpage = (props) => {
     const navigate = useNavigate()
 
     useEffect(() => {
-        const loggedInUser = localStorage.getItem("user")
-        if (loggedInUser){
-            navigate("/quizzes")
+        const loggedInUserId = JSON.parse(localStorage.getItem("userId"))
+        if (loggedInUserId){
+            axios.get(`http://localhost:8025/${loggedInUserId}`).then(res => {
+                props.activeUser(res.data)
+                navigate("/quizzes")
+            })
         }
     })
 
@@ -35,7 +38,7 @@ const Loginpage = (props) => {
         e.preventDefault()
         axios.post("http://localhost:8025/",{userName,password}).then(res => {
             const stringifiedData = JSON.stringify(res.data.id)
-            localStorage.setItem("user",stringifiedData)
+            localStorage.setItem("userId",stringifiedData)
             props.activeUser(res.data)
             navigate("/quizzes")
         }).catch(err => console.log(err))

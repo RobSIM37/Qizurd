@@ -22,8 +22,8 @@ return (
         <Toolbar>
             <Container align="center" sx={{display:"flex",alignItems:"center",justifyContent:"space-between"}}>
                 <HamburgerMenu/>
-                <Typography fontSize="2rem" variant="headerFont" onClick={logoClickHandler}>Qizurd</Typography>
-                <AccountCircleRoundedIcon fontSize="large" onClick={accountClickHandler}/>
+                <Typography sx={{cursor:"pointer"}} fontSize="2rem" variant="headerFont" onClick={logoClickHandler}>Qizurd</Typography>
+                <AccountCircleRoundedIcon sx={{cursor:"pointer"}} fontSize="large" onClick={accountClickHandler}/>
             </Container>
         </Toolbar>
     </AppBar>

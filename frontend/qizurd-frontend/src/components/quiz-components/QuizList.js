@@ -35,11 +35,11 @@ const QuizList = (props) => {
 
     return(
         <Container align="center">
-            {props.clickHandlerid === "showDetails" && <Typography>Quizzes</Typography>}
-            {props.clickHandlerid === "editQuiz" && <Typography>Edit Quiz</Typography>}
+            {props.clickHandlerid === "showDetails" && <Typography sx={{marginTop:"1rem"}} fontSize="2rem">Quizzes</Typography>}
+            {props.clickHandlerid === "editQuiz" && <Typography sx={{marginTop:"1rem"}} fontSize="2rem">Edit Quiz</Typography>}
             {props.user.quizzes.map( el => {return (
                 <Box mt={2} mb={2}>
-                    <Card sx={{display:"flex",flexDirection:"row",alignItems:"center"}} id={el.id} key={el.id} onClick={clickHandlerControl}>
+                    <Card sx={{display:"flex",flexDirection:"row",alignItems:"center",cursor:"pointer"}} id={el.id} key={el.id} onClick={clickHandlerControl}>
                         <Typography sx={{pointerEvents:"none",width:"100%"}} mt={1} mb={1} fontSize="1.5rem">{el.quizTitle}</Typography>
                         {props.clickHandlerid === "editQuiz" && 
                             <IconButton id={el.id} onClick={deleteQuizClickHandler}>

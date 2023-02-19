@@ -1,9 +1,12 @@
 import React from "react" 
 import { connect } from "react-redux"
+import { useNavigate } from "react-router"
 import { Paper,Container,Button,Typography,TextField} from "@mui/material"
 import { changeInputText,postStudent,clearStudentForm } from "../../state/action-builder"
 
 const CreateStudent = (props) => {
+
+    const navigate = useNavigate()
 
     const studentNameChangeHandler = (e) => {
         const {id,value} = e.target
@@ -16,6 +19,7 @@ const CreateStudent = (props) => {
         const backendReq = {userId:props.user.id,firstName,lastName,id}
         props.postStudent(backendReq)
         props.clearStudentForm()
+        navigate("/quizzes")
     }
 
     return( 

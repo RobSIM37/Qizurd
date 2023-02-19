@@ -1,4 +1,4 @@
-import React,{useState} from "react"
+import React,{useState,useEffect} from "react"
 import { connect } from "react-redux"
 import { useNavigate } from "react-router"
 import { activeUser } from "../../state/action-builder"
@@ -8,6 +8,13 @@ import { Button, Container, TextField,Typography,Paper } from "@mui/material"
 const Loginpage = (props) => {
 
     const navigate = useNavigate()
+
+    useEffect(() => {
+        const loggedInUser = localStorage.getItem("user")
+        if (loggedInUser){
+            navigate("/quizzes")
+        }
+    })
 
     let [userName,setUserName] = useState("")
     let [password, setPassword] = useState("")
@@ -27,6 +34,8 @@ const Loginpage = (props) => {
     const formSubmitHandler = (e) => {
         e.preventDefault()
         axios.post("http://localhost:8025/",{userName,password}).then(res => {
+            const stringifiedData = JSON.stringify(res.data.id)
+            localStorage.setItem("user",stringifiedData)
             props.activeUser(res.data)
             navigate("/quizzes")
         }).catch(err => console.log(err))

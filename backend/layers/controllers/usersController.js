@@ -22,7 +22,25 @@ module.exports = {
             const returningUser = userServices.getUserByName(userInfo.userName);
             res.status(200).send(returningUser.export());
         } else {
-            res.status(400).send("error logging in");
+            res.status(400).send({message:"error logging in"});
+        }
+    },
+
+    getUserById: (req, res) => {
+        const userId = req.params.userId;
+        if (data.isKnownId(reqData.userId)) {
+            try {
+                const user = userServices.getUserById(userId);
+                if (user) {
+                    res.status(200).send(user.export());
+                } else {
+                    res.status(400).send({message:"unable to get user with information provided"});
+                }
+            } catch {
+                res.status(500).send({message:"an unknown server error has prevented this transaction"});
+            }
+        } else {
+            res.status(400).send({message:"unable to get user with information provided"});
         }
     }
 }

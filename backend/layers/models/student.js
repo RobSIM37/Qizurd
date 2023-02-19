@@ -24,7 +24,7 @@ class Student extends Unique {
             results: this.#results
         }
         if (quiz) {
-            exportData["completion"] = Math.floor(this.getCorrectQuizResults(quiz.id).length / quiz.getAllQuestions().length)
+            exportData["completion"] = Math.floor(this.getCorrectQuizResults(quiz.id).length / quiz.getAllQuestions().length * 100)
         }
         return exportData;
     }

@@ -16,7 +16,8 @@ import {
     FILL_QUIZ_FORM,
     DELETE_QUESTION_FROM_QUIZ,
     DELETE_STUDENT_FROM_USER,
-    GET_QUESTION
+    GET_QUESTION,
+    SENT_RESULT
 } from "./action-types"
 
 
@@ -48,6 +49,12 @@ export const deleteStudent = (params) => dispatch => {
 export const getQuestion = (params) => dispatch => {
     axios.get(`http://localhost:8025/questions/random/${params.userId}/${params.quizId}/${params.studentId}`).then(res => {
         dispatch({type:GET_QUESTION,payload:res.data})
+    }).catch(err => console.log(err))
+}
+
+export const sendResult = (params) => dispatch => {
+    axios.post("http://localhost:8025/students/answer",params).then(res => {
+        dispatch({type:SENT_RESULT,payload:res.data})
     }).catch(err => console.log(err))
 }
 

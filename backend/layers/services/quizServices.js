@@ -8,7 +8,7 @@ module.exports = {
     addOrUpdateQuiz: (reqData) => {
         const user = userServices.getUser(reqData.userId);
         const quiz = new Quiz(reqData);
-        quiz.addStudents(reqData.students.map(student => new Student(student)));
+        quiz.addStudents(reqData.students.map(student => user.getStudent(student.id)));
         quiz.addQuestions(reqData.questions.map(question => new Question(question)));
         user.addOrUpdateQuiz(quiz);
         return true;

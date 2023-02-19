@@ -22,10 +22,10 @@ const CreateStudent = (props) => {
     <Container align="center">
         <Paper sx={{marginTop:2}} elevation={24}>
             <Typography fontSize="2rem">First name</Typography>
-            <TextField size="small" id={"firstName"} value={props.studentForm.firstName} onChange={studentNameChangeHandler}/>
+            <TextField sx={{width:"80%"}} multiline id={"firstName"} value={props.studentForm.firstName} onChange={studentNameChangeHandler}/>
 
             <Typography fontSize="2rem">Last name</Typography>
-            <TextField size="small" id={"lastName"} value={props.studentForm.lastName} onChange={studentNameChangeHandler}/>
+            <TextField sx={{width:"80%"}} multiline id={"lastName"} value={props.studentForm.lastName} onChange={studentNameChangeHandler}/>
             <Button sx={{margin:"2rem"}} variant="contained" onClick={studentFormSubmitHandler}>Submit Student</Button>
         </Paper>
     </Container>

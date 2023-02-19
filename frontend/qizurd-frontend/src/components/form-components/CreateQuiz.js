@@ -48,10 +48,10 @@ const CreateQuiz = (props) => {
 
                 {/* Quiz title and description */}
                 <Typography fontSize="2rem">Quiz Title</Typography>
-                <TextField size="small"  sx={{marginLeft:"1rem",marginRight:"1rem"}} id={"quizTitle"} value={props.quiz.quizTitle} onChange={inputChangeHandler}/>
+                <TextField multiline size="small"  sx={{marginLeft:"1rem",marginRight:"1rem"}} id={"quizTitle"} value={props.quiz.quizTitle} onChange={inputChangeHandler}/>
 
                 <Typography fontSize="2rem">Quiz Description</Typography>
-                <TextField  sx={{marginLeft:"1rem",marginRight:"1rem"}} id={"description"} value={props.quiz.description} onChange={inputChangeHandler}/>
+                <TextField multiline sx={{marginLeft:"1rem",marginRight:"1rem"}} id={"description"} value={props.quiz.description} onChange={inputChangeHandler}/>
 
                 {/* Question list generator */}
                 <Typography fontSize="2rem">Questions</Typography>

@@ -1,8 +1,9 @@
-import React from "react"
+import React,{useState,useEffect} from "react"
 import { connect } from "react-redux"
 import { useNavigate } from "react-router"
 import FormStudentCard from "./FormStudentCard"
 import FormQuestionCard from "./FormQuestionCard"
+import { quizFormSchema,questionSchema } from "../../validation/validations"
 import { Container,Paper,Typography,TextField,Fab,Button,List } from "@mui/material"
 import AddIcon from '@mui/icons-material/Add';
 import { 
@@ -16,6 +17,31 @@ import {
 const CreateQuiz = (props) => {
 
     const navigate = useNavigate()
+    let [isValid,setIsValid] = useState(false)
+
+    useEffect(() => {
+        const quizFormObject = {
+            quizTitle: props.quiz.quizTitle,
+            description: props.quiz.description,
+            questions: props.quiz.questions,
+            students: props.quiz.students
+        }
+        quizFormSchema.isValid(quizFormObject).then(res => {
+            setIsValid(res)
+        })
+    },[props.quiz])
+
+    useEffect(()=> {
+        for(let i = 0; i < props.quiz.questions.length; i++){
+            const currQuestion = {
+                questionText: props.quiz.questions[i].questionText,
+                answer: props.quiz.questions[i].answer
+            }
+            questionSchema.isValid(currQuestion).then(res => {
+                setIsValid(res)
+            })
+        }
+    },[props.quiz])
 
     const addQuestionClickHandler = () => {
         props.addQuizQuestion()
@@ -86,7 +112,7 @@ const CreateQuiz = (props) => {
                 </List>
 
                 {/* Button to create/edit quiz */}
-                <Button sx={{margin:"2rem"}} variant="contained" onClick={formSubmitHandler}>Submit Quiz</Button>
+                <Button disabled={!isValid} sx={{margin:"2rem"}} variant="contained" onClick={formSubmitHandler}>Submit Quiz</Button>
         </Paper>    
     </Container>
     )

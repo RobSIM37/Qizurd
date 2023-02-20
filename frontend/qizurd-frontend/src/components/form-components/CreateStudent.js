@@ -1,12 +1,25 @@
-import React from "react" 
+import React,{useState,useEffect} from "react" 
 import { connect } from "react-redux"
 import { useNavigate } from "react-router"
 import { Paper,Container,Button,Typography,TextField} from "@mui/material"
+import { studentFormSchema } from "../../validation/validations"
 import { changeInputText,postStudent,clearStudentForm } from "../../state/action-builder"
 
 const CreateStudent = (props) => {
 
     const navigate = useNavigate()
+    
+    let [isValid,setIsValid] = useState(false)
+
+    useEffect(() => {
+        const studentFormObject = {
+            firstName: props.studentForm.firstName,
+            lastName: props.studentForm.lastName
+        }
+        studentFormSchema.isValid(studentFormObject).then(res => {
+            setIsValid(res)
+        })
+    },[props.studentForm])
 
     const studentNameChangeHandler = (e) => {
         const {id,value} = e.target
@@ -30,7 +43,7 @@ const CreateStudent = (props) => {
 
             <Typography fontSize="2rem">Last name</Typography>
             <TextField sx={{width:"80%"}} multiline id={"lastName"} value={props.studentForm.lastName} onChange={studentNameChangeHandler}/>
-            <Button sx={{margin:"2rem"}} variant="contained" onClick={studentFormSubmitHandler}>Submit Student</Button>
+            <Button disabled={!isValid} sx={{margin:"2rem"}} variant="contained" onClick={studentFormSubmitHandler}>Submit Student</Button>
         </Paper>
     </Container>
     )

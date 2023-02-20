@@ -1,7 +1,8 @@
-import React, {useState} from "react"
+import React, {useState,useEffect} from "react"
 import { connect } from "react-redux"
 import { useNavigate } from "react-router-dom"
 import axios from "axios"
+import { loginOrRegisterSchema } from "../../validation/validations"
 import { activeUser } from "../../state/action-builder"
 import { Button, Container, TextField,Typography,Paper } from "@mui/material"
 
@@ -11,6 +12,17 @@ const Registerpage = (props) => {
 
     let [userName,setUserName] = useState("")
     let [password, setPassword] = useState("")
+    let [isValid, setIsValid] = useState(false)
+
+    useEffect(() => {
+        const registerFormData = {
+            userName,
+            password
+        }
+        loginOrRegisterSchema.isValid(registerFormData).then(res => {
+            setIsValid(res)
+        })
+    },[userName,password])
 
     const inputChangeHandler = (e) => {
         if(e.target.id === "username"){
@@ -27,6 +39,8 @@ const Registerpage = (props) => {
     const formSubmitHandler = (e) => {
         e.preventDefault()
         axios.post("http://localhost:8025/register",{userName,password}).then(res => {
+            const stringifiedData = JSON.stringify(res.data.id)
+            localStorage.setItem("userId",stringifiedData)
             props.activeUser(res.data)
             navigate("/quizzes")
         }).catch(err => console.log(err))
@@ -62,6 +76,7 @@ const Registerpage = (props) => {
                     variant="contained"
                     type="submit"
                     onClick={formSubmitHandler}
+                    disabled={!isValid}
                     sx={{margin:"1rem"}}>Register</Button>
 
                     <Button

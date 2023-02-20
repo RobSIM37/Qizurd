@@ -2,12 +2,17 @@ import React,{useState,useEffect} from "react"
 import { connect } from "react-redux"
 import { useNavigate } from "react-router"
 import { activeUser } from "../../state/action-builder"
+import { loginOrRegisterSchema } from "../../validation/validations"
 import axios from "axios"
 import { Button, Container, TextField,Typography,Paper } from "@mui/material"
 
 const Loginpage = (props) => {
 
     const navigate = useNavigate()
+
+    let [userName,setUserName] = useState("")
+    let [password, setPassword] = useState("")
+    let [isValid,setIsValid] = useState(false)
 
     useEffect(() => {
         const loggedInUserId = JSON.parse(localStorage.getItem("userId"))
@@ -19,10 +24,17 @@ const Loginpage = (props) => {
         }
     })
 
-    let [userName,setUserName] = useState("")
-    let [password, setPassword] = useState("")
+    useEffect(() => {
+        const loginFormData = {
+            userName,
+            password
+        }
+        loginOrRegisterSchema.isValid(loginFormData).then(res => {
+            setIsValid(res)
+        })
+    },[userName,password])
 
-    const inputChangeHandler = (e) => {
+    const inputChangeHandler = async (e) => {
         if(e.target.id === "username"){
             setUserName(e.target.value)
         }else{
@@ -74,6 +86,7 @@ const Loginpage = (props) => {
                     variant="contained"
                     type="submit"
                     onClick={formSubmitHandler}
+                    disabled={!isValid}
                     sx={{margin:"1rem"}}>Log In
                     </Button>
 

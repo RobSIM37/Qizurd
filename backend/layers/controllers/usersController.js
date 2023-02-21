@@ -8,8 +8,10 @@ module.exports = {
         if (data.registerUser(userInfo.userName, userInfo.password)) {
             const newUser = new User({name: userInfo.userName});
             userServices.addUser(newUser);
-            console.log("new user id:",newUser.id)
-            res.status(200).send(newUser.export());
+            const authToken = userServices.createAuthToken(newUser.id);
+            const userData = newUser.export();
+            userData["authToken"] = authToken;
+            res.status(200).send(userData);
         } else {
             res.status(400).send({message:"unable to register user"});
         }
@@ -21,31 +23,29 @@ module.exports = {
         const loginAttempt = await data.checkPassword(userInfo.userName, userInfo.password);
         if (loginAttempt) {
             const returningUser = userServices.getUserByName(userInfo.userName);
-            res.status(200).send(returningUser.export());
+            const authToken = userServices.createAuthToken(returningUser.id);
+            const userData = returningUser.export();
+            userData["authToken"] = authToken;
+            res.status(200).send(userData);
         } else {
             res.status(400).send({message:"error logging in"});
         }
     },
 
-    getUserById: (req, res) => {
-        const userId = req.params.userId;
-        console.log("userid:",userId)
-        if (data.isKnownId(userId)) {
-            try {
+    getUserWithAuth: (req, res) => {
+        const authToken = req.params.authToken;
+        try {
+            const userId = userServices.checkAuthToken(authToken);
+            if (userId) {
                 const user = userServices.getUser(userId);
-                console.log("user:",user)
-                if (user) {
-                    res.status(200).send(user.export());
-                } else {
-                    res.status(400).send({message:"unable to get user with information provided"});
-                }
-            } catch(err) {
-                console.log(err)
-                res.status(500).send({message:"an unknown server error has prevented this transaction"});
+                userServices.createAuthToken(authToken);
+                res.status(200).send(user.export());
+            } else {
+                res.status(400).send({message:"unable to get user with information provided"});
             }
-        } else {
-            console.log("second 400")
-            res.status(400).send({message:"unable to get user with information provided"});
+        } catch(err) {
+            console.log(err)
+            res.status(500).send({message:"an unknown server error has prevented this transaction"});
         }
     }
 }

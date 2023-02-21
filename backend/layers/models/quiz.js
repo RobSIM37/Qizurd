@@ -15,6 +15,7 @@ class Quiz extends Unique {
     }
     import(data){
         this.quizTitle = data.quizTitle;
+        this.description = data.description;
         this.#questions = data.questions;
         this.#students = data.students;
     }

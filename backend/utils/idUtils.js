@@ -23,10 +23,10 @@ const rndChar = () => {
     return charSet[arrUtil.getRandomArrayIndex(charSet)]
 }
 
-module.exports = () => {
+module.exports = (charLength = ID_LENGTH) => {
     generateCharSet();
     const id = [];
-    for (let char = 0; char < ID_LENGTH; char++){
+    for (let char = 0; char < charLength; char++){
         id.push(rndChar());
     }
     return id.join("");

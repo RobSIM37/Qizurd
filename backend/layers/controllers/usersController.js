@@ -38,8 +38,10 @@ module.exports = {
             const userId = userServices.checkAuthToken(authToken);
             if (userId) {
                 const user = userServices.getUser(userId);
-                userServices.createAuthToken(authToken);
-                res.status(200).send(user.export());
+                replacementAuthToken = userServices.createAuthToken(userId);
+                const userData = user.export();
+                userData["authToken"] = authToken;
+                res.status(200).send(userData);
             } else {
                 res.status(400).send({message:"unable to get user with information provided"});
             }

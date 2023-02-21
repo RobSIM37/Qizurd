@@ -51,11 +51,11 @@ module.exports = {
     checkAuthTokenValidity: (authToken) => {
         const authObj = issuedAuthTokenMap.get(authToken);
         if (!authObj) return false;
+        issuedAuthTokenMap.delete(authToken);
         const timeSinceIssue = Date.now() - authObj.issueTime;
         if (timeUtil.convertFromMilliseconds(timeSinceIssue, "hour") <= authTokenTTL) {
             return authObj.userId;
         } else {
-            issuedAuthTokenMap.delete(authToken);
             return false;
         }
     },

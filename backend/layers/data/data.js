@@ -1,5 +1,6 @@
 const dbUtils = require("../../utils/dbUtils");
 const {MongoClient, ServerApiVersion} = require("mongodb");
+const timeUtil = require("../../utils/timeUtils");
 
 const client = new MongoClient(dbUtils.url, {
     sslKey: dbUtils.cert,
@@ -9,7 +10,9 @@ const client = new MongoClient(dbUtils.url, {
 
 const bcrypt = require("bcrypt");
 
+const authTokenTTL = 72;
 const issuedIdMap = new Map();
+const issuedAuthTokenMap = new Map();
 let passwordData = [];
 let userData = [];
 
@@ -37,6 +40,24 @@ module.exports = {
             issuedIdMap.set(id, true)
         } 
         return alreadyIssued;
+    },
+    storeNewAuthToken: (authToken, userId) => {
+        const authObj = {
+            userId,
+            issueTime: Date.now()
+        }
+        issuedAuthTokenMap.set(authToken, authObj);
+    },
+    checkAuthTokenValidity: (authToken) => {
+        const authObj = issuedAuthTokenMap.get(authToken);
+        if (!authObj) return false;
+        issuedAuthTokenMap.delete(authToken);
+        const timeSinceIssue = Date.now() - authObj.issueTime;
+        if (timeUtil.convertFromMilliseconds(timeSinceIssue, "hour") <= authTokenTTL) {
+            return authObj.userId;
+        } else {
+            return false;
+        }
     },
     addIdManually: (id) => {
         issuedIdMap.set(id, true);

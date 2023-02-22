@@ -38,7 +38,7 @@ const PORT = 8025;
 
 server.post("/",userCtrl.userLogin);
 server.post("/register",userCtrl.registerUser);
-server.get("/:userId", userCtrl.getUserById);
+server.get("/:authToken", userCtrl.getUserWithAuth);
 
 server.post("/quizzes", quizCtrl.addOrUpdateQuiz);
 server.get("/quizzes/:userId/:quizId",quizCtrl.getQuiz);

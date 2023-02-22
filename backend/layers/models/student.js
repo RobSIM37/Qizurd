@@ -6,10 +6,13 @@ class Student extends Unique {
     #results = [];
     
     constructor (parameters){
-        const {firstName, lastName, id} = parameters
+        const {firstName, lastName, id, results} = parameters;
         super(id);
         this.firstName = firstName;
         this.lastName = lastName;
+        if (results) {
+            this.#results = results;
+        }
     }
     import(data) {
         this.firstName = data.firstName;

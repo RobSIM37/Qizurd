@@ -32,15 +32,11 @@ const CreateQuiz = (props) => {
     },[props.quiz])
 
     useEffect(()=> {
-        for(let i = 0; i < props.quiz.questions.length; i++){
-            const currQuestion = {
-                questionText: props.quiz.questions[i].questionText,
-                answer: props.quiz.questions[i].answer
-            }
-            questionSchema.isValid(currQuestion).then(res => {
+        props.quiz.questions.forEach(question => {
+            questionSchema.isValid(question).then(res => {
                 setIsValid(res)
             })
-        }
+        })
     },[props.quiz])
 
     const addQuestionClickHandler = () => {

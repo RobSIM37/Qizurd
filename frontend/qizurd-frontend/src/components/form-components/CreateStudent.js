@@ -29,7 +29,11 @@ const CreateStudent = (props) => {
     const studentFormSubmitHandler = (e) => {
         e.preventDefault()
         const {firstName,lastName,id} = props.studentForm
-        const backendReq = {userId:props.user.id,firstName,lastName,id}
+        let studentResultsArr = []
+        if(id){
+            studentResultsArr = props.user.students.map(student => student.id === id)[0].results
+        }
+        const backendReq = {userId:props.user.id,firstName,lastName,id,results:studentResultsArr}
         props.postStudent(backendReq)
         props.clearStudentForm()
         navigate("/quizzes")

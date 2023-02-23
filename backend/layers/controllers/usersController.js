@@ -40,10 +40,10 @@ module.exports = {
                 const user = userServices.getUser(userId);
                 replacementAuthToken = userServices.createAuthToken(userId);
                 const userData = user.export();
-                userData["authToken"] = authToken;
+                userData["authToken"] = replacementAuthToken;
                 res.status(200).send(userData);
             } else {
-                res.status(400).send({message:"unable to get user with information provided"});
+                res.status(401).send({message:"unable to get user with information provided"});
             }
         } catch(err) {
             console.log(err)

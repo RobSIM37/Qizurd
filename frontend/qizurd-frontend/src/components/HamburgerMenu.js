@@ -30,7 +30,7 @@ const HamburgerMenu = (props) => {
     }
 
     const logOutClickHandler = (e) => {
-        localStorage.removeItem("userId")
+        localStorage.removeItem("userAuth")
         setMenuOpen(false)
         navigate("/")
     }

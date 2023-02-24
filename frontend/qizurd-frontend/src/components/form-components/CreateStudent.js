@@ -46,7 +46,7 @@ const CreateStudent = (props) => {
             <TextField sx={{width:"80%"}} multiline id={"firstName"} value={props.studentForm.firstName} onChange={studentNameChangeHandler}/>
 
             <Typography fontSize="2rem">Last name</Typography>
-            <TextField sx={{width:"80%"}} multiline id={"lastName"} value={props.studentForm.lastName} onChange={studentNameChangeHandler}/>
+            <TextField sx={{width:"80%",marginRight:"1rem",marginLeft:"1rem"}} multiline id={"lastName"} value={props.studentForm.lastName} onChange={studentNameChangeHandler}/>
             <Button disabled={!isValid} sx={{margin:"2rem"}} variant="contained" onClick={studentFormSubmitHandler}>Submit Student</Button>
         </Paper>
     </Container>

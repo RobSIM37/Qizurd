@@ -48,7 +48,7 @@ const StudentList = (props) => {
                 <Box mt={2} mb={2}>
                     <Card sx={{display:"flex",flexDirection:"row",cursor:"pointer"}} id={el.id} onClick={clickHandlerControl}>
                         <Typography sx={{pointerEvents:"none",width:"90%"}} mt={1} mb={1} fontSize="1.5rem">{el.firstName + " " + el.lastName}</Typography>
-                        {props.clickHandlerid === "editStudent" && 
+                        {props.clickHandlerid === "editStudent" &&
                             <IconButton id={el.id} onClick={deleteStudentClickHandler}>
                                 <DeleteIcon sx={{pointerEvents:"none"}}/>
                             </IconButton>}

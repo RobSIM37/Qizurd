@@ -17,7 +17,8 @@ import {
   DELETE_QUESTION_FROM_QUIZ,
   DELETE_STUDENT_FROM_USER,
   GET_QUESTION,
-  SENT_RESULT
+  SENT_RESULT,
+  SET_ACTIVE_QUIZ
 } from "./action-types"
 
 const RENDER_ID_MAX = 1000000
@@ -26,6 +27,7 @@ let emptyUser = {
   userName: "",
   id: "",
   quizzes: [],
+  activeQuiz:"",
   students: []
 }
 
@@ -62,8 +64,9 @@ const user = (state = emptyUser, action) => {
     case DELETE_STUDENT_FROM_USER:
       return action.payload
     case SENT_RESULT:
-      console.log("hit reducer",action.payload)
       return action.payload
+    case SET_ACTIVE_QUIZ: 
+    return {...state,activeQuiz: action.payload}
     default:
       return state
   }

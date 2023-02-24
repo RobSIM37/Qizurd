@@ -1,13 +1,18 @@
-import React from "react"
+import React,{useEffect} from "react"
 import { useNavigate } from "react-router"
 import { connect } from "react-redux"
 import { Card,Container,Typography,Box,IconButton, Button } from "@mui/material"
 import DeleteIcon from '@mui/icons-material/Delete';
-import { deleteQuiz,fillQuizForm } from "../../state/action-builder"
+import { deleteQuiz,fillQuizForm,setActiveQuiz } from "../../state/action-builder"
 
 const QuizList = (props) => {
-
     const navigate = useNavigate()
+
+    useEffect(() => {
+        if(props.user.activeQuiz){
+            navigate(`/quizzes/${props.user.activeQuiz}`)
+        }
+    })
     
     const deleteQuizClickHandler = (e) => {
         const {id} = e.target
@@ -35,6 +40,11 @@ const QuizList = (props) => {
                 props.fillQuizForm(selectedQuiz)
                 navigate(`/quiz/create-quiz`)
                 break
+            case "setActiveQuiz":
+                const selectedQuizId = props.user.quizzes.filter( el => el.id === id)[0].id
+                props.setActiveQuiz(selectedQuizId)
+                navigate("/quizzes")
+                break
             default:
         }
     }
@@ -45,6 +55,10 @@ const QuizList = (props) => {
         <Container align="center">
             {props.clickHandlerid === "showDetails" && <Typography sx={{marginTop:"1rem"}} fontSize="2rem">Quizzes</Typography>}
             {props.clickHandlerid === "editQuiz" && <Typography sx={{marginTop:"1rem"}} fontSize="2rem">Edit Quiz</Typography>}
+            {props.clickHandlerid === "setActiveQuiz" && 
+                <Card onClick={clickHandlerControl} id="" sx={{marginTop:2,marginBottom:2}}>
+                    <Typography fontSize="1.5rem" sx={{margin:".5rem",pointerEvents:"none"}}>None</Typography>
+                </Card>}
             {props.user.students.length === 0 &&
                 <Card sx={{marginTop:2,marginBottom:2}}>
                     <Typography fontSize="1.5rem" sx={{margin:".5rem"}}>You don't have any students!</Typography>
@@ -60,9 +74,11 @@ const QuizList = (props) => {
                     <Card sx={{display:"flex",flexDirection:"row",alignItems:"center",cursor:"pointer"}} id={el.id} key={el.id} onClick={clickHandlerControl}>
                         <Typography sx={{pointerEvents:"none",width:"100%"}} mt={1} mb={1} fontSize="1.5rem">{el.quizTitle}</Typography>
                         {props.clickHandlerid === "editQuiz" && 
+                        <>
                             <IconButton id={el.id} onClick={deleteQuizClickHandler}>
                                 <DeleteIcon sx={{pointerEvents:"none"}}/>
-                            </IconButton>}
+                            </IconButton>
+                        </>}
                     </Card>
                 </Box>
             )})}
@@ -74,4 +90,4 @@ const mapStateToProps = state => ({
     user: state.user
 })
 
-export default connect(mapStateToProps,{deleteQuiz,fillQuizForm})(QuizList)
+export default connect(mapStateToProps,{deleteQuiz,fillQuizForm,setActiveQuiz})(QuizList)

@@ -31,7 +31,7 @@ const CreateStudent = (props) => {
         const {firstName,lastName,id} = props.studentForm
         let studentResultsArr = []
         if(id){
-            studentResultsArr = props.user.students.map(student => student.id === id)[0].results
+            studentResultsArr = props.user.students.filter(student => student.id === id)[0].results
         }
         const backendReq = {userId:props.user.id,firstName,lastName,id,results:studentResultsArr}
         props.postStudent(backendReq)

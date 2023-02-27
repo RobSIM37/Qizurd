@@ -29,7 +29,11 @@ const CreateStudent = (props) => {
     const studentFormSubmitHandler = (e) => {
         e.preventDefault()
         const {firstName,lastName,id} = props.studentForm
-        const backendReq = {userId:props.user.id,firstName,lastName,id}
+        let studentResultsArr = []
+        if(id){
+            studentResultsArr = props.user.students.filter(student => student.id === id)[0].results
+        }
+        const backendReq = {userId:props.user.id,firstName,lastName,id,results:studentResultsArr}
         props.postStudent(backendReq)
         props.clearStudentForm()
         navigate("/quizzes")
@@ -42,7 +46,7 @@ const CreateStudent = (props) => {
             <TextField sx={{width:"80%"}} multiline id={"firstName"} value={props.studentForm.firstName} onChange={studentNameChangeHandler}/>
 
             <Typography fontSize="2rem">Last name</Typography>
-            <TextField sx={{width:"80%"}} multiline id={"lastName"} value={props.studentForm.lastName} onChange={studentNameChangeHandler}/>
+            <TextField sx={{width:"80%",marginRight:"1rem",marginLeft:"1rem"}} multiline id={"lastName"} value={props.studentForm.lastName} onChange={studentNameChangeHandler}/>
             <Button disabled={!isValid} sx={{margin:"2rem"}} variant="contained" onClick={studentFormSubmitHandler}>Submit Student</Button>
         </Paper>
     </Container>

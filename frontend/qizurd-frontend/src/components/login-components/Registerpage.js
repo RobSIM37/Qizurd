@@ -39,8 +39,8 @@ const Registerpage = (props) => {
     const formSubmitHandler = (e) => {
         e.preventDefault()
         axios.post("http://localhost:8025/register",{userName,password}).then(res => {
-            const stringifiedData = JSON.stringify(res.data.id)
-            localStorage.setItem("userId",stringifiedData)
+            const stringifiedAuth = JSON.stringify(res.data.authToken)
+            localStorage.setItem("userAuth",stringifiedAuth)
             props.activeUser(res.data)
             navigate("/quizzes")
         }).catch(err => console.log(err))

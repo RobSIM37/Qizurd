@@ -17,7 +17,8 @@ import {
     DELETE_QUESTION_FROM_QUIZ,
     DELETE_STUDENT_FROM_USER,
     GET_QUESTION,
-    SENT_RESULT
+    SENT_RESULT,
+    SET_ACTIVE_QUIZ
 } from "./action-types"
 
 
@@ -29,6 +30,7 @@ export const postQuiz = (quiz) => dispatch => {
 }
 
 export const postStudent = (student) => dispatch => {
+    console.log("post request obj:",student)
     axios.post("http://localhost:8025/students",student).then(res => {
         dispatch({type:ADD_STUDENT_TO_USER,payload:res.data})
     }).catch(err => console.log(err))
@@ -104,4 +106,8 @@ export const fillStudentForm = (student) => {
 
 export const fillQuizForm = (quiz) => {
     return {type:FILL_QUIZ_FORM,payload:quiz}
+}
+
+export const setActiveQuiz = (quizId) => {
+    return {type:SET_ACTIVE_QUIZ,payload:quizId}
 }

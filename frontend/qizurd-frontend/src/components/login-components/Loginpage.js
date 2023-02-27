@@ -15,10 +15,12 @@ const Loginpage = (props) => {
     let [isValid,setIsValid] = useState(false)
 
     useEffect(() => {
-        const loggedInUserId = JSON.parse(localStorage.getItem("userId"))
-        if (loggedInUserId){
-            axios.get(`http://localhost:8025/${loggedInUserId}`).then(res => {
+        const loggedInUserAuth = JSON.parse(localStorage.getItem("userAuth"))
+        if (loggedInUserAuth){
+            axios.get(`http://localhost:8025/${loggedInUserAuth}`).then(res => {
                 props.activeUser(res.data)
+                const stringifiedAuth = JSON.stringify(res.data.authToken)
+                localStorage.setItem("userAuth",stringifiedAuth)
                 navigate("/quizzes")
             })
         }
@@ -49,8 +51,8 @@ const Loginpage = (props) => {
     const formSubmitHandler = (e) => {
         e.preventDefault()
         axios.post("http://localhost:8025/",{userName,password}).then(res => {
-            const stringifiedData = JSON.stringify(res.data.id)
-            localStorage.setItem("userId",stringifiedData)
+            const stringifiedAuth = JSON.stringify(res.data.authToken)
+            localStorage.setItem("userAuth",stringifiedAuth)
             props.activeUser(res.data)
             navigate("/quizzes")
         }).catch(err => console.log(err))

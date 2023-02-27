@@ -30,7 +30,7 @@ const HamburgerMenu = (props) => {
     }
 
     const logOutClickHandler = (e) => {
-        localStorage.removeItem("userId")
+        localStorage.removeItem("userAuth")
         setMenuOpen(false)
         navigate("/")
     }
@@ -43,6 +43,7 @@ const HamburgerMenu = (props) => {
             <Button size="large" id="/student/edit-student" onClick={selectionClickHandler}>Edit Student</Button>
             <Button size="large" id="/quiz/create-quiz" onClick={selectionClickHandler}>Create Quiz</Button>
             <Button size="large" id="/quiz/edit-quiz" onClick={selectionClickHandler}>Edit Quiz</Button>
+            <Button size="large" id="/quiz/set-active-quiz" onClick={selectionClickHandler}>Set Active Quiz</Button>
             <Button size="large" id="logOut" onClick={logOutClickHandler}>Log Out</Button>
         </ButtonGroup>
     </SwipeableDrawer>

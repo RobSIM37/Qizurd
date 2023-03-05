@@ -8,6 +8,7 @@ module.exports = {
       const reqData = req.body;
       if (data.isKnownId(reqData.userId)) {
          try {
+            console.log("reqData:",reqData)
             const addedStudent = studentServices.addOrUpdateStudent(reqData.userId, reqData)
             if (addedStudent) {
                const updatedUser = userServices.getUser(reqData.userId);

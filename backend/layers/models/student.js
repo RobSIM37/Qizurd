@@ -7,6 +7,7 @@ class Student extends Unique {
     
     constructor (parameters){
         const {firstName, lastName, id, results} = parameters;
+        console.log("results",results)
         super(id);
         this.firstName = firstName;
         this.lastName = lastName;

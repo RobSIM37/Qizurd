@@ -70,7 +70,6 @@ module.exports = {
         const quiz = user.getQuiz(quizId);
         return quiz.getAllStudentsRanked();
     },
-
     completePercentage: (userId, quizId, studentId) => {
         const user = userServices.getUserBy("_id",userId)
         const quiz = user.getQuiz(quizId);

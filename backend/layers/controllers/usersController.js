@@ -17,7 +17,6 @@ module.exports = {
         }
         
     },
-
     userLogin: async (req,res) => {
         const userInfo = req.body;
         const loginAttempt = await data.checkPassword(userInfo.userName, userInfo.password);
@@ -31,7 +30,6 @@ module.exports = {
             res.status(400).send({message:"error logging in"});
         }
     },
-
     getUserWithAuth: (req, res) => {
         const authToken = req.params.authToken;
         try {

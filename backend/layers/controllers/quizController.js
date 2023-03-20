@@ -19,7 +19,6 @@ module.exports = {
    getQuiz: (req, res) => {
         const userId = req.params.userId;
         const quizId = req.params.quizId;
-
         try {
             const requestedQuiz = quizServices.getQuiz(userId, quizId);
             if (requestedQuiz) {
@@ -47,7 +46,6 @@ module.exports = {
    deleteQuiz: (req, res) => {
         const userId = req.params.userId;
         const quizId = req.params.quizId;
-
         try {
             const deletedQuiz = quizServices.deleteQuiz(userId, quizId);
             if (deletedQuiz) {
@@ -80,7 +78,6 @@ module.exports = {
         const userId = req.params.userId;
         const quizId = req.params.quizId;
         const questionId = req.params.questionId;
-
         try {
             const requestedQuestion = quizServices.getQuestion(userId, quizId, questionId);
             if (requestedQuestion) {
@@ -111,7 +108,6 @@ module.exports = {
         const userId = req.params.userId;
         const quizId = req.params.quizId;
         const questionId = req.params.questionId;
-
         try {
             const deletedQuestion = quizServices.deleteQuestion(userId, quizId, questionId);
             if (deletedQuestion) {
@@ -127,7 +123,6 @@ module.exports = {
    getRankedListOfStudents: (req, res) => {
         const userId = req.params.userId;
         const quizId = req.params.quizId;
-
         try {
             const students = quizServices.getRankedListOfStudents(userId, quizId);
             if (students) {

@@ -22,7 +22,7 @@ module.exports = {
         const userInfo = req.body;
         const loginAttempt = await data.checkPassword(userInfo.userName, userInfo.password);
         if (loginAttempt) {
-            const returningUser = userServices.getUserByName(userInfo.userName);
+            const returningUser = userServices.getUserBy("name",userInfo.userName);
             const authToken = userServices.createAuthToken(returningUser.id);
             const userData = returningUser.export();
             userData["authToken"] = authToken;
@@ -37,7 +37,7 @@ module.exports = {
         try {
             const userId = userServices.checkAuthToken(authToken);
             if (userId) {
-                const user = userServices.getUser(userId);
+                const user = userServices.getUserBy("_id",userId);
                 replacementAuthToken = userServices.createAuthToken(userId);
                 const userData = user.export();
                 userData["authToken"] = replacementAuthToken;

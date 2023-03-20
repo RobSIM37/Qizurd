@@ -1,139 +1,140 @@
 const dbUtils = require("../../utils/dbUtils");
 const {MongoClient, ServerApiVersion} = require("mongodb");
 const timeUtil = require("../../utils/timeUtils");
-
-const client = new MongoClient(dbUtils.url, {
-    sslKey: dbUtils.cert,
-    sslCert: dbUtils.cert,
-    serverApi: ServerApiVersion.v1
-});
-
 const bcrypt = require("bcrypt");
 
 const authTokenTTL = 72;
-const issuedIdMap = new Map();
-const issuedAuthTokenMap = new Map();
-let passwordData = [];
-let userData = [];
 
-module.exports = {
-    registerUser: (userName, password) => {
-        if (!userName || !password) return false
-        if (passwordData.map(data=>data.userName).includes(userName)) return false;
-        bcrypt.hash(password, 10, (err, hash) => {
-            if (err !== undefined) return false;
-            passwordData.push({userName, hash});
-        })
-        return true;
-    },
+const newConnection = () => {
+    return new MongoClient(dbUtils.url, {
+        sslKey: dbUtils.cert,
+        sslCert: dbUtils.cert,
+        serverApi: ServerApiVersion.v1
+    });
+}
 
-    checkPassword: async (userName, password) => {
-        const matchingUserNameData = passwordData.filter(data=>data.userName === userName)[0];
-        if (matchingUserNameData == null) return false;
-        const result = await bcrypt.compare(password, matchingUserNameData.hash);
-        return result;
-    },
-    isKnownId: (id, addIfNot) => {
-        const alreadyIssued = issuedIdMap.get(id) == true;
-        if (addIfNot && !alreadyIssued) {
-            console.log("adding id: ",id)
-            issuedIdMap.set(id, true)
-        } 
-        return alreadyIssued;
-    },
-    storeNewAuthToken: (authToken, userId) => {
-        const authObj = {
-            userId,
-            issueTime: Date.now()
-        }
-        issuedAuthTokenMap.set(authToken, authObj);
-    },
-    checkAuthTokenValidity: (authToken) => {
-        const authObj = issuedAuthTokenMap.get(authToken);
-        if (!authObj) return false;
-        issuedAuthTokenMap.delete(authToken);
-        const timeSinceIssue = Date.now() - authObj.issueTime;
-        if (timeUtil.convertFromMilliseconds(timeSinceIssue, "hour") <= authTokenTTL) {
-            return authObj.userId;
+const getUserBy = async (key, value) => {
+    const client = data.getConnection()
+    const matchObj = {}
+    matchObj[key] = value;
+    try {
+        await client.connect();
+        const userData = await client.db("qizurdDB").collection("users").findOne( matchObj )
+        if (userData) {
+            const user = new User(userData);
+            return user;
         } else {
             return false;
         }
+    } 
+    catch {
+        return false;
+    } 
+    finally {
+        await client.close();
+    }
+}
+const verifyUserDoesNotExist = (userName) => {
+    const user = getUserBy("name", userName);
+    return user;
+}
+module.exports = {
+    getConnection: () => {
+        return newConnection();
     },
-    addIdManually: (id) => {
-        issuedIdMap.set(id, true);
+    getUserBy: async (key, value) => {
+        return getUserBy(key, value)
     },
-    getAllUserData: () => {
-        return [...userData];
+    registerUser: async (userName, password) => {
+        if (!userName || !password) return false
+        const userExists = verifyUserDoesNotExist(userName);
+        if (userExists) return false;
+        bcrypt.hash(password, 10, async (err, hash) => {
+            if (err !== undefined) return false;
+            const client = newConnection();
+            try {
+                await client.connect();
+                const passwordResult = await client.db("qizurdDB").collection("pwHashes").insertOne({userName, hash})
+                if (passwordResult) {
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+            catch {
+                return false
+            }
+            finally {
+                client.close();
+            }
+        })
+        return true;
     },
-    setAllUserData: (incommingUserData) => {
-        userData = [...incommingUserData];
-    },
-    clearDB: async () => {
+    checkPassword: async (userName, password) => {
+        const client = newConnection();
         try {
             await client.connect();
-            await client.db("qizurdDB").collection("users").deleteMany();
-            await client.db("qizurdDB").collection("pwHashes").deleteMany();
-            await client.db("qizurdDB").collection("issuedId").deleteMany();
-            console.log("DB Cleared");
-        } finally {
-            await client.close();
+            const passwordResult = await client.db("qizurdDB").collection("pwHashes").findOne({userName});
+            if (passwordResult) {
+                const result = await bcrypt.compare(password, passwordResult.hash);
+                return result;
+            } else {
+                return false;
+            }
+        }
+        catch {
+            return false;
+        }
+        finally {
+            client.close();
         }
     },
-    loadDataFromDB: async () => {
-
+    storeNewAuthToken: async (authToken, userId) => {
+        const client = newConnection();
         try {
-            await client.connect();
-            userData = await client.db("qizurdDB").collection("users").find({}).toArray();
-            passwordData = await client.db("qizurdDB").collection("pwHashes").find({}).toArray();
-            const issuedIdDataArray = await client.db("qizurdDB").collection("issuedId").find({}).toArray();
-
-            console.log(`- userData has ${userData.length} entries`);
-            console.log(`- passwordData has ${passwordData.length} entries`);
-            console.log(`- issuedIdDataArray has ${issuedIdDataArray.length} entries`);
-
-            issuedIdDataArray.forEach(issuedIdData=>{
-                issuedIdMap.set(issuedIdData._id, true)
-            })
-            console.log("Data Loaded Successfully");
-        } catch(err) {
-            console.log(err)
-        } finally {
-            await client.close();
+            const authTokenObj = {
+                userId,
+                authToken,
+                issueTime: Date.now()
+            }
+            const existingAuth = await client.db("qizurdDB").collection("authTokens").findOne({userId})
+            if (existingAuth) {
+                const authTokenStoreResult = await client.db("qizurdDB").collection("authTokens").updateOne({_id:existingAuth.id},authTokenObj);
+                if (authTokenStoreResult) {
+                    return true;
+                } else {
+                    return false;
+                }
+            } else {
+                const authTokenStoreResult = await client.db("qizurdDB").collection("authTokens").insertOne(authTokenObj);
+                if (authTokenStoreResult) {
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+        }
+        finally{
+            client.close();
         }
     },
-
-    saveDataToDB: async () => {
+    checkAuthTokenValidity: async (authToken) => {
+        const client = newConnection();
         try {
-            await client.connect();
-            const upsertOption = {upsert: true}
-
-            const issuedIdArr = [];
-            issuedIdMap.forEach((val, key) => issuedIdArr.push({_id: key}));
-
-            if (userData.length > 0) {
-                const userResult = await client.db("qizurdDB").collection("users").insertMany(userData, upsertOption);
-                console.log(`- ${userResult.insertedCount} user documents were inserted`);
+            const authObj = await client.db("qizurdDB").collection("authTokens").findOne({authToken});
+            if (!authObj) return false;
+            const timeSinceIssue = Date.now() - authObj.issueTime;
+            if (timeUtil.convertFromMilliseconds(timeSinceIssue, "hour") <= authTokenTTL) {
+                return authObj.userId;
+            } else {
+                return false;
             }
-
-            if (passwordData.length > 0) {
-                const passwordResult = await client.db("qizurdDB").collection("pwHashes").insertMany(userData, upsertOption);
-                console.log(`- ${passwordResult.insertedCount} hash documents were inserted`);
-            }
-
-            if (issuedIdArr.length > 0) {
-                const issuedIdDataResult = await client.db("qizurdDB").collection("issuedId").insertMany(userData, upsertOption);
-                console.log(`- ${issuedIdDataResult.insertedCount} id documents were inserted`);
-            }
-            
-            console.log("Data Saved Successfully");
-        } finally {
-            await client.close();
         }
-        
+        finally{
+            client.close();
+        }
     },
-
     testDBConnection: async () => {
-        
         try {
             await client.connect();
             const databasesList = await client.db().admin().listDatabases();

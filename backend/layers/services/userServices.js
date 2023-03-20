@@ -3,23 +3,55 @@ const User = require("../models/user");
 const data = require("../data/data");
 const idUtils = require("../../utils/idUtils");
 
-let users = [];
-
 module.exports = {
-    addUser: (user) => {
-        users.push(user);
+    addUser: async (user) => {
+        const client = data.getConnection()
+        try {
+            await client.connect();
+            const userResult = await client.db("qizurdDB").collection("users").insertOne(user);
+            if (userResult) {
+                return true;
+            } else {
+                return false;
+            }
+        } 
+        catch {
+            return false;
+        } 
+        finally {
+            await client.close();
+        }
     },
-    removeUser: (userId) => {
-        users = users.filter(user=>user.id != userId);
+    removeUser: async (userId) => {
+        const client = data.getConnection()
+        try {
+            await client.connect();
+            const deleteResult = await client.db("qizurdDB").collection("users").deleteOne( { _id: userId } )
+            return deleteResult.deletedCount === 1;
+        } 
+        catch {
+            return false;
+        } 
+        finally {
+            await client.close();
+        }
     },
-    getUser: (userId) => {
-        return users.filter(user=>user.id == userId)[0];
+    getUserBy: (key, value) => {
+        return data.getUserBy(key,value);
     },
-    getUserByName: (userName) => {
-        return users.filter(user=>user.name == userName)[0];
-    },
-    getAllUserData: (idKey = "id") => {
-        return users.map(user=>user.export(idKey));
+    updateUser: async (userData) =>{
+        const client = data.getConnection()
+        try {
+            await client.connect();
+            const updateResult = await client.db("qizurdDB").collection("users").updateOne( {_id:userData._id}, userData )
+            return updateResult.modifiedCount === 1
+        } 
+        catch {
+            return false;
+        } 
+        finally {
+            await client.close();
+        }
     },
     buildUsersFromUserData: (userData) => {
         users = userData.map(u => new User(u));

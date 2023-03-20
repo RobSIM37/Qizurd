@@ -1,5 +1,4 @@
 const idUtils = require("../../utils/idUtils");
-const data = require("../data/data");
 
 class Unique {
     #uuid;
@@ -8,10 +7,7 @@ class Unique {
         if (existingId) {
             this.#uuid = existingId
         } else {
-            do {
-                this.#uuid = idUtils();
-                console.log("uuid: ",this.#uuid)
-            } while (data.isKnownId(this.#uuid,true))
+            this.#uuid = idUtils();
         }
     }
 

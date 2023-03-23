@@ -1,6 +1,5 @@
 const userServices = require("../services/userServices");
 const quizServices = require("../services/quizServices");
-const idUtils = require("../../utils/idUtils");
 
 module.exports = {
     addOrUpdateQuiz: async (req, res) => {
@@ -9,22 +8,8 @@ module.exports = {
         try {
             const user = await userServices.getUserBy({"_id": userId});
             if (!user) res.status(400).send({ message: "unable to add/update quiz" });
-            const quiz = {id, questions, students}
-            if (!quiz.id){
-                quiz.id = idUtils();
-            }
-            quiz.questions.forEach(question => 
-                {if (!question.id) {
-                    question.id = idUtils()
-                }}
-            )
-            quiz.students.forEach(student => quizServices.calculateStudentCompletion(quiz, student));
-            existingQuizIndex = user.quizzes.map(existingQuiz => existingQuiz.id).indexOf(quiz.id)
-            if (existingQuizIndex === -1) {
-                user.quizzes.push(quiz);
-            } else {
-                user.quizzes[existingQuizIndex] = quiz;
-            }
+            const quiz = quizServices.buildQuiz({id, questions, students});
+            userServices.addOrUpdateQuiz(user,quiz);
             userServices.updateUser(user);
             res.status(200).send(user);
         }

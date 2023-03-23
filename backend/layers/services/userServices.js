@@ -88,6 +88,14 @@ module.exports = {
         const user = await dataServices.findOne("users", matchingObj);
         return user;
     },
+    addOrUpdateQuiz: (user, quiz) => {
+        existingQuizIndex = user.quizzes.map(existingQuiz => existingQuiz.id).indexOf(quiz.id)
+        if (existingQuizIndex === -1) {
+            user.quizzes.push(quiz);
+        } else {
+            user.quizzes[existingQuizIndex] = quiz;
+        }
+    },
     addOrUpdateStudent: (user, student) => {
         const existingStudentIndex = user.students.map(student=>student.id).indexOf(student.id)
         if (existingStudentIndex === -1){

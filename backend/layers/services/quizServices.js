@@ -1,6 +1,19 @@
-const { getRandomArrayIndex } = require("../../utils/arrayUtils");
+const arrayUtils = require("../../utils/arrayUtils");
+const idUtils = require("../../utils/idUtils");
 
 module.exports = {
+    buildQuiz: (quiz) => {
+        if (!quiz.id){
+            quiz.id = idUtils();
+        }
+        quiz.questions.forEach(question => 
+            {if (!question.id) {
+                question.id = idUtils()
+            }}
+        )
+        quiz.students.forEach(student => this.calculateStudentCompletion(quiz, student));
+        return quiz;
+    },
     updateStudent: (quiz, student) => {
         const studentIndex = quiz.students.map(quizStudent => quizStudent.id).indexOf(student.id);
         if (studentIndex != -1) {
@@ -18,7 +31,7 @@ module.exports = {
     getRandomQuestion: (quiz, student) => {
         const correctQuestionIds = student.results.filter(result => result.correct).map(result => result.questionId);
         const availableQuestions = quiz.questions.filter(question=>correctQuestionIds.includes(question.id));
-        const randomQuestionIndex = getRandomArrayIndex(availableQuestions);
+        const randomQuestionIndex = arrayUtils.getRandomArrayIndex(availableQuestions);
         return availableQuestions[randomQuestionIndex];
     }
 }

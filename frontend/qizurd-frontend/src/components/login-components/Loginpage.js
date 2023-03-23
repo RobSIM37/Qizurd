@@ -15,6 +15,7 @@ const Loginpage = (props) => {
     let [isValid,setIsValid] = useState(false)
 
     useEffect(() => {
+        if (localStorage.getItem("userAuth") === "undefined") return; 
         const loggedInUserAuth = JSON.parse(localStorage.getItem("userAuth"))
         if (loggedInUserAuth){
             axios.get(`http://localhost:8025/${loggedInUserAuth}`).then(res => {

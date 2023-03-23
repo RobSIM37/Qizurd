@@ -1,140 +1,120 @@
+const userServices = require("../services/userServices");
 const quizServices = require("../services/quizServices");
+const idUtils = require("../../utils/idUtils");
 
 module.exports = {
-    addOrUpdateQuiz: (req, res) => {
-        const reqData = req.body;
+    addOrUpdateQuiz: async (req, res) => {
+        const {userId, id, questions, students} = req.body;
+        if (!userId) res.status(400).send({ message: "unable to add/update quiz" });
         try {
-            const addedQuiz = quizServices.addOrUpdateQuiz(reqData);
-            if (addedQuiz) {
-                const allQuizzes = quizServices.getAllQuizzes(reqData.userId);
-                res.status(200).send(allQuizzes.map(quiz=>quiz.export()));
-            } else {
-                res.status(400).send({message:"unable to add quiz with information provided"});
+            const user = await userServices.getUserBy({"_id": userId});
+            if (!user) res.status(400).send({ message: "unable to add/update quiz" });
+            const quiz = {id, questions, students}
+            if (!quiz.id){
+                quiz.id = idUtils();
             }
-        } catch (err){ 
-            console.log(err)
-            res.status(500).send({message:"an unknown server error has prevented this transaction"});
+            quiz.questions.forEach(question => 
+                {if (!question.id) {
+                    question.id = idUtils()
+                }}
+            )
+            quiz.students.forEach(student => quizServices.calculateStudentCompletion(quiz, student));
+            existingQuizIndex = user.quizzes.map(existingQuiz => existingQuiz.id).indexOf(quiz.id)
+            if (existingQuizIndex === -1) {
+                user.quizzes.push(quiz);
+            } else {
+                user.quizzes[existingQuizIndex] = quiz;
+            }
+            userServices.updateUser(user);
+            res.status(200).send(user);
+        }
+        catch (err) {
+            res.status(400).send({ message: "unable to add/update quiz" });
         }
     },
-   getQuiz: (req, res) => {
-        const userId = req.params.userId;
-        const quizId = req.params.quizId;
+    getQuiz: async (req, res) => {
+        const {userId, quizId} = req.params;
+        if (!userId || !quizId) res.status(400).send({ message: "unable to get quiz" });
         try {
-            const requestedQuiz = quizServices.getQuiz(userId, quizId);
-            if (requestedQuiz) {
-                res.status(200).send(requestedQuiz.export());
-            } else {
-                res.status(400).send({message:"unable to provide quiz with the information provided"});
-            }
-        } catch {
-            res.status(500).send({message:"an unknown server error has prevented this transaction"});
+            const user = await userServices.getUserBy({"_id": userId});
+            const quiz = user.quizzes.filter(existingQuiz => existingQuiz.id === quizId)[0];
+            if (!quiz) res.status(400).send({ message: "unable to get quiz" });
+            res.status(200).send(quiz);
         }
-   },
-   getAllQuizzes: (req, res) => {
-        const userId = req.params.userId;
+        catch {
+            res.status(400).send({ message: "unable to get quiz" });
+        }
+    },
+    getAllQuizzes: async (req, res) => {
+        const {userId} = req.params;
+        if (!userId) res.status(400).send({ message: "unable to get quizzes" });
         try {
-            const requestedQuizzes = quizServices.getAllQuizzes(userId);
-            if (requestedQuizzes) {
-                res.status(200).send(requestedQuizzes.map(quiz=>quiz.export()));
-            } else {
-                res.status(400).send({message:"unable to provide quizzes with the information provided"});
-            }
-        } catch {
-            res.status(500).send({message:"an unknown server error has prevented this transaction"});
+            const user = await userServices.getUserBy({"_id": userId});
+            res.status(200).send(user.quizzes);
         }
-   },
-   deleteQuiz: (req, res) => {
-        const userId = req.params.userId;
-        const quizId = req.params.quizId;
+        catch {
+            res.status(400).send({ message: "unable to get quizzes" });
+        }
+    },
+    deleteQuiz: async (req, res) => {
+        const {userId, quizId} = req.params;
+        if (!userId || !quizId) res.status(400).send({ message: "unable to delete quiz" });
         try {
-            const deletedQuiz = quizServices.deleteQuiz(userId, quizId);
-            if (deletedQuiz) {
-                const remainingQuizzes = quizServices.getAllQuizzes(userId);
-                res.status(200).send(remainingQuizzes.map(quiz=>quiz.export()));
-            } else {
-                res.status(400).send({message:"unable to delete quiz with the information provided"});
-            }
-        } catch (err){
-            console.log(err);
-            res.status(500).send({message:"an unknown server error has prevented this transaction"});
+            const user = await userServices.getUserBy({"_id": userId});
+            user.quizzes = user.quizzes.filter(quiz => quiz.id !== quizId);
+            userServices.updateUser(user);
+            res.status(200).send(user);
         }
-   },
-   addOrUpdateQuestion: (req, res) => {
-        const reqData = req.body;
-        const userId = reqData.userId;
-        const quizId = reqData.quizId;
+        catch {
+            res.status(400).send({ message: "unable to delete quiz" });
+        }
+    },
+    getRankedListOfStudents: async (req, res) => {
+        const {userId, quizId} = req.params;
+        if (!userId || !quizId) res.status(400).send({ message: "unable to get students" });
         try {
-            const addedQuestion = quizServices.addOrUpdateQuestion(userId, quizId, reqData);
-            if (addedQuestion) {
-                res.status(200).send(addedQuestion.export());
-            } else {
-                res.status(400).send({message:"unable to add question with the information provided"});
-            }
-        } catch {
-            res.status(500).send({message:"an unknown server error has prevented this transaction"});
+            const user = userServices.getUserBy({"_id": userId});
+            if (!user) res.status(400).send({ message: "unable to get students" });
+            const quiz = user.quizzes.filter(existingQuiz => existingQuiz.id === quizId)[0];
+            if (!quiz) res.status(400).send({ message: "unable to get students" });
+            const sortedStudents = quiz.students.sort((a,b) => a.completion - b.completion);
+            res.status(200).send(sortedStudents);
         }
-   },
-   getQuestion: (req, res) => {
-        const userId = req.params.userId;
-        const quizId = req.params.quizId;
-        const questionId = req.params.questionId;
+        catch {
+            res.status(400).send({ message: "unable to get students" });
+        }
+    },
+    getQuestion: async (req, res) => {
+        const {userId,quizId,questionId} = req.params;
+        if (!userId || !quizId || !questionId) res.status(400).send({ message: "unable to get question" });
         try {
-            const requestedQuestion = quizServices.getQuestion(userId, quizId, questionId);
-            if (requestedQuestion) {
-                res.status(200).send(requestedQuestion.export());
-            } else {
-                res.status(400).send({message:"unable to return question with the information provided"});
-            }
-        } catch {
-            res.status(500).send({message:"an unknown server error has prevented this transaction"});
+            const user = await userServices.getUserBy({"_id": userId});
+            if (!user) res.status(400).send({ message: "unable to get question" });
+            const quiz = user.quizzes.filter(existingQuiz => existingQuiz.id === quizId)[0];
+            if (!quiz) res.status(400).send({ message: "unable to get question" });
+            const question = quiz.questions.filter(existingQuestion=>existingQuestion.id === questionId)[0];
+            if (!question) res.status(400).send({ message: "unable to get question" });
+            res.status(200).send(question);
         }
-   },
-   getRandomQuestionForStudent: (req, res) => {
-        const userId = req.params.userId;
-        const quizId = req.params.quizId;
-        const studentId = req.params.studentId;
+        catch {
+            res.status(400).send({ message: "unable to get question" });
+        }
+    },
+    getRandomQuestionForStudent: async (req, res) => {
+        const {userId,quizId,studentId} = req.params;
+        if (!userId || !quizId || !studentId) res.status(400).send({ message: "unable to get question" });
         try {
-            const requestedQuestion = quizServices.getRandomQuestionForStudent(userId, quizId, studentId);
-            if (requestedQuestion) {
-                res.status(200).send(requestedQuestion.export());
-            } else {
-                res.status(400).send({message:"unable to return question with the information provided"});
-            }
-        } catch {
-            res.status(500).send({message:"an unknown server error has prevented this transaction"});
+            const user = await userServices.getUserBy({"_id": userId});
+            if (!user) res.status(400).send({ message: "unable to get question" });
+            const quiz = user.quizzes.filter(existingQuiz => existingQuiz.id === quizId)[0];
+            if (!quiz) res.status(400).send({ message: "unable to get question" });
+            const student = quiz.students.filter(existingStudents=>existingStudents.id === studentId)[0];
+            if (!student) res.status(400).send({ message: "unable to get question" });
+            const question = quizServices.getRandomQuestion(quiz, student);
+            res.status(200).send(question);
         }
-   },
-   deleteQuestion: (req, res) => {
-        const userId = req.params.userId;
-        const quizId = req.params.quizId;
-        const questionId = req.params.questionId;
-        try {
-            const deletedQuestion = quizServices.deleteQuestion(userId, quizId, questionId);
-            if (deletedQuestion) {
-                const remainingQuestions = quizServices.getAllQuestions(userId, quizId)
-                res.status(200).send(remainingQuestions.map(question=>question.export()));
-            } else {
-                res.status(400).send({message:"unable to return question with the information provided"});
-            }
-        } catch {
-            res.status(500).send({message:"an unknown server error has prevented this transaction"});
+        catch {
+            res.status(400).send({ message: "unable to get question" });
         }
-   },
-   getRankedListOfStudents: (req, res) => {
-        const userId = req.params.userId;
-        const quizId = req.params.quizId;
-        try {
-            const students = quizServices.getRankedListOfStudents(userId, quizId);
-            if (students) {
-                res.status(200).send(students.map(student=>
-                    {return {...student.export(),
-                                complete: quizServices.completePercentage(userId,quizId,student.id)}
-                    }));
-            } else {
-                res.status(400).send({message:"unable to return students with the information provided"});
-            }
-        } catch {
-            res.status(500).send({message:"an unknown server error has prevented this transaction"});
-        }
-   }
+    }
 }

@@ -1,66 +1,69 @@
-const studentServices = require("../services/studentServices");
 const userServices = require("../services/userServices");
+const idUtils = require("../../utils/idUtils");
+const quizServices = require("../services/quizServices");
 
 module.exports = {
-   addOrUpdateStudent: (req, res) => {
-      const reqData = req.body;
-      try {
-         console.log("reqData:",reqData)
-         const addedStudent = studentServices.addOrUpdateStudent(reqData.userId, reqData)
-         if (addedStudent) {
-            const updatedUser = userServices.getUserBy("_id",reqData.userId);
-            res.status(200).send(updatedUser.export());
-         } else {
-            res.status(400).send({message:"unable to add student with information provided"});
-         }
-      } catch(err) {
-         console.log(err)
-         res.status(500).send({message:"an unknown server error has prevented this transaction"});
-      }
-   },
-
-   deleteStudent: (req, res) => {
-      const userId = req.params.userId;
-      const studentId = req.params.studentId;
-      try {
-         const removedStudent = studentServices.deleteStudent(userId, studentId);
-         if (removedStudent) {
-            const updatedUser = userServices.getUserBy("_id",userId);
-            res.status(200).send(updatedUser.export());
-         } else {
-            res.status(400).send({message:"unable to delete student with information provided"});
-         }
-      } catch {
-         res.status(500).send({message:"an unknown server error has prevented this transaction"});
-      }
-   },
-
-   allStudents: (req, res) => {
-      const userId = req.params.userId;
-      try {
-         const students = studentServices.getAllStudents(userId);
-         if (students) {
-            res.status(200).send(students.map(student => student.export()));
-         } else {
-            res.status(400).send({message:"unable to get students with information provided"});
-         }
-      } catch {
-         res.status(500).send({message:"an unknown server error has prevented this transaction"});
-      }
-   },
-
-   logStudentAnswer: (req,res) => {
-      const {userId, quizId, questionId, studentId, correct} = req.body;
-      try {
-         const loggedAnswer = studentServices.logStudentAnswer(userId, studentId, quizId, questionId, correct);
-         if (loggedAnswer) {
-            const user = userServices.getUserBy("_id",userId);
-            res.status(200).send(user.export());
-         } else {
-            res.status(400).send({message:"unable to log answer with information provided"});
-         }
-      } catch (err) {
-         res.status(500).send(err);
-      }
-   }
+    addOrUpdateStudent: async (req, res) => {
+        const {userId, firstName, lastName, id, results} = req.body;
+        if (!userId) res.status(400).send({ message: "unable to add/update student" });
+        try {
+            const user = await userServices.getUserBy({"_id":userId});
+            const student = {
+                id, firstName, lastName, results
+            }
+            if (!student.id) {
+                student.id = idUtils();
+            }
+            userServices.addOrUpdateStudent(user, student);
+            user.quizzes.forEach(quiz => quizServices.updateStudent(quiz,student));
+            userServices.updateUser(user);
+            res.status(200).send(user);
+        }
+        catch (err) {
+            res.status(400).send({ message: "unable to add/update student" });
+        }
+    },
+    deleteStudent: async (req, res) => {
+        const {userId, studentId} = req.params;
+        if (!userId) res.status(400).send({ message: "unable to delete student"});
+        try {
+            const user = await userServices.getUserBy({"_id": userId});
+            user.students = user.students.filter(userStudent => userStudent.id !== studentId)
+            user.quizzes.forEach(quiz=>quizServices.deleteStudent(quiz,studentId));
+            userServices.updateUser(user);
+            res.status(200).send(user);
+        }
+        catch {
+            res.status(400).send({ message: "unable to delete student"})
+        }
+    },
+    allStudents: async (req, res) => {
+        const {userId} = req.params;
+        if (!userId) res.status(400).send({ message: "unable to get students"});
+        try {
+            const user = await userServices.getUserBy({"_id": userId});
+            res.status(200).send(user.students);
+        }
+        catch {
+            res.status(400).send({ message: "unable to get students"})
+        }
+    },
+    logStudentAnswer: async (req, res) => {
+        const {userId, quizId, questionId, studentId, correct} = req.body;
+        if (!userId) res.status(400).send({ message: "unable to log answer"});
+        try {
+            const user = await userServices.getUserBy({"_id": userId});
+            const quiz = user.quizzes.filter(quiz=>quiz.id === quizId)[0];
+            if (!quiz) res.status(400).send({ message: "unable to log answer"})
+            const student = quiz.students.filter(students => students.id === studentId)[0];
+            if (!student) res.status(400).send({ message: "unable to log answer"})
+            student.results.push({quizId, questionId, correct});
+            quizServices.calculateStudentCompletion(quiz, student);
+            userServices.updateUser(user);
+            res.status(200).send(user)
+        }
+        catch {
+            res.status(400).send({ message: "unable to log answer"})
+        }
+    }
 }

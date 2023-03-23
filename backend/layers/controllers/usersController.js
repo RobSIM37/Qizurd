@@ -1,51 +1,59 @@
-const User = require("../models/user");
 const userServices = require("../services/userServices");
-const data = require("../data/data");
 
 module.exports = {
-    registerUser: (req,res) => {
-        const userInfo = req.body;
-        if (data.registerUser(userInfo.userName, userInfo.password)) {
-            const newUser = new User({name: userInfo.userName});
-            userServices.addUser(newUser);
-            const authToken = userServices.createAuthToken(newUser.id);
-            const userData = newUser.export();
-            userData["authToken"] = authToken;
-            res.status(200).send(userData);
-        } else {
-            res.status(400).send({message:"unable to register user"});
-        }
-        
-    },
-    userLogin: async (req,res) => {
-        const userInfo = req.body;
-        const loginAttempt = await data.checkPassword(userInfo.userName, userInfo.password);
-        if (loginAttempt) {
-            const returningUser = userServices.getUserBy("name",userInfo.userName);
-            const authToken = userServices.createAuthToken(returningUser.id);
-            const userData = returningUser.export();
-            userData["authToken"] = authToken;
-            res.status(200).send(userData);
-        } else {
-            res.status(400).send({message:"error logging in"});
-        }
-    },
-    getUserWithAuth: (req, res) => {
-        const authToken = req.params.authToken;
+    registerUser: async (req, res) => {
+        const {userName, password} = req.body;
+        if (!userName || !password) res.status(400).send({ message: "unable to register user" });
         try {
-            const userId = userServices.checkAuthToken(authToken);
-            if (userId) {
-                const user = userServices.getUserBy("_id",userId);
-                replacementAuthToken = userServices.createAuthToken(userId);
-                const userData = user.export();
-                userData["authToken"] = replacementAuthToken;
-                res.status(200).send(userData);
+            const userAlreadyExists = await userServices.userAlreadyExists(userName);
+            if (!userAlreadyExists) {
+                userServices.hashAndStorePassword(userName, password);
+                const newUser = await userServices.addNewUser(userName, password);
+                newUser["authToken"] = await userServices.createAuthToken(newUser._id);
+                res.status(200).send(newUser);
             } else {
-                res.status(401).send({message:"unable to get user with information provided"});
+                res.status(400).send({ message: "unable to register user" });
             }
-        } catch(err) {
-            console.log(err)
-            res.status(500).send({message:"an unknown server error has prevented this transaction"});
+        }
+        catch (err){
+            res.status(400).send({ message: "unable to register user" });
+        }
+    },
+    userLogin: async (req, res) => {
+        const {userName, password} = req.body;
+        if (!userName || !password) res.status(400).send({ message: "unable to login" });
+        try {
+            const loginAttempt = userServices.checkPassword(userName, password);
+            if (loginAttempt) {
+                const user = await userServices.getUserBy({"name": userName});
+                if (user) {
+                    user["authToken"] = await userServices.replaceAuthToken(user._id);
+                    res.status(200).send(user);
+                } else {
+                    res.status(400).send({ message: "unable to login" });
+                }
+            } else {
+                res.status(400).send({ message: "unable to login" });
+            }
+        }
+        catch (err){
+            res.status(400).send({ message: "unable to login" });
+        }
+    },
+    getUserWithAuth: async (req, res) => {
+        const authToken = req.params.authToken;
+        if (!authToken) res.status(400).send({ message: "unable to login" });
+        try {
+            const returningUser = await userServices.checkAuthToken(authToken)
+            if (returningUser) {
+                returningUser["authToken"] = await userServices.replaceAuthToken(returningUser._id);
+                res.status(200).send(returningUser);
+            } else {
+                res.status(400).send({ message: "unable to login" });
+            }
+        }
+        catch (err){
+            res.status(400).send({ message: "unable to login" });
         }
     }
 }

@@ -7,14 +7,14 @@ server.use(bodyParser.json());
 server.use(bodyParser.urlencoded({ extended: true }));
 server.use(cors());
 
-const quizCtrl = require("./layers/controllers/quizController");
 const userCtrl = require("./layers/controllers/usersController");
 const studentCtrl = require("./layers/controllers/studentController");
+const quizCtrl = require("./layers/controllers/quizController");
 
 const PORT = 8025;
 
-server.post("/", userCtrl.userLogin);
 server.post("/register", userCtrl.registerUser);
+server.post("/", userCtrl.userLogin);
 server.get("/:authToken", userCtrl.getUserWithAuth);
 
 server.post("/quizzes", quizCtrl.addOrUpdateQuiz);
@@ -25,15 +25,10 @@ server.get(
   "/quizzes/students/ranked/:userId/:quizId",
   quizCtrl.getRankedListOfStudents
 );
-server.post("/questions", quizCtrl.addOrUpdateQuestion);
 server.get("/questions/:userId/:quizId/:questionId", quizCtrl.getQuestion);
 server.get(
   "/questions/random/:userId/:quizId/:studentId",
   quizCtrl.getRandomQuestionForStudent
-);
-server.delete(
-  "/questions/:userId/:quizId/:questionId",
-  quizCtrl.deleteQuestion
 );
 
 server.post("/students", studentCtrl.addOrUpdateStudent);

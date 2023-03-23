@@ -1,80 +1,99 @@
-const Question = require("../models/question");
-const User = require("../models/user");
-const data = require("../data/data");
+const dataServices = require("./dataServices");
 const idUtils = require("../../utils/idUtils");
+const timeUtils = require("../../utils/timeUtils");
+const bcrypt = require("bcrypt");
 
 module.exports = {
-    addUser: async (user) => {
-        const client = data.getConnection()
-        try {
-            await client.connect();
-            const userResult = await client.db("qizurdDB").collection("users").insertOne(user);
-            if (userResult) {
-                return true;
+    userAlreadyExists: async (userName) => {
+        const user = await dataServices.findOne("users", {"name": userName})
+        if (user) {
+            return true;
+        } else {
+            return false;
+        }
+    },
+    addNewUser: async (userName) => {
+        const newId = idUtils();
+        const newUser = {
+            "_id": newId,
+            "id": newId,
+            "name": userName,
+            "quizzes": [],
+            "students": []
+        }
+        await dataServices.insertOne("users", newUser);
+        return newUser;
+    },
+    updateUser: async (user) => {
+        await dataServices.updateOne("users", {"_id": user._id},{
+            $set: {
+                "students": user.students,
+                "quizzes": user.quizzes
+            }
+        })
+    },
+    createAuthToken: async (userId) => {
+        const authToken = idUtils(40);
+        await dataServices.insertOne("authTokens",
+        {
+            "_id": userId,
+            "authToken": authToken,
+            "timeCreated": Date.now()
+        })
+        return authToken
+    },
+    replaceAuthToken: async (userId) => {
+        const authToken = idUtils(40);
+        await dataServices.updateOne("authTokens",
+        {"_id": userId},
+        {
+            $set: {
+                "authToken": authToken,
+                "timeCreated": Date.now()
+            }   
+        })
+        return authToken;
+    },
+    checkAuthToken: async (authToken) => {
+        const authObj = await dataServices.findOne("authTokens", {"authToken": authToken});
+        if (authObj) {
+            const timeSinceIssue = Date.now() - authObj.timeCreated;
+            if (timeUtils.convertFromMilliseconds(timeSinceIssue, "hour") < 72) {
+                const user = await dataServices.findOne("users", {"_id":authObj._id})
+                return user
             } else {
                 return false;
             }
-        } 
-        catch {
+        } else {
             return false;
-        } 
-        finally {
-            await client.close();
         }
     },
-    removeUser: async (userId) => {
-        const client = data.getConnection()
-        try {
-            await client.connect();
-            const deleteResult = await client.db("qizurdDB").collection("users").deleteOne( { _id: userId } )
-            return deleteResult.deletedCount === 1;
-        } 
-        catch {
-            return false;
-        } 
-        finally {
-            await client.close();
+    hashAndStorePassword: async (userId, password) => {
+        bcrypt.hash(password, 10, async (err, hash) => {
+            if (!err) {
+                await dataServices.insertOne("pwHashes",
+                {
+                    "_id": userId,
+                    "hash": hash
+                })
+            }
+        });
+    },
+    checkPassword: async (userName, password) => {
+        const hashObj = await dataServices.findOne("pwHashes", {"_id": userName});
+        const result = await bcrypt.compare(password, hashObj.hash);
+        return result;
+    },
+    getUserBy: async (matchingObj) => {
+        const user = await dataServices.findOne("users", matchingObj);
+        return user;
+    },
+    addOrUpdateStudent: (user, student) => {
+        const existingStudentIndex = user.students.map(student=>student.id).indexOf(student.id)
+        if (existingStudentIndex === -1){
+            user.students.push(student)
+        } else {
+            user.students[existingStudentIndex] = student;
         }
-    },
-    getUserBy: (key, value) => {
-        return data.getUserBy(key,value);
-    },
-    updateUser: async (userData) =>{
-        const client = data.getConnection()
-        try {
-            await client.connect();
-            const updateResult = await client.db("qizurdDB").collection("users").updateOne( {_id:userData._id}, userData )
-            return updateResult.modifiedCount === 1
-        } 
-        catch {
-            return false;
-        } 
-        finally {
-            await client.close();
-        }
-    },
-    buildUsersFromUserData: (userData) => {
-        users = userData.map(u => new User(u));
-        userData.forEach(user => user.quizzes.forEach(quiz => {
-            const userObj = this.getUser(user.id)
-            const studentsObjArr = quiz.students.map(student=>userObj.getStudent(student.id));
-            const questionObjArr = quiz.questions.map(question => new Question(question));
-            const quizObj = new Quiz(quiz);
-            quizObj.import({
-                quizTitle: quiz.quizTitle,
-                description: quiz.description,
-                questions: questionObjArr,
-                students: studentsObjArr
-            })
-            userObj.addOrUpdateQuiz(quizObj);
-        }))
-    },
-    createAuthToken: (userId) => {
-        const authToken = idUtils(40);
-        data.storeNewAuthToken(authToken, userId);
-        return authToken;
-    },
-    checkAuthToken: (authToken) => {
-        return data.checkAuthTokenValidity(authToken);
     }
 }

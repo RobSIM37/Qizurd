@@ -13,8 +13,8 @@ export const studentFormSchema = yup.object().shape({
 export const quizFormSchema = yup.object().shape({
     quizTitle: yup.string().required(),
     description: yup.string().required(),
-    questions: yup.array().min(1),
-    students: yup.array().min(1)
+    questions: yup.array().required().min(1),
+    students: yup.array().required().min(1)
 })
 
 export const questionSchema = yup.object().shape({

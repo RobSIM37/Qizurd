@@ -9,7 +9,7 @@ const QuizList = (props) => {
     const navigate = useNavigate()
 
     useEffect(() => {
-        if(props.user.activeQuiz){
+        if(props.user.activeQuiz && props.clickHandlerid !== "setActiveQuiz"){
             navigate(`/quizzes/${props.user.activeQuiz}`)
         }
     })
@@ -41,15 +41,18 @@ const QuizList = (props) => {
                 navigate(`/quiz/create-quiz`)
                 break
             case "setActiveQuiz":
-                const selectedQuizId = props.user.quizzes.filter( el => el.id === id)[0].id
-                props.setActiveQuiz(selectedQuizId)
+                console.log("hits set quiz")
+                if(!id){
+                    props.setActiveQuiz(id)
+                }else{
+                    const selectedQuizId = props.user.quizzes.filter( el => el.id === id)[0].id
+                    props.setActiveQuiz(selectedQuizId)                  
+                }
                 navigate("/quizzes")
                 break
             default:
         }
     }
-
-
 
     return(
         <Container align="center">

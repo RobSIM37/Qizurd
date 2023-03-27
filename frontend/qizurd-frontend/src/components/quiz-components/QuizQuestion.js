@@ -1,4 +1,4 @@
-import React from "react"
+import React, {useEffect} from "react"
 import { connect } from "react-redux"
 import { useNavigate,useParams } from "react-router"
 import { Container,Paper,Typography,Divider,Button } from "@mui/material"
@@ -6,10 +6,16 @@ import { sendResult,getQuestion } from "../../state/action-builder"
 
 const QuizQuestion = (props) => {
 
-    
     const navigate = useNavigate()
     const {id,studentId} = useParams()
     const currentStudent = props.user.students.filter(student => student.id === studentId)[0]
+    const currentCompletion = props.user.quizzes.filter(quiz => quiz.id === id)[0].students.filter(student => student.id === studentId)[0].completion
+
+    useEffect(() => {
+        if(currentCompletion >= 100){
+            navigate("/quizzes")
+        }
+    },[currentCompletion,navigate])
 
     const backClickHandler = (e) => {
         navigate("/quizzes")

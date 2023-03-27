@@ -2,8 +2,9 @@ const arrayUtils = require("../../utils/arrayUtils");
 const idUtils = require("../../utils/idUtils");
 
 const calculateStudentCompletion = (quiz, student) => {
-    const correctAnswerCount = student.results.reduce((count, current)=>{
-        current.quizId === quiz.id && current.correct ? ++count : count},0);
+    const correctAnswerCount = student.results.reduce((count, current)=>
+        current.quizId === quiz.id && current.correct ? ++count : count,0);
+        console.log("correct count:", correctAnswerCount);
     student["completion"] = Math.floor(correctAnswerCount / quiz.questions.length * 100)
 }
 
@@ -34,7 +35,7 @@ module.exports = {
     },
     getRandomQuestion: (quiz, student) => {
         const correctQuestionIds = student.results.filter(result => result.correct).map(result => result.questionId);
-        const availableQuestions = quiz.questions.filter(question=>correctQuestionIds.includes(question.id));
+        const availableQuestions = quiz.questions.filter(question=>!correctQuestionIds.includes(question.id));
         const randomQuestionIndex = arrayUtils.getRandomArrayIndex(availableQuestions);
         return availableQuestions[randomQuestionIndex];
     }

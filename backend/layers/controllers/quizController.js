@@ -3,17 +3,18 @@ const quizServices = require("../services/quizServices");
 
 module.exports = {
     addOrUpdateQuiz: async (req, res) => {
-        const {userId, id, questions, students} = req.body;
+        const {userId, id, questions, students, quizTitle, description} = req.body;
         if (!userId) res.status(400).send({ message: "unable to add/update quiz" });
         try {
             const user = await userServices.getUserBy({"_id": userId});
             if (!user) res.status(400).send({ message: "unable to add/update quiz" });
-            const quiz = quizServices.buildQuiz({id, questions, students});
+            const quiz = quizServices.buildQuiz({id, quizTitle, description, questions, students});
             userServices.addOrUpdateQuiz(user,quiz);
             userServices.updateUser(user);
-            res.status(200).send(user);
+            res.status(200).send(user.quizzes);
         }
         catch (err) {
+            console.log(err)
             res.status(400).send({ message: "unable to add/update quiz" });
         }
     },
@@ -48,7 +49,7 @@ module.exports = {
             const user = await userServices.getUserBy({"_id": userId});
             user.quizzes = user.quizzes.filter(quiz => quiz.id !== quizId);
             userServices.updateUser(user);
-            res.status(200).send(user);
+            res.status(200).send(user.quizzes);
         }
         catch {
             res.status(400).send({ message: "unable to delete quiz" });

@@ -1,77 +1,42 @@
-const userServices = require("./userServices");
-const Quiz = require("../models/quiz");
-const Question = require("../models/question");
-const Student = require("../models/student");
-const arrUtil = require("../../utils/arrayUtils");
+const arrayUtils = require("../../utils/arrayUtils");
+const idUtils = require("../../utils/idUtils");
+
+const calculateStudentCompletion = (quiz, student) => {
+    const correctAnswerCount = student.results.reduce((count, current)=>
+        current.quizId === quiz.id && current.correct ? ++count : count,0);
+        console.log("correct count:", correctAnswerCount);
+    student["completion"] = Math.floor(correctAnswerCount / quiz.questions.length * 100)
+}
 
 module.exports = {
-    addOrUpdateQuiz: (reqData) => {
-        const user = userServices.getUser(reqData.userId);
-        const quiz = new Quiz(reqData);
-        quiz.addStudents(reqData.students.map(student => user.getStudent(student.id)));
-        quiz.addQuestions(reqData.questions.map(question => new Question(question)));
-        user.addOrUpdateQuiz(quiz);
-        return true;
-    },
-    getQuiz: (userId, quizId) => {
-        const user = userServices.getUser(userId);
-        return user.getQuiz(quizId);
-    },
-    getAllQuizzes: (userId) => {
-        const user = userServices.getUser(userId);
-        return user.getAllQuizzes();
-    },
-    deleteQuiz: (userId, quizId) => {
-        const user = userServices.getUser(userId);
-        user.deleteQuiz(quizId);
-        return true;
-    },
-    addOrUpdateQuestion: (userId, quizId, questionData) => {
-        const user = userServices.getUser(userId);
-        const quiz = user.getQuiz(quizId);
-        const newQuestion = new Question(questionData);
-        quiz.addOrUpdateQuestion(newQuestion);
-        return newQuestion
-    },
-    getQuestion: (userId, quizId, questionId) => {
-        const user = userServices.getUser(userId);
-        const quiz = user.getQuiz(quizId);
-        return quiz.getQuestion(questionId);
-    },
-    deleteQuestion: (userId, quizId, questionId) => {
-        const user = userServices.getUser(userId);
-        const quiz = user.getQuiz(quizId);
-        quiz.deleteQuestion(questionId);
-        return true;
-    },
-    getAllQuestions: (userId, quizId) => {
-        const user = userServices.getUser(userId);
-        const quiz = user.getQuiz(quizId);
-        return quiz.getAllQuestions();
-    },
-    getRandomQuestionForStudent: (userId, quizId, studentId) => {
-        const user = userServices.getUser(userId);
-        const quiz = user.getQuiz(quizId);
-        const student = user.getStudent(studentId);
-        const correctQuestionIds = student.getCorrectQuizResults(quizId).map(result=>result.questionId);
-        const allQuestions = quiz.getAllQuestions();
-        let outstandingQuestionsForStudent = allQuestions.filter(question=>!correctQuestionIds.includes(question.id));
-        if (outstandingQuestionsForStudent.length == 0) {
-            outstandingQuestionsForStudent = allQuestions;
+    buildQuiz: (quiz) => {
+        if (!quiz.id){
+            quiz.id = idUtils();
         }
-        const randomIndex = arrUtil.getRandomArrayIndex(outstandingQuestionsForStudent);
-        return outstandingQuestionsForStudent[randomIndex];
+        quiz.questions.forEach(question => 
+            {if (!question.id) {
+                question.id = idUtils()
+            }}
+        )
+        quiz.students.forEach(student => calculateStudentCompletion(quiz, student));
+        return quiz;
     },
-    getRankedListOfStudents: (userId, quizId) => {
-        const user = userServices.getUser(userId)
-        const quiz = user.getQuiz(quizId);
-        return quiz.getAllStudentsRanked();
+    updateStudent: (quiz, student) => {
+        const studentIndex = quiz.students.map(quizStudent => quizStudent.id).indexOf(student.id);
+        if (studentIndex != -1) {
+            quiz.students[studentIndex] = student;
+        }
     },
-
-    completePercentage: (userId, quizId, studentId) => {
-        const user = userServices.getUser(userId)
-        const quiz = user.getQuiz(quizId);
-        const student = user.getStudent(studentId);
-        return Math.floor(student.getCorrectQuizResults(quizId).length / quiz.getAllQuestions().length);
+    deleteStudent: (quiz, studentId) => {
+        quiz.students = quiz.students.filter(student=>student.id !== studentId);
+    },
+    calculateStudentCompletion: (quiz, student) => {
+        calculateStudentCompletion(quiz,student)
+    },
+    getRandomQuestion: (quiz, student) => {
+        const correctQuestionIds = student.results.filter(result => result.correct).map(result => result.questionId);
+        const availableQuestions = quiz.questions.filter(question=>!correctQuestionIds.includes(question.id));
+        const randomQuestionIndex = arrayUtils.getRandomArrayIndex(availableQuestions);
+        return availableQuestions[randomQuestionIndex];
     }
 }

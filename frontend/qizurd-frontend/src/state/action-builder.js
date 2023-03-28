@@ -21,9 +21,10 @@ import {
     SET_ACTIVE_QUIZ
 } from "./action-types"
 
+const rootHTML = "https://qizurd-backend-robsim37.vercel.app/";
 
 export const postQuiz = (quiz) => dispatch => {
-    axios.post("http://localhost:8025/quizzes",quiz).then(res => {
+    axios.post(`${rootHTML}quizzes`,quiz).then(res => {
         console.log("here", res.data)
         dispatch({type:ADD_QUIZ_TO_USER,payload:res.data})
     }).catch(err => console.log(err))
@@ -31,31 +32,31 @@ export const postQuiz = (quiz) => dispatch => {
 
 export const postStudent = (student) => dispatch => {
     console.log("post request obj:",student)
-    axios.post("http://localhost:8025/students",student).then(res => {
+    axios.post(`${rootHTML}students`,student).then(res => {
         dispatch({type:ADD_STUDENT_TO_USER,payload:res.data})
     }).catch(err => console.log(err))
 }
 
 export const deleteQuiz = (params) => dispatch => {
-    axios.delete(`http://localhost:8025/quizzes/${params.userId}/${params.quizId}`).then(res => {
+    axios.delete(`${rootHTML}quizzes/${params.userId}/${params.quizId}`).then(res => {
         dispatch({type:DELETE_QUIZ_FROM_USER,payload:res.data})
     }).catch(err => console.log(err)) 
 }
 
 export const deleteStudent = (params) => dispatch => {
-    axios.delete(`http://localhost:8025/students/${params.userId}/${params.studentId}`).then(res => {
+    axios.delete(`${rootHTML}students/${params.userId}/${params.studentId}`).then(res => {
         dispatch({type:DELETE_STUDENT_FROM_USER,payload:res.data})
     }).catch(err => console.log(err))
 }
 
 export const getQuestion = (params) => dispatch => {
-    axios.get(`http://localhost:8025/questions/random/${params.userId}/${params.quizId}/${params.studentId}`).then(res => {
+    axios.get(`${rootHTML}questions/random/${params.userId}/${params.quizId}/${params.studentId}`).then(res => {
         dispatch({type:GET_QUESTION,payload:res.data})
     }).catch(err => console.log(err))
 }
 
 export const sendResult = (params) => dispatch => {
-    axios.post("http://localhost:8025/students/answer",params).then(res => {
+    axios.post(`${rootHTML}students/answer`,params).then(res => {
         dispatch({type:SENT_RESULT,payload:res.data})
     }).catch(err => console.log(err))
 }

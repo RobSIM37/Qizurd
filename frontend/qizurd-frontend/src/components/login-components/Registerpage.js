@@ -36,9 +36,11 @@ const Registerpage = (props) => {
         navigate("/")
     }
 
+    const rootHTML = "https://qizurd-backend-robsim37.vercel.app/";
+
     const formSubmitHandler = (e) => {
         e.preventDefault()
-        axios.post("http://localhost:8025/register",{userName,password}).then(res => {
+        axios.post(`${rootHTML}register`,{userName,password}).then(res => {
             const stringifiedAuth = JSON.stringify(res.data.authToken)
             localStorage.setItem("userAuth",stringifiedAuth)
             props.activeUser(res.data)

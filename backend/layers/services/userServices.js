@@ -1,48 +1,107 @@
-const Question = require("../models/question");
-const User = require("../models/user");
-const data = require("../data/data");
+const dataServices = require("./dataServices");
 const idUtils = require("../../utils/idUtils");
-
-let users = [];
+const timeUtils = require("../../utils/timeUtils");
+const bcrypt = require("bcrypt");
 
 module.exports = {
-    addUser: (user) => {
-        users.push(user);
+    userAlreadyExists: async (userName) => {
+        const user = await dataServices.findOne("users", {"name": userName})
+        if (user) {
+            return true;
+        } else {
+            return false;
+        }
     },
-    removeUser: (userId) => {
-        users = users.filter(user=>user.id != userId);
+    addNewUser: async (userName) => {
+        const newId = idUtils();
+        const newUser = {
+            "_id": newId,
+            "id": newId,
+            "name": userName,
+            "quizzes": [],
+            "students": []
+        }
+        await dataServices.insertOne("users", newUser);
+        return newUser;
     },
-    getUser: (userId) => {
-        return users.filter(user=>user.id == userId)[0];
+    updateUser: async (user) => {
+        await dataServices.updateOne("users", {"_id": user._id},{
+            $set: {
+                "students": user.students,
+                "quizzes": user.quizzes
+            }
+        })
     },
-    getUserByName: (userName) => {
-        return users.filter(user=>user.name == userName)[0];
-    },
-    getAllUserData: (idKey = "id") => {
-        return users.map(user=>user.export(idKey));
-    },
-    buildUsersFromUserData: (userData) => {
-        users = userData.map(u => new User(u));
-        userData.forEach(user => user.quizzes.forEach(quiz => {
-            const userObj = this.getUser(user.id)
-            const studentsObjArr = quiz.students.map(student=>userObj.getStudent(student.id));
-            const questionObjArr = quiz.questions.map(question => new Question(question));
-            const quizObj = new Quiz(quiz);
-            quizObj.import({
-                quizTitle: quiz.quizTitle,
-                description: quiz.description,
-                questions: questionObjArr,
-                students: studentsObjArr
-            })
-            userObj.addOrUpdateQuiz(quizObj);
-        }))
-    },
-    createAuthToken: (userId) => {
+    createAuthToken: async (userId) => {
         const authToken = idUtils(40);
-        data.storeNewAuthToken(authToken, userId);
+        await dataServices.insertOne("authTokens",
+        {
+            "_id": userId,
+            "authToken": authToken,
+            "timeCreated": Date.now()
+        })
+        return authToken
+    },
+    replaceAuthToken: async (userId) => {
+        const authToken = idUtils(40);
+        await dataServices.updateOne("authTokens",
+        {"_id": userId},
+        {
+            $set: {
+                "authToken": authToken,
+                "timeCreated": Date.now()
+            }   
+        })
         return authToken;
     },
-    checkAuthToken: (authToken) => {
-        return data.checkAuthTokenValidity(authToken);
+    checkAuthToken: async (authToken) => {
+        const authObj = await dataServices.findOne("authTokens", {"authToken": authToken});
+        if (authObj) {
+            const timeSinceIssue = Date.now() - authObj.timeCreated;
+            if (timeUtils.convertFromMilliseconds(timeSinceIssue, "hour") < 72) {
+                const user = await dataServices.findOne("users", {"_id":authObj._id})
+                return user
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
+    },
+    hashAndStorePassword: async (userId, password) => {
+        bcrypt.hash(password, 10, async (err, hash) => {
+            if (!err) {
+                await dataServices.insertOne("pwHashes",
+                {
+                    "_id": userId,
+                    "hash": hash
+                })
+            }
+        });
+    },
+    checkPassword: async (userName, password) => {
+        const hashObj = await dataServices.findOne("pwHashes", {"_id": userName});
+        const result = await bcrypt.compare(password, hashObj.hash);
+        return result;
+    },
+    getUserBy: async (matchingObj) => {
+        const user = await dataServices.findOne("users", matchingObj);
+        return user;
+    },
+    addOrUpdateQuiz: (user, quiz) => {
+        existingQuizIndex = user.quizzes.map(existingQuiz => existingQuiz.id).indexOf(quiz.id)
+        if (existingQuizIndex === -1) {
+            user.quizzes.push(quiz);
+        } else {
+            user.quizzes[existingQuizIndex] = quiz;
+        }
+    },
+    addOrUpdateStudent: (user, student) => {
+        const existingStudentIndex = user.students.map(student=>student.id).indexOf(student.id)
+        if (existingStudentIndex === -1){
+            user.students.push(student)
+        } else {
+            user.students[existingStudentIndex] = student;
+        }
     }
 }

@@ -24,7 +24,7 @@ const QuizDetails = (props) => {
                     <Divider/>
                     {selectedQuiz.students.sort((a,b)=>a.completion - b.completion).map(student => {return(
                         <>
-                        <Card onClick={student.completion === 100 ? null : askStudentQuestion} id={student.id} sx={{display:"flex",flexDirection:"row",justifyContent:"center",alignItems:"center",cursor:"pointer"}}>
+                        <Card onClick={student.completion >= 100 ? null : askStudentQuestion} id={student.id} sx={{display:"flex",flexDirection:"row",justifyContent:"center",alignItems:"center",cursor:"pointer"}}>
                             <Typography sx={{pointerEvents:"none"}} mt={1} mb={1} fontSize="1.5rem">
                             {student.firstName + " " + student.lastName}
                             </Typography>

@@ -27,8 +27,8 @@ module.exports = {
             if (!quiz) res.status(400).send({ message: "unable to get quiz" });
             res.status(200).send(quiz);
         }
-        catch {
-            res.status(400).send({ message: "unable to get quiz" });
+        catch (err){
+            res.status(400).send({ message: `db connection err: ${err}` });
         }
     },
     getAllQuizzes: async (req, res) => {

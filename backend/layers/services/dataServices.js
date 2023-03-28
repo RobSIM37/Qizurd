@@ -2,11 +2,7 @@ const { MongoClient, ServerApiVersion } = require("mongodb");
 const dbUtils = require("../../utils/dbUtils");
 
 const newConnection = () => {
-    return new MongoClient(dbUtils.url, {
-      sslKey: dbUtils.cert,
-      sslCert: dbUtils.cert,
-      serverApi: ServerApiVersion.v1,
-    });
+    return new MongoClient(dbUtils.url);
   };
   
 module.exports = {

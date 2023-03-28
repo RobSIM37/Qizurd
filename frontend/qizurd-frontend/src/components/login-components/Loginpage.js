@@ -14,11 +14,13 @@ const Loginpage = (props) => {
     let [password, setPassword] = useState("")
     let [isValid,setIsValid] = useState(false)
 
+    const rootHTML = "https://qizurd-backend-robsim37.vercel.app/";
+
     useEffect(() => {
         if (localStorage.getItem("userAuth") === "undefined") return; 
         const loggedInUserAuth = JSON.parse(localStorage.getItem("userAuth"))
         if (loggedInUserAuth){
-            axios.get(`http://localhost:8025/${loggedInUserAuth}`).then(res => {
+            axios.get(`${rootHTML}${loggedInUserAuth}`).then(res => {
                 props.activeUser(res.data)
                 const stringifiedAuth = JSON.stringify(res.data.authToken)
                 localStorage.setItem("userAuth",stringifiedAuth)
@@ -51,7 +53,7 @@ const Loginpage = (props) => {
 
     const formSubmitHandler = (e) => {
         e.preventDefault()
-        axios.post("http://localhost:8025/",{userName,password}).then(res => {
+        axios.post(rootHTML,{userName,password}).then(res => {
             const stringifiedAuth = JSON.stringify(res.data.authToken)
             localStorage.setItem("userAuth",stringifiedAuth)
             props.activeUser(res.data)

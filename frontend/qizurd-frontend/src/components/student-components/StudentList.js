@@ -26,7 +26,6 @@ const StudentList = (props) => {
         const {id} = e.target
         switch(props.clickHandlerid){
             case "editStudent":
-                console.log("hits this")
                 const selectedStudent = props.user.students.filter(el => el.id === id)[0]
                 props.fillStudentForm(selectedStudent)
                 navigate("/student/create-student")

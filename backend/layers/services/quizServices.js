@@ -4,7 +4,6 @@ const idUtils = require("../../utils/idUtils");
 const calculateStudentCompletion = (quiz, student) => {
     const correctAnswerCount = student.results.reduce((count, current)=>
         current.quizId === quiz.id && current.correct ? ++count : count,0);
-        console.log("correct count:", correctAnswerCount);
     student["completion"] = Math.floor(correctAnswerCount / quiz.questions.length * 100)
 }
 

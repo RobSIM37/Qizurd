@@ -9,7 +9,6 @@ const FormStudentCard = (props) => {
     const closeClickHandler = (e) => {
         const {id} = e.target
         props.deleteStudentFromQuiz(id)
-        console.log(id)
     }
 
     return(

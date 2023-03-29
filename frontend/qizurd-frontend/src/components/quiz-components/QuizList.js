@@ -36,7 +36,6 @@ const QuizList = (props) => {
                 break
             case "editQuiz":
                 const selectedQuiz = props.user.quizzes.filter( el => el.id === id)[0]
-                console.log(selectedQuiz)
                 props.fillQuizForm(selectedQuiz)
                 navigate(`/quiz/create-quiz`)
                 break

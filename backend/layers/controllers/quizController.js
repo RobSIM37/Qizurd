@@ -14,7 +14,6 @@ module.exports = {
             res.status(200).send(user.quizzes);
         }
         catch (err) {
-            console.log(err)
             res.status(400).send({ message: "unable to add/update quiz" });
         }
     },

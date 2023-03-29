@@ -77,7 +77,6 @@ const quizForm = (state = emptyQuizForm, action) => {
     case CHANGE_QUIZ_TEXT:
       return {...state, [action.payload.inputid]: action.payload.inputValue}
     case ADD_QUIZ_QUESTION:
-      console.log(state)
       const updatedQuizQuestions = [...state.questions,{renderId: Math.floor(Math.random() * RENDER_ID_MAX),questionText:"", answer:""}]
       return {...state,questions:updatedQuizQuestions}
     case EDIT_QUIZ_QUESTION:
@@ -119,7 +118,6 @@ const studentForm = (state = emptyStudentForm, action) => {
 const question = (state = emptyQuestion, action) => {
   switch(action.type){
     case GET_QUESTION:
-      console.log("reducer",action.payload)
       return action.payload
     default:
       return state

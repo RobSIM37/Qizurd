@@ -25,13 +25,11 @@ const rootHTML = "https://qizurd-backend-robsim37.vercel.app/";
 
 export const postQuiz = (quiz) => dispatch => {
     axios.post(`${rootHTML}quizzes`,quiz).then(res => {
-        console.log("here", res.data)
         dispatch({type:ADD_QUIZ_TO_USER,payload:res.data})
     }).catch(err => console.log(err))
 }
 
 export const postStudent = (student) => dispatch => {
-    console.log("post request obj:",student)
     axios.post(`${rootHTML}students`,student).then(res => {
         dispatch({type:ADD_STUDENT_TO_USER,payload:res.data})
     }).catch(err => console.log(err))

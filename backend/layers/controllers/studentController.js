@@ -57,10 +57,8 @@ module.exports = {
             if (!quiz) res.status(400).send({ message: "unable to log answer"})
             const student = quiz.students.filter(students => students.id === studentId)[0];
             if (!student) res.status(400).send({ message: "unable to log answer"})
-            console.log("student completion pre:", student.completion)
             student.results.push({quizId, questionId, correct});
             quizServices.calculateStudentCompletion(quiz, student);
-            console.log("student completion post:", student.completion)
             userServices.updateUser(user);
             res.status(200).send(user)
         }
